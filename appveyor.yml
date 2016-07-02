@@ -10,6 +10,7 @@ os: "WMF 5"
 install:
   - ps: Install-PackageProvider Nuget -ForceBootstrap -Force
   - ps: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+  - ps: Install-Module Pester -Force
 
 build: false
 version: '1.0.{build}'
