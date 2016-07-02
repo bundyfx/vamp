@@ -8,13 +8,11 @@ skip_commits:
 os: "WMF 5"
 
 install:
-  - cinst pester
+  - ps: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+  - ps: Install-PackageProvider Nuget -ForceBootstrap -Force
 
 build: false
 version: '1.0.{build}'
-
-before_test:
-  - ps: .\build.ps1
 
 test_script:
 # Test with native PS version
