@@ -19,9 +19,10 @@
 
 -  file:
     ResourceID : '[File]myfile;'
-    Type: Directory;
+    Type: File;
+    Contents : 'Hello world;'
     ensure: present;
-    DestinationPath: C:\\temp\\dockerfile\\test.txt;
+    DestinationPath: C:\\temp\\docker\\test.txt;
     ModuleName : PsDesiredStateConfiguration;
     ModuleVersion : 1.0;
     SourceInfo : File;
