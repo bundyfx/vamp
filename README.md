@@ -1,7 +1,7 @@
 ![Build status](https://ci.appveyor.com/api/projects/status/s7a7aos4yo2v3vvd?svg=true)
 
 # vamp
-A Powershell function that allows Powershell DSC MOF files to be generated from yaml. 
+A Powershell built tool that allows Powershell DSC MOF files to be generated from yaml. 
 
 ## Installation & Setup
 Simply git clone this repository, create your DSC configuration in a .yaml file, edit the vampspec.yml file to contain your target nodes and run ```vamp```.
