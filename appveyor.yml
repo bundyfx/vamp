@@ -16,7 +16,7 @@ install:
 build: false
 version: '1.0.{build}'
 
-before_tests:
+before_test:
   - ps: Invoke-ScriptAnalyzer -path $PsScriptRoot\vamp.ps1
 
 test_script:
