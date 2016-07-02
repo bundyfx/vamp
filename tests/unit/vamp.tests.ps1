@@ -11,3 +11,35 @@ Describe 'Yaml Conversion' -Tags 'Unit' {
     }
   }
 }
+Describe 'vamp core' -Tags 'Acceptance' {
+  Context 'Calling vamp' {
+    It 'Should call vamp correctly and create mofs' {
+       vamp | Should not throw
+    }
+    It 'Should call vamp correctly and create mofs' {
+       $Output = (Get-ChildItem -Filter *.mof).Basename
+       $Nodes = ConvertFrom-Yaml -Path .\vampspec.yml
+      
+       $nodes.Values.name | ForEach-Object {$Psitem -in $Output} | Should be $true
+    }
+    It 'Should be able to generate new yml for localhost' {
+'@
+-  nodes:
+    name : 
+     - localhost
+@' | Out-file .\vampspec.yml -Force
+
+{ ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw 
+
+    }
+    It "should be able to call vamp with newly created yml" {
+    { vamp } | should not throw
+    }
+    It "should be able to apply DSC to localhost from vamp output" {
+    Get-ChildItem -Filter *.mof | Where-Object {$Psitem.Name -ne 'localhost.mof'} | Remove-Item -Force
+    { Start-DscConfiguration -Path . -Verbose -Wait -Force } | Should not throw
+    }
+
+  }
+}
+
