@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/s7a7aos4yo2v3vvd?svg=true)](https://
+[![Build status](https://ci.appveyor.com/api/projects/status/s7a7aos4yo2v3vvd?svg=true)]
 
 # vamp
 A Powershell DSC MOF creator that allows MOF files to be generated from yaml. 
