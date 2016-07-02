@@ -97,7 +97,7 @@ static Main()
 
 Write-Verbose 'Commenced Main Method'
 #Get main yml file
-$yamlbind = (Get-ChildItem -Filter *.yml).Where{$PsItem.name -ne 'vampspec.yml'}
+$yamlbind = (Get-ChildItem -Filter *.yml).Where{$PsItem.name -ne 'vampspec.yml' -or $Psitem.name -ne 'appveyor.yml'}
 
 #check for yaml at pwd
 if ($yamlbind -eq $null){
