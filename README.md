@@ -4,8 +4,8 @@
 A Powershell built tool that allows Powershell DSC MOF files to be generated from yaml. 
 
 ## Quickstart
-* git clone this repository
-* create your DSC configuration in a .yaml file
+* git clone repository
+* create your DSC configuration in a .yml file
 * edit the vampspec.yml file to contain your target nodes
 * Import-Module .\vamp.ps1
 * run ```vamp```
