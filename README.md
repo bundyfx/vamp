@@ -39,7 +39,7 @@ Simply git clone this repository, create your DSC configuration in a .yaml file,
     SourceInfo : File;
 ```
 #### Example vampspec.yml
-```
+```yaml
 -  nodes:
     name : 
      - localhost
