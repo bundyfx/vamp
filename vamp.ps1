@@ -64,10 +64,13 @@ foreach ($node in $nodes)
         $ref = Get-Random
             $Header = switch ($key) 
             {
-                'service'   {"instance of MSFT_ServiceResource as `$MSFT_ServiceResource$($ref)ref"; break}
-                'directory' {"instance of MSFT_FileDirectoryConfiguration as `$MSFT_FileDirectoryConfiguration$($ref)ref"; break }
-                 $Psitem    {"instance of $PsItem as `$$($Psitem)$($ref)ref" ; break}
-                 default    {throw 'No header found for {0}' -f $Psitem}
+                'service'     {"instance of MSFT_ServiceResource as `$MSFT_ServiceResource$($ref)ref"; break}
+                'environment' {"instance of MSFT_EnvironmentResource as `$MSFT_EnvironmentResource$($ref)ref"; break }
+                'directory'   {"instance of MSFT_FileDirectoryConfiguration as `$MSFT_FileDirectoryConfiguration$($ref)ref"; break }
+                'file'        {"instance of MSFT_FileDirectoryConfiguration as `$MSFT_FileDirectoryConfiguration$($ref)ref"; break }
+                'feature'     {"instance of MSFT_RoleResource as `$MSFT_RoleResource$($ref)ref"; break }
+                 $Psitem      {"instance of $PsItem as `$$($Psitem)$($ref)ref" ; break}
+                 default      {throw 'No header found for {0}' -f $Psitem}
             }
             $Header | Out-File $PSScriptRoot\$node.mof -Force -Append
         }

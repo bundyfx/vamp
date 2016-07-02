@@ -17,11 +17,11 @@
     ModuleVersion : 1.0;
     DependsOn : '[Service]bits;'
 
--  directory:
+-  file:
     ResourceID : '[File]myfile;'
     Type: Directory;
     ensure: present;
-    DestinationPath: C:\\temp;
+    DestinationPath: C:\\temp\\dockerfile\\test.txt;
     ModuleName : PsDesiredStateConfiguration;
     ModuleVersion : 1.0;
     SourceInfo : File;
