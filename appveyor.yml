@@ -11,13 +11,14 @@ install:
   - ps: Install-PackageProvider Nuget -ForceBootstrap -Force
   - ps: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
   - ps: Install-Module Pester -Force
-  - ps: Install-module PsScriptAnalyzer -force
+  - ps: Install-Module PsScriptAnalyzer -force
 
 build: false
+
 version: '1.0.{build}'
 
 before_test:
-  - ps: Invoke-ScriptAnalyzer -path $PsScriptRoot\vamp.ps1
+  - ps: Invoke-ScriptAnalyzer -path .\vamp.ps1
 
 test_script:
 # Test with native PS version
