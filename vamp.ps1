@@ -13,7 +13,7 @@ static [PsCustomObject] ReadYaml([System.String]$Path)
 {
     try 
     {
-        Import-Module $PSScriptRoot\PSYaml\PSYaml.psm1 -Verbose
+        Import-Module $PSScriptRoot\PSYaml\PSYaml.psm1
         $Reader = ConvertFrom-Yaml -Path $Path -As Hash
         return $Reader
     }
