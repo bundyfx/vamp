@@ -16,7 +16,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
     It 'Should call vamp correctly and create mofs' {
        { vamp } | Should not throw
     }
-    It 'Should call vamp correctly and create mofs' {
+    It 'Should generate mofs for nodes in vampspec.yml' {
        $Output = (Get-ChildItem -Filter *.mof).Basename
        $Nodes = ConvertFrom-Yaml -Path .\vampspec.yml
       
