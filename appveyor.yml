@@ -8,8 +8,8 @@ skip_commits:
 os: "WMF 5"
 
 install:
-  - ps: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
   - ps: Install-PackageProvider Nuget -ForceBootstrap -Force
+  - ps: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
 build: false
 version: '1.0.{build}'
