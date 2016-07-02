@@ -14,7 +14,7 @@ Describe 'Yaml Conversion' -Tags 'Unit' {
 Describe 'vamp core' -Tags 'Acceptance' {
   Context 'Calling vamp' {
     It 'Should call vamp correctly and create mofs' {
-       vamp | Should not throw
+       { vamp } | Should not throw
     }
     It 'Should call vamp correctly and create mofs' {
        $Output = (Get-ChildItem -Filter *.mof).Basename
@@ -23,11 +23,12 @@ Describe 'vamp core' -Tags 'Acceptance' {
        $nodes.Values.name | ForEach-Object {$Psitem -in $Output} | Should be $true
     }
     It 'Should be able to generate new yml for localhost' {
-'@
+@'
 -  nodes:
     name : 
      - localhost
-@' | Out-file .\vampspec.yml -Force
+
+'@ | Out-file .\vampspec.yml -Force
 
 { ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw 
 
