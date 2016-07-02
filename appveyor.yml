@@ -17,9 +17,6 @@ build: false
 
 version: '1.0.{build}'
 
-before_test:
-  - ps: Invoke-ScriptAnalyzer -path .\vamp.ps1 -ea SilentlyContinue
-
 test_script:
 # Test with native PS version
   - ps: . .\Tests\appveyor.pester.ps1 -Test
