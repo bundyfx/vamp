@@ -1,7 +1,7 @@
 ![Build status](https://ci.appveyor.com/api/projects/status/s7a7aos4yo2v3vvd?svg=true)
 
 # vamp
-A Powershell built tool that allows Powershell DSC MOF files to be generated from yaml. 
+A Powershell tool that allows Powershell DSC MOF files to be generated from yaml. 
 
 ## Quickstart
 * git clone repository
