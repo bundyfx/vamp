@@ -37,10 +37,26 @@ Describe 'vamp core' -Tags 'Acceptance' {
     { vamp } | should not throw
     }
     It "should be able to apply DSC to localhost from vamp output" {
-    Get-ChildItem .\mofs -Filter *.mof | Where-Object {$Psitem.Name -ne 'localhost.mof'} | Remove-Item -Force
-    { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
+        Get-ChildItem .\mofs -Filter *.mof | Where-Object {$Psitem.Name -ne 'localhost.mof'} | Remove-Item -Force
+        { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
     }
 
+  }
+  Context "Advanced custom module vamp acceptance testing" {
+      it "Should be able to create mofs with custom modules" {
+          #move files for vamp to pick up new yml
+        
+          Move-Item .\example.yml -Destination .\tests -Force
+          Copy-Item .\acceptance\customModules.yml -Destination .\
+
+          { vamp } | Should not throw
+      }
+      It "Should be able to apply DSC to localhost from vamp output - Custom Module xWebAdministration" {
+          { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
+          Remove-Item .\customModules.yml -Force
+          Move-Item .\ -Destination .\tests\example.yml -Force
+      }
+  
   }
 }
 
