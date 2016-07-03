@@ -55,7 +55,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
       It "Should be able to apply DSC to localhost from vamp output - Custom Module xWebAdministration" {
           { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
           Remove-Item .\customModules.yml -Force
-          Move-Item .\ -Destination .\tests\example.yml -Force
+          Move-Item .\tests\example.yml -Destination .\tests\example.yml -Force
           Remove-Item .\mofs\localhost.mof -force
       }
   
