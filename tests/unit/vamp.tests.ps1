@@ -3,11 +3,14 @@ Import-Module .\private\PSYaml\PSYaml.psm1 -Verbose
 
 Describe 'Yaml Conversion' -Tags 'Unit' {
   Context 'PSYaml Module' {
-    It 'Should be able to convert to Yaml example.yml' {
+    It 'Should be able to convert to Yaml example.yml (Example file)' {
        { ConvertFrom-Yaml -Path .\example.yml } | Should not throw
     }
-    It 'Should be able to convert to Yaml vampspec.yml' {
+    It 'Should be able to convert to Yaml vampspec.yml (Example file)' {
        { ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw
+    }
+    It 'Should be able to convert to Yaml customModules.yml (Example file)' {
+       { ConvertFrom-Yaml -Path .\tests\acceptance\customModules.yml } | Should not throw
     }
   }
 }
