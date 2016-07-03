@@ -81,10 +81,11 @@ foreach ($node in $nodes)
 static [void] CreateMofCore([Hashtable]$Input, [System.String[]]$Nodes) 
 {
 foreach ($node in $nodes){
-$Reader = $Input.Values | Out-String
+$Reader = $Input.Values | Out-String -Stream
 $reader = $Reader -replace ': ','= ' `
                   -replace '= ','= "' `
-                  -replace ';','";' `
+                  -replace '$','";' `
+                  -replace '^";','' `
                   -replace '(?<=DependsOn.*=\s+).*(?="\[)','{' `
                   -replace '(?<=DependsOn.*=\s+{"\[.*\].*").*(?=;).*(?=;)','}' `
                   -replace '"true"','true' `
