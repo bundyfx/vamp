@@ -7,9 +7,6 @@ skip_commits:
 
 os: "WMF 5"
 
-services:
-  - iis
-
 install:
   - ps: Install-PackageProvider Nuget -ForceBootstrap -Force
   - ps: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
@@ -20,6 +17,9 @@ install:
 build: false
 
 version: '1.0.{build}'
+
+before_test:
+  - ps: Invoke-ScriptAnalyzer -Path .\tests\ -Recurse
 
 test_script:
 # Test with native PS version

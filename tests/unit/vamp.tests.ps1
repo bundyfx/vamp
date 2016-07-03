@@ -56,7 +56,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
           { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
           Remove-Item .\customModules.yml -Force
           Move-Item .\tests\example.yml -Destination .\tests\example.yml -Force
-          Remove-Item .\mofs\localhost.mof -force
+          Remove-Item .\mofs\localhost.mof -Force
       }
   
   }
