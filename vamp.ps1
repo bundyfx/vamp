@@ -29,7 +29,7 @@ static [System.String[]] Initalize()
     {
         Import-Module $PSScriptRoot\private\PSYaml\PSYaml.psm1
         $Spec = ConvertFrom-Yaml -Path $PSScriptRoot\vampspec.yml -As Hash
-        $Spec.values.name | ForEach-Object { Remove-Item "$PSScriptRoot\$PsItem.mof" -Force -ErrorAction SilentlyContinue}
+        $Spec.values.name | ForEach-Object { Remove-Item "$PSScriptRoot\mofs\$PsItem.mof" -Force -ErrorAction SilentlyContinue}
         return $Spec.values.name
     }
     catch
@@ -82,7 +82,13 @@ static [void] CreateMofCore([Hashtable]$Input, [System.String[]]$Nodes)
 {
 foreach ($node in $nodes){
 $Reader = $Input.Values | Out-String
-$reader = $Reader -replace ': ','= ' -replace '= ','= "' -replace ';','";' -replace '(?<=DependsOn.*=\s+).*(?="\[)','{' -replace '(?<=DependsOn.*=\s+{"\[.*\].*").*(?=;).*(?=;)','}'
+$reader = $Reader -replace ': ','= ' `
+                  -replace '= ','= "' `
+                  -replace ';','";' `
+                  -replace '(?<=DependsOn.*=\s+).*(?="\[)','{' `
+                  -replace '(?<=DependsOn.*=\s+{"\[.*\].*").*(?=;).*(?=;)','}' `
+                  -replace '"true"','true' `
+                  -replace '"false"','false'
 
 @"
 {
@@ -102,8 +108,12 @@ $yamlbind = (Get-ChildItem -Filter *.yml).Where{$PsItem.name -ne 'vampspec.yml' 
 
 #check for yaml at pwd
 if ($yamlbind -eq $null){
-    throw 'Unable to continue - Cannot find .yml file at {0}' -f $pwd
+    throw 'Unable to continue - Cannot find .yml file at {0}' -f $pwd.Path
 }
+if ($yamlbind.count -gt 1){
+    throw 'Unable to continue - found multiple configuration yml files at {0}' -f $pwd.Path
+}
+
 Write-Verbose "yml file $($yamlbind.Name) found locally"
 
 #read main yml
