@@ -39,6 +39,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
     It "should be able to apply DSC to localhost from vamp output" {
         Get-ChildItem .\mofs -Filter *.mof | Where-Object {$Psitem.Name -ne 'localhost.mof'} | Remove-Item -Force
         { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
+        Remove-Item .\mofs\localhost.mof -force
     }
 
   }
@@ -47,7 +48,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
           #move files for vamp to pick up new yml
         
           Move-Item .\example.yml -Destination .\tests -Force
-          Copy-Item .\acceptance\customModules.yml -Destination .\
+          Copy-Item .\tests\acceptance\customModules.yml -Destination .\
 
           { vamp } | Should not throw
       }
@@ -55,6 +56,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
           { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
           Remove-Item .\customModules.yml -Force
           Move-Item .\ -Destination .\tests\example.yml -Force
+          Remove-Item .\mofs\localhost.mof -force
       }
   
   }
