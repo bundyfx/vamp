@@ -17,7 +17,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
        { vamp } | Should not throw
     }
     It 'Should generate mofs for nodes in vampspec.yml' {
-       $Output = (Get-ChildItem -Filter *.mof).Basename
+       $Output = (Get-ChildItem .\mofs -Filter *.mof).Basename
        $Nodes = ConvertFrom-Yaml -Path .\vampspec.yml
       
        $nodes.Values.name | ForEach-Object {$Psitem -in $Output} | Should be $true
@@ -37,8 +37,8 @@ Describe 'vamp core' -Tags 'Acceptance' {
     { vamp } | should not throw
     }
     It "should be able to apply DSC to localhost from vamp output" {
-    Get-ChildItem -Filter *.mof | Where-Object {$Psitem.Name -ne 'localhost.mof'} | Remove-Item -Force
-    { Start-DscConfiguration -Path . -Verbose -Wait -Force } | Should not throw
+    Get-ChildItem .\mofs -Filter *.mof | Where-Object {$Psitem.Name -ne 'localhost.mof'} | Remove-Item -Force
+    { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
     }
 
   }
