@@ -3,7 +3,9 @@
 
 Function Vamp {
 [CmdletBinding()]
-Param()
+Param(
+[switch]$GetModules
+)
 
 $ErrorActionPreference = 'Stop'
 
@@ -120,6 +122,7 @@ Write-Verbose "yml file $($yamlbind.Name) found locally"
 #read main yml
 Write-Verbose "reading yml file: $($yamlbind.Name)"
 $CoreResources = [Vamp]::ReadYaml("$PSScriptRoot\$($yamlbind.Name)")
+
 
 $nodes = [Vamp]::Initalize()
 Write-Verbose 'Initializing'

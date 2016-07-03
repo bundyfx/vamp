@@ -12,6 +12,9 @@ Describe 'Yaml Conversion' -Tags 'Unit' {
     It 'Should be able to convert to Yaml customModules.yml (Example file)' {
        { ConvertFrom-Yaml -Path .\tests\acceptance\customModules.yml } | Should not throw
     }
+    It 'Should be able to convert to Yaml customModulesAdvanced.yml (Example file)' {
+       { ConvertFrom-Yaml -Path .\tests\acceptance\customModulesAdvanced.yml } | Should not throw
+    }
   }
 }
 Describe 'vamp core' -Tags 'Acceptance' {
@@ -46,7 +49,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
     }
 
   }
-  Context "Advanced custom module vamp acceptance testing" {
+  Context "Custom module vamp acceptance testing" {
       it "Should be able to create mofs with custom modules" {
           #move files for vamp to pick up new yml
         
@@ -58,7 +61,24 @@ Describe 'vamp core' -Tags 'Acceptance' {
       It "Should be able to apply DSC to localhost from vamp output - Custom Module xWebAdministration" {
           { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
           Remove-Item .\customModules.yml -Force
-          Move-Item .\tests\example.yml -Destination .\tests\example.yml -Force
+          Move-Item .\tests\example.yml -Destination .\example.yml -Force
+          Remove-Item .\mofs\localhost.mof -Force
+      }
+  
+  }
+  Context "Advanced custom module vamp acceptance testing" {
+      it "Should be able to create mofs with custom advanced configuration and modules" {
+          #move files for vamp to pick up new yml
+        
+          Move-Item .\example.yml -Destination .\tests -Force
+          Copy-Item .\tests\acceptance\customModulesAdvanced.yml -Destination .\
+
+          { vamp } | Should not throw
+      }
+      It "Should be able to apply DSC to localhost from vamp output - Custom Module xWebAdministration" {
+          { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
+          Remove-Item .\customModulesAdvanced.yml -Force
+          Move-Item .\tests\example.yml -Destination .\example.yml -Force
           Remove-Item .\mofs\localhost.mof -Force
       }
   

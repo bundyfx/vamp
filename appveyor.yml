@@ -16,7 +16,9 @@ install:
   - ps: Install-Module Pester -Force
   - ps: Install-Module PsScriptAnalyzer -force
   - ps: Install-Module xWebAdministration -force
-
+  - ps: Install-Module xDSCFirewall -force
+  - ps: Install-Module xPowerShellExecutionPolicy -force 
+  
 build: false
 
 version: '1.0.{build}'
