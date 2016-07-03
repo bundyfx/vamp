@@ -1,5 +1,5 @@
 Import-Module .\vamp.ps1 -Verbose
-Import-Module .\PSYaml\PSYaml.psm1 -Verbose
+Import-Module .\private\PSYaml\PSYaml.psm1 -Verbose
 
 Describe 'Yaml Conversion' -Tags 'Unit' {
   Context 'PSYaml Module' {
