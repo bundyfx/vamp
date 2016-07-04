@@ -3,9 +3,7 @@
 
 Function Vamp {
 [CmdletBinding()]
-Param(
-[switch]$GetModules
-)
+Param()
 
 $ErrorActionPreference = 'Stop'
 
@@ -15,7 +13,7 @@ static [PsCustomObject] ReadYaml([System.String]$Path)
 {
     try 
     {
-        Import-Module $PSScriptRoot\private\PSYaml\PSYaml.psm1
+        
         $Reader = ConvertFrom-Yaml -Path $Path -As Hash
         return $Reader
     }
@@ -29,16 +27,23 @@ static [System.String[]] Initalize()
 {
     try 
     {
-        Import-Module $PSScriptRoot\private\PSYaml\PSYaml.psm1
+        
         $Spec = ConvertFrom-Yaml -Path $PSScriptRoot\vampspec.yml -As Hash
-        $Spec.values.name | ForEach-Object { Remove-Item "$PSScriptRoot\mofs\$PsItem.mof" -Force -ErrorAction SilentlyContinue}
-        return $Spec.values.name
+        $Spec.nodes.name | ForEach-Object { Remove-Item "$PSScriptRoot\mofs\$PsItem.mof" -Force -ErrorAction SilentlyContinue}
+        return $Spec.nodes.name
     }
     catch
     {
         throw 'Unable to read Yaml - Error: {0}' -f $Psitem
     }
 
+}
+
+static [System.String[]] InitalizeConfigs()
+{
+Import-Module $PSScriptRoot\private\PSYaml\PSYaml.psm1
+$Spec = ConvertFrom-Yaml -Path $PSScriptRoot\vampspec.yml -As Hash
+return $Spec.configs.name
 }
 
 static [void] CreateMofTail([System.String[]]$Nodes)
@@ -83,6 +88,9 @@ foreach ($node in $nodes)
 static [void] CreateMofCore([Hashtable]$Input, [System.String[]]$Nodes) 
 {
 foreach ($node in $nodes){
+
+    foreach ($yml in $Input) {
+
 $Reader = $Input.Values | Out-String -Stream
 $reader = $Reader -replace ': ','= ' `
                   -replace '= ','= "' `
@@ -100,6 +108,7 @@ $Reader
 "@ | Out-File $PSScriptRoot\mofs\$node.mof -Force -Append
 }
 }
+}
 
 static Main()
 {
@@ -107,21 +116,25 @@ static Main()
 
 Write-Verbose 'Commenced Main Method'
 #Get main yml file
-$yamlbind = (Get-ChildItem -Filter *.yml).Where{$PsItem.name -ne 'vampspec.yml' -and $Psitem.name -ne 'appveyor.yml'}
+$yamlbind = [Vamp]::InitalizeConfigs()
 
 #check for yaml at pwd
 if ($yamlbind -eq $null){
     throw 'Unable to continue - Cannot find .yml file at {0}' -f $pwd.Path
 }
-if ($yamlbind.count -gt 1){
-    throw 'Unable to continue - found multiple configuration yml files at {0}' -f $pwd.Path
+$Base = (Get-ChildItem $PSScriptRoot).BaseName
+if ($yamlbind.configs.name | ForEach-Object { $Psitem -in $Base })
+{
+    throw 'Unable to continue not all yaml files specified in vampspec are present in vamp root'
 }
 
 Write-Verbose "yml file $($yamlbind.Name) found locally"
 
+$CoreResources = foreach ($config in $yamlbind){
 #read main yml
-Write-Verbose "reading yml file: $($yamlbind.Name)"
-$CoreResources = [Vamp]::ReadYaml("$PSScriptRoot\$($yamlbind.Name)")
+Write-Verbose "reading yml file: $($config)"
+[Vamp]::ReadYaml("$PSScriptRoot\configs\$($config).yml")
+}
 
 
 $nodes = [Vamp]::Initalize()

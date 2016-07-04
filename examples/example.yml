@@ -1,0 +1,28 @@
+-  service:
+    ResourceID : '[Service]bits'
+    name: bits
+    status: Running
+    ensure: present
+    SourceInfo : Service
+    ModuleName : PsDesiredStateConfiguration
+    ModuleVersion : 1.0
+
+-  service:
+    ResourceID : '[Service]W32Time'
+    name: W32Time
+    status: Stopped
+    ensure: present
+    SourceInfo : Service
+    ModuleName : PsDesiredStateConfiguration
+    ModuleVersion : 1.0
+    DependsOn : '[Service]bits'
+
+-  file:
+    ResourceID : '[File]myfile'
+    Type: File
+    Contents : 'Hello world'
+    ensure: present
+    DestinationPath: C:\\temp\\docker\\test.txt
+    ModuleName : PsDesiredStateConfiguration
+    ModuleVersion : 1.0
+    SourceInfo : File
