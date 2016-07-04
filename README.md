@@ -59,8 +59,13 @@ A Powershell tool that allows Powershell DSC MOF files to be generated from yaml
 ```yaml
 -  nodes:
     name : 
-     - localhost
-     - server1
-     - server2
+     - OVERLORD
+     - OVERLORD1
+     - OVERLORD2
 
+-  configs:
+    name : 
+     - example
+     - customModules
+     - customModulesAdvanced
 ```
