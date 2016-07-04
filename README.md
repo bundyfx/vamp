@@ -5,8 +5,8 @@ A Powershell tool that allows Powershell DSC MOF files to be generated from yaml
 
 ## Quickstart
 * git clone this repository
-* create your DSC configuration in a .yml file
-* edit the vampspec.yml file to contain your target nodes
+* create your DSC configuration in a .yml file and place it in configs folder
+* edit the vampspec.yml file to contain your target nodes and config names
 * Import-Module .\vamp.ps1
 * run ```vamp```
 * MOF files for the nodes will be generated and placed in project root
@@ -14,6 +14,7 @@ A Powershell tool that allows Powershell DSC MOF files to be generated from yaml
 ## Version
 
  * 0.1.0 - Released with basic usability (3rd July 2016)
+ * 0.1.1 - Added the ability to have multiple config (.yml) files in the config folder which get compiled into a single mof at runtime. (4th July 2016)
 
 ## In the works
 
@@ -60,5 +61,6 @@ A Powershell tool that allows Powershell DSC MOF files to be generated from yaml
     name : 
      - localhost
      - server1
-     - server2   
+     - server2
+
 ```
