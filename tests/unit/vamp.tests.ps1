@@ -19,11 +19,12 @@ Describe 'Yaml Conversion' -Tags 'Unit' {
 }
 Describe 'vamp core' -Tags 'Acceptance' {
   Context 'Calling vamp' {
-    It 'Should throw since no .yml files are in root' {
+    It 'Should throw since no .yml files are in configs folder' {
+    Move-Item .\configs\*.yml -Destination $TestDrive
        { vamp } | Should throw
+    Move-Item $Testdrive\*.yml -Destination .\configs\
     }
     It 'Should run vamp correctly and generate mofs for nodes in vampspec' {
-       Copy-Item .\configs\*.yml -Destination .\ -Force
        { vamp } | Should not throw
     }
     It 'Should generate mofs for nodes in vampspec.yml' {
@@ -31,6 +32,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
        $Nodes = ConvertFrom-Yaml -Path .\vampspec.yml
       
        $nodes.nodes.name | ForEach-Object {$Psitem -in $Output} | Should be $true
+       Copy-Item .\vampspec.yml -Destination $TestDrive
     }
     It 'Should be able to generate new yml for localhost' {
 @'
@@ -54,6 +56,22 @@ Describe 'vamp core' -Tags 'Acceptance' {
         Get-ChildItem .\mofs -Filter *.mof | Where-Object {$Psitem.Name -ne 'localhost.mof'} | Remove-Item -Force
         { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
         Remove-Item .\mofs\localhost.mof -force
+    }
+    It "should be able to apply DSC to localhost from vamp output" {
+       Copy-Item $TestDrive\vampspec.yml -Destination .\
+       { vamp } | should not throw
+    }
+    It "Should generate required mof's" {
+       $Output = (Get-ChildItem .\mofs -Filter *.mof).Basename
+       $Nodes = ConvertFrom-Yaml -Path .\vampspec.yml
+      
+       $nodes.nodes.name | ForEach-Object {$Psitem -in $Output} | Should be $true
+    }
+    It "Should be able to apply a mutli config mof" {
+       Get-ChildItem .\mofs -Filter *.mof | Where-Object {$Psitem.Name -ne 'localhost.mof'} | Remove-Item -Force
+
+       { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
+       Remove-Item .\mofs\localhost.mof -force
     }
 
   }
