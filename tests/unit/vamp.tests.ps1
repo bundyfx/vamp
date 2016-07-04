@@ -4,35 +4,43 @@ Import-Module .\private\PSYaml\PSYaml.psm1 -Verbose
 Describe 'Yaml Conversion' -Tags 'Unit' {
   Context 'PSYaml Module' {
     It 'Should be able to convert to Yaml example.yml (Example file)' {
-       { ConvertFrom-Yaml -Path .\example.yml } | Should not throw
+       { ConvertFrom-Yaml -Path .\examples\example.yml } | Should not throw
     }
     It 'Should be able to convert to Yaml vampspec.yml (Example file)' {
        { ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw
     }
     It 'Should be able to convert to Yaml customModules.yml (Example file)' {
-       { ConvertFrom-Yaml -Path .\tests\acceptance\customModules.yml } | Should not throw
+       { ConvertFrom-Yaml -Path .\examples\customModules.yml } | Should not throw
     }
     It 'Should be able to convert to Yaml customModulesAdvanced.yml (Example file)' {
-       { ConvertFrom-Yaml -Path .\tests\acceptance\customModulesAdvanced.yml } | Should not throw
+       { ConvertFrom-Yaml -Path .\examples\customModulesAdvanced.yml } | Should not throw
     }
   }
 }
 Describe 'vamp core' -Tags 'Acceptance' {
   Context 'Calling vamp' {
-    It 'Should call vamp correctly and create mofs' {
+    It 'Should throw since no .yml files are in root' {
+       { vamp } | Should throw
+    }
+    It 'Should run vamp correctly and generate mofs for nodes in vampspec' {
+       Copy-Item .\configs\*.yml -Destination .\ -Force
        { vamp } | Should not throw
     }
     It 'Should generate mofs for nodes in vampspec.yml' {
        $Output = (Get-ChildItem .\mofs -Filter *.mof).Basename
        $Nodes = ConvertFrom-Yaml -Path .\vampspec.yml
       
-       $nodes.Values.name | ForEach-Object {$Psitem -in $Output} | Should be $true
+       $nodes.nodes.name | ForEach-Object {$Psitem -in $Output} | Should be $true
     }
     It 'Should be able to generate new yml for localhost' {
 @'
 -  nodes:
     name : 
      - localhost
+
+-  configs:
+    name :
+     - example
 
 '@ | Out-file .\vampspec.yml -Force
 
@@ -49,39 +57,6 @@ Describe 'vamp core' -Tags 'Acceptance' {
     }
 
   }
-  Context "Custom module vamp acceptance testing" {
-      it "Should be able to create mofs with custom modules" {
-          #move files for vamp to pick up new yml
-        
-          Move-Item .\example.yml -Destination .\tests -Force
-          Copy-Item .\tests\acceptance\customModules.yml -Destination .\
 
-          { vamp } | Should not throw
-      }
-      It "Should be able to apply DSC to localhost from vamp output - Custom Module xWebAdministration" {
-          { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
-          Remove-Item .\customModules.yml -Force
-          Move-Item .\tests\example.yml -Destination .\example.yml -Force
-          Remove-Item .\mofs\localhost.mof -Force
-      }
-  
-  }
-  Context "Advanced custom module vamp acceptance testing" {
-      it "Should be able to create mofs with custom advanced configuration and modules" {
-          #move files for vamp to pick up new yml
-        
-          Move-Item .\example.yml -Destination .\tests -Force
-          Copy-Item .\tests\acceptance\customModulesAdvanced.yml -Destination .\
-
-          { vamp } | Should not throw
-      }
-      It "Should be able to apply DSC to localhost from vamp output - Custom Module xWebAdministration" {
-          { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
-          Remove-Item .\customModulesAdvanced.yml -Force
-          Move-Item .\tests\example.yml -Destination .\example.yml -Force
-          Remove-Item .\mofs\localhost.mof -Force
-      }
-  
-  }
 }
 
