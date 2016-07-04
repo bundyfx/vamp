@@ -57,7 +57,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
         { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
         Remove-Item .\mofs\localhost.mof -force
     }
-    It "should be able to apply DSC to localhost from vamp output" {
+    It "should be able to create mofs from newly copied vampspec" {
        Copy-Item $TestDrive\vampspec.yml -Destination .\
        { vamp } | should not throw
     }
@@ -68,6 +68,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
        $nodes.nodes.name | ForEach-Object {$Psitem -in $Output} | Should be $true
     }
     It "Should be able to apply a mutli config mof" {
+       Get-ChildItem .\mofs -Filter *.mof | Where-Object {$Psitem.Name -eq 'OVERLORD.mof'} | Rename-Item -NewName 'localhost.mof'
        Get-ChildItem .\mofs -Filter *.mof | Where-Object {$Psitem.Name -ne 'localhost.mof'} | Remove-Item -Force
 
        { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
