@@ -19,8 +19,8 @@ A Powershell tool that allows Powershell DSC MOF files to be generated from yaml
 ## In the works
 
  * VScode extension for resource snippits
- * The ability vampspec file to hold variables / credentials
- * Integration with PSGallery / Chocolatey to download modules required prior to starting configuration
+ * The ability vampspec file to hold variables for configs + data encryption (Issue #3)
+ * Integration with PSGallery / Chocolatey to download modules required prior to starting configuration (Issue #2)
 
 ## Example 
 
