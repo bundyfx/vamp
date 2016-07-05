@@ -37,7 +37,7 @@ A Powershell tool that allows Powershell DSC MOF files to be generated from yaml
 -  service:
     ResourceID : '[Service]W32Time'
     name: W32Time
-    status: Stopped
+    status: Running
     ensure: present
     SourceInfo : Service
     ModuleName : PsDesiredStateConfiguration
@@ -49,7 +49,7 @@ A Powershell tool that allows Powershell DSC MOF files to be generated from yaml
     Type: File
     Contents : 'Hello world'
     ensure: present
-    DestinationPath: C:\\temp\\docker\\test.txt
+    DestinationPath: C:\\temp\\helloworld.txt
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
     SourceInfo : File
