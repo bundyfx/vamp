@@ -3,7 +3,7 @@
 
 Function Vamp {
 [CmdletBinding()]
-Param()
+Param([Switch]$prep)
 
 $ErrorActionPreference = 'Stop'
 
@@ -20,6 +20,35 @@ static [PsCustomObject] ReadYaml([System.String]$Path)
     catch
     {
         throw 'Unable to read Yaml - Error: {0}' -f $Psitem
+    }
+}
+
+static [void] FindModules()
+{
+    try 
+    {
+        $requiredModules = Get-ChildItem $PSScriptRoot\configs\*.yml | 
+        ForEach-Object {(ConvertFrom-Yaml -Path $Psitem.FullName).Values} | 
+        Select Modulename,ModuleVersion | 
+        Sort-Object -Unique -Property Modulename
+
+        $currentModules = Get-Module -ListAvailable | 
+        Select-Object @{Name='ModuleName';e={$Psitem.Name}},
+        @{name='ModuleVersion';e={$Psitem.Version}}
+
+        $searchScope = Compare-Object $requiredModules $currentModules -Property ModuleName,ModuleVersion -IncludeEqual | 
+        Where-Object {$Psitem.Sideindicator -eq '=='}
+
+        foreach ($module in $requiredmodules.Where{$psItem.Modulename -ne 'PsDesiredStateConfiguration'})
+        {   
+            Write-Verbose "Searching the PSGallery for $($module.modulename) - version $($module.moduleversion)"
+            Install-Module -Name $module.Modulename -RequiredVersion $module.Moduleversion -Repository PsGallery -Verbose
+        }
+     
+    }
+    catch
+    {
+        throw 'Unable to download required module - Error: {0}' -f $Psitem
     }
 }
 
@@ -160,7 +189,12 @@ Write-Verbose "found $node in vampspec"
   }
 
 }
+if ($prep -eq $true){
+[Vamp]::FindModules()
+}
+else 
+{
 #Calls main method of Vamp
 [Vamp]::Main()
-
+}
 }
