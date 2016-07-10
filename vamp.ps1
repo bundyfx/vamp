@@ -13,7 +13,7 @@ static [PsCustomObject] ReadYaml([System.String]$Path)
     }
     catch
     {
-        throw 'Unable to read Yaml - Error: {0}' -f $Psitem
+        throw 'Unable to read Yaml - Error: {0} ' -f $Psitem
     }
 }
 
