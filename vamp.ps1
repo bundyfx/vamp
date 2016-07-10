@@ -179,10 +179,11 @@ foreach ($node in $nodename.Split(' ')) {
                       -replace '= ','= "' `
                       -replace '$','";' `
                       -replace '^";','' `
-                      -replace '(?<=DependsOn.*=\s+).*(?="\[)','{' `
-                      -replace '(?<=DependsOn.*=\s+{"\[.*\].*").*(?=;).*(?=;)','}' `
                       -replace '"true"','true' `
-                      -replace '"false"','false'
+                      -replace '"false"','false' `
+                      -replace '{(.*), (.*)}', '{"$1", "$2"}' `
+                      -replace '"{','{' `
+                      -replace '}";','};' 
 
 @"
 {
@@ -249,6 +250,9 @@ Param(
 [Switch]$prep,
 
 [AllowNull()]
+[Switch]$generate,
+
+[AllowNull()]
 [Switch]$apply
 
 )
@@ -256,6 +260,8 @@ Param(
 
     if ($prep -eq $true)
     {
+        Write-Verbose 'prep switch called'
+
         $Nodes = [Vamp]::Initalize()
         [Vamp]::BootstrapNuget()
 
@@ -265,9 +271,14 @@ Param(
         $targets = $Nodes.nodes.name | Sort-Object -Unique
         [Vamp]::CopyModules($targets, $ToDownload)
     }
+    if ($generate -eq $true)
+    {
+        Write-Verbose 'generate switch called'
+        [Vamp]::Main()
+    }
     if ($apply -eq $true) 
     {
-        [Vamp]::Main()
+        Write-Verbose 'apply switch called'
         Start-DscConfiguration $PSScriptRoot\mofs -Verbose -Wait -Force
     }
 

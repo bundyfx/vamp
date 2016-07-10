@@ -24,7 +24,6 @@
     SourceInfo : xDSCFirewall
     ModuleName : xDSCFirewall 
     ModuleVersion : 1.0
-    DependsOn : '[Service]WindowsFirewall'
 
 -  xDSCFirewall:
     ResourceID : '[xDSCFirewall]PrivateFirewall'
@@ -33,7 +32,6 @@
     SourceInfo : xDSCFirewall
     ModuleName : xDSCFirewall 
     ModuleVersion : 1.0
-    DependsOn : '[Service]WindowsFirewall'
 
 -  MSFT_xPowerShellExecutionPolicy:
     ResourceID : '[xPowerShellExecutionPolicy]ExecutionPolicy'
@@ -41,3 +39,6 @@
     ModuleVersion : 1.1.0.0
     ExecutionPolicy : Unrestricted
     SourceInfo : xPowerShellExecutionPolicy
+    DependsOn :
+      - '[xDSCFirewall]PrivateFirewall'
+      - '[Service]WindowsFirewall'
