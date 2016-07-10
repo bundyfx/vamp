@@ -7,24 +7,26 @@ Describe 'Yaml Conversion' -Tags 'Unit' {
        { [Vamp]::ReadYaml("$pwd\vampspec.yml") } | Should not throw
     }
     It 'Should be able to convert to Yaml example.yml (Example file)' {
-       { ConvertFrom-Yaml -Path .\examples\BasicExample.yml   } | Should not throw
+       { [Vamp]::ReadYaml("$pwd\examples\BasicExample.yml")  } | Should not throw
     }
     It 'Should be able to convert to Yaml customModules.yml (Example file)' {
-       { ConvertFrom-Yaml -Path .\examples\AnotherExample.yml  } | Should not throw
+       { [Vamp]::ReadYaml("$pwd\examples\AnotherExample.yml")  } | Should not throw
     }
     It 'Should be able to convert to Yaml customModulesAdvanced.yml (Example file)' {
-       { ConvertFrom-Yaml -Path .\examples\YetAnotherExample.yml } | Should not throw
+       { [Vamp]::ReadYaml("$pwd\examples\YetAnotherExample.yml") } | Should not throw
     }
     It 'Should be able to generate new yml for localhost' {
 @'
 -  nodes:
     name : 
      - localhost
--  configs:
-    name :
+
+   configs:
+    name : 
      - BasicExample
      - AnotherExample
      - YetAnotherExample
+    
 '@ | Out-file .\vampspec.yml -Force
 
 { ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw 
