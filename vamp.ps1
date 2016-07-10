@@ -32,7 +32,10 @@ static [void] BootstrapNuget ()
 {
     try 
     {
-        Install-PackageProvider Nuget -ForceBootstrap -Force -Confirm:$false -Verbose:$false #Make method
+        Write-Verbose "Making sure the Nuget Package Provider is ready to use"
+        Install-PackageProvider Nuget -ForceBootstrap -Force -Confirm:$false -Verbose:$false
+
+        Write-Verbose "Setting PSGallery to be a trusted repository"
         Set-PSRepository -Name PSGallery -InstallationPolicy Trusted -Verbose:$false
     }
     catch
@@ -48,7 +51,9 @@ static [void] DownloadModules ([PsCustomObject]$SearchScope)
         Write-Verbose "Searching the PSGallery for $($module.modulename) - version $($module.moduleversion)"
         try 
         {
-            Install-Module -Name $module.Modulename -RequiredVersion $module.Moduleversion -Repository PsGallery -Verbose
+            Write-Verbose "Attempting to install $($module.Modulename), version: $($module.moduleversion) from PSGallery"
+            Install-Module -Name $module.Modulename -RequiredVersion $module.Moduleversion -Repository PsGallery -Verbose:$false
+            Write-Verbose 'Complete'
         }
         catch
         {
@@ -67,6 +72,8 @@ static [PsCustomObject] FindModules ()
         Where-Object {$PsItem.Modulename -ne 'PsDesiredStateConfiguration'} |
         Sort-Object -Unique -Property Modulename  
 
+        Write-Verbose "The required modules for this configuration are: $($requiredModules.modulename)"
+
         return $requiredModules
 
     }
@@ -84,8 +91,10 @@ static [void] CopyModules($Nodes, $Modules)
         {
             $CurrentSession = New-PSSession -ComputerName $Node
             foreach ($module in $modules.ModuleName)
-            { 
+            {
+                Write-Verbose "Copying $module to $node" 
                 Copy-Item -Path "C:\Program Files\WindowsPowerShell\Modules\$Module" -ToSession $CurrentSession -Destination "C:\Program Files\WindowsPowerShell\Modules\$Module" -Force -Recurse
+                Write-Verbose "Complete" 
             }
         }
         catch
@@ -154,7 +163,6 @@ foreach ($node in $nodename.Split(' ')){
                  default      {throw 'No header found for {0}' -f $Psitem}
             }
             $Header | Out-File $PSScriptRoot\mofs\$node.mof -Force -Append
-            Write-Verbose 'Finished Header'
         }
     }
     
@@ -184,7 +192,7 @@ $Reader
 
 }
 
-Write-Verbose 'Finished Core'
+
 }
 
 static Main()
