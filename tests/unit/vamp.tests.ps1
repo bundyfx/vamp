@@ -34,6 +34,13 @@ Describe 'Yaml Conversion' -Tags 'Unit' {
 
     }
 }
+Describe 'static methods tests' {
+        It 'placeholder' {
+
+        $true | Should be $true   
+    }
+}
+
 Describe 'vamp core' -Tags 'Acceptance' {
   Context 'Calling vamp help' {
         It 'Should not throw even though no parmeters passed in' {
@@ -65,11 +72,30 @@ Describe 'vamp core' -Tags 'Acceptance' {
            }
         }
     }
-Describe 'vamp -apply output' {
-    Context 'vamp -apply should call the Main Method and start DSC Configuration' { #break this down into many more detailed tests
-        It 'Should call vamp -apply correctly' {
-        { vamp -apply -verbose } | Should not throw
+Describe 'vamp -generate output' {
+    Context 'vamp -generate should call the Main Method to create required .mof files' { #break this down into many more detailed tests
+        It 'Should call vamp -generate correctly' {
+        { vamp -generate } | Should not throw
         }
+        It 'Should call vamp -generate correctly' {
+        
+        $spec = [Vamp]::ReadYaml("$pwd\vampspec.yml")
+        $mofs = (Get-Childitem $pwd\configs\*.mof).Basename
+        foreach ($item in $mofs)
+        {
+            $item -in $spec.nodes.name | Should be $true
+        } 
+           
+        }
+    }
+}
+Describe 'vamp -apply output' {
+    Context 'vamp -apply should apply the generated mof files' { #break this down into many more detailed tests
+        It 'Should apply configurations correctly' {
+
+        { vamp -apply -Verbose } | Should not throw
+
+        }  
     }
 }
     
