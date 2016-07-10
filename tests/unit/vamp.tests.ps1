@@ -4,7 +4,7 @@ Import-Module .\private\PSYaml\PSYaml.psm1 -Verbose
 Describe 'Yaml Conversion' -Tags 'Unit' {
   Context 'PSYaml Module' {
     It 'Should be able to convert to Yaml vampspec.yml (Example file)' {
-       { ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw
+       { [Vamp]::ReadYaml("$pwd\vampspec.yml") } | Should not throw
     }
     It 'Should be able to convert to Yaml example.yml (Example file)' {
        { ConvertFrom-Yaml -Path .\examples\BasicExample.yml   } | Should not throw
@@ -63,10 +63,12 @@ Describe 'vamp core' -Tags 'Acceptance' {
            }
         }
     }
+Describe 'vamp -apply output' {
     Context 'vamp -apply should call the Main Method and start DSC Configuration' { #break this down into many more detailed tests
         It 'Should call vamp -apply correctly' {
         { vamp -apply -verbose } | Should not throw
         }
     }
+}
     
 
