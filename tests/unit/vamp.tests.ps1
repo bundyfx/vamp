@@ -22,8 +22,8 @@ Describe 'vamp core' -Tags 'Acceptance' {
         It 'Should throw since no parmeters passed in' {
            { vamp } | Should throw
         }
-        It 'Should bring up the help for vamp' {
-           { vamp -? } | Should BeOfType MamlCommandHelpInfo
+        It 'Should bring up the help for vamp when using -?' {
+           { vamp -? } | Should $true
         }
     }
     Context 'Calling vamp -prep' {
@@ -50,7 +50,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
     }
     Context 'vamp -apply should call the Main Method and start DSC Configuration' { #break this down into many more detailed tests
         It 'Should call vamp -apply correctly' {
-
+        { vamp -apply -verbose } | Should not throw
         }
     }
 
