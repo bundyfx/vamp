@@ -39,6 +39,4 @@
     ModuleVersion : 1.1.0.0
     ExecutionPolicy : Unrestricted
     SourceInfo : xPowerShellExecutionPolicy
-    DependsOn :
-      - '[xDSCFirewall]PrivateFirewall'
-      - '[Service]WindowsFirewall'
+    DependsOn : '[xDSCFirewall]PrivateFirewall'
