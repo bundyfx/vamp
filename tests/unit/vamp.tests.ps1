@@ -15,12 +15,26 @@ Describe 'Yaml Conversion' -Tags 'Unit' {
     It 'Should be able to convert to Yaml customModulesAdvanced.yml (Example file)' {
        { ConvertFrom-Yaml -Path .\examples\YetAnotherExample.yml } | Should not throw
     }
+    It 'Should be able to generate new yml for localhost' {
+@'
+-  nodes:
+    name : 
+     - localhost
+-  configs:
+    name :
+     - BasicExample
+     - AnotherExample
+     - YetAnotherExample
+'@ | Out-file .\vampspec.yml -Force
+
+{ ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw 
   }
+
 }
 Describe 'vamp core' -Tags 'Acceptance' {
   Context 'Calling vamp help' {
-        It 'Should throw since no parmeters passed in' {
-           { vamp } | Should throw
+        It 'Should not throw even though no parmeters passed in' {
+           { vamp } | Should not throw
         }
         It 'Should bring up the help for vamp when using -?' {
            { vamp -? } | Should not throw
