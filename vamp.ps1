@@ -1,6 +1,5 @@
 #requires -RunAsAdministrator
 #requires -version 5.0
-
 Class Vamp {
 
 static [PsCustomObject] ReadYaml([System.String]$Path)
