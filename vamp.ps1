@@ -197,7 +197,7 @@ foreach ($node in $nodename.Split(' ')){
                  default      {throw 'No header found for {0}' -f $Psitem}
             }
             $Header | Out-File $PSScriptRoot\mofs\$node.mof -Force -Append
-            Write-Host 'Finished Header'
+            Write-Verbose 'Finished Header'
         }
     }
     
@@ -227,7 +227,7 @@ $Reader
 
 }
 
-Write-Host 'Finished Core'
+Write-Verbose 'Finished Core'
 }
 
 static Main()
