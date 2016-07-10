@@ -23,7 +23,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
            { vamp } | Should throw
         }
         It 'Should bring up the help for vamp when using -?' {
-           { vamp -? } | Should $true
+           { vamp -? } | Should not throw
         }
     }
     Context 'Calling vamp -prep' {
