@@ -30,6 +30,7 @@ Describe 'Yaml Conversion' -Tags 'Unit' {
 { ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw 
   }
 
+    }
 }
 Describe 'vamp core' -Tags 'Acceptance' {
   Context 'Calling vamp help' {
@@ -67,4 +68,5 @@ Describe 'vamp core' -Tags 'Acceptance' {
         { vamp -apply -verbose } | Should not throw
         }
     }
+    
 
