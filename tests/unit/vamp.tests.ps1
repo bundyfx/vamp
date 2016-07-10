@@ -3,79 +3,54 @@ Import-Module .\private\PSYaml\PSYaml.psm1 -Verbose
 
 Describe 'Yaml Conversion' -Tags 'Unit' {
   Context 'PSYaml Module' {
-    It 'Should be able to convert to Yaml example.yml (Example file)' {
-       { ConvertFrom-Yaml -Path .\examples\example.yml } | Should not throw
-    }
     It 'Should be able to convert to Yaml vampspec.yml (Example file)' {
        { ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw
     }
+    It 'Should be able to convert to Yaml example.yml (Example file)' {
+       { ConvertFrom-Yaml -Path .\examples\BasicExample.yml   } | Should not throw
+    }
     It 'Should be able to convert to Yaml customModules.yml (Example file)' {
-       { ConvertFrom-Yaml -Path .\examples\customModules.yml } | Should not throw
+       { ConvertFrom-Yaml -Path .\examples\AnotherExample.yml  } | Should not throw
     }
     It 'Should be able to convert to Yaml customModulesAdvanced.yml (Example file)' {
-       { ConvertFrom-Yaml -Path .\examples\customModulesAdvanced.yml } | Should not throw
+       { ConvertFrom-Yaml -Path .\examples\YetAnotherExample.yml } | Should not throw
     }
   }
 }
 Describe 'vamp core' -Tags 'Acceptance' {
-  Context 'Calling vamp' {
-    It 'Should throw since no .yml files are in configs folder' {
-    Move-Item .\configs\*.yml -Destination $TestDrive
-       { vamp } | Should throw
-    Move-Item $Testdrive\*.yml -Destination .\configs\
+  Context 'Calling vamp help' {
+        It 'Should throw since no parmeters passed in' {
+           { vamp } | Should throw
+        }
+        It 'Should bring up the help for vamp' {
+           { vamp -? } | Should BeOfType MamlCommandHelpInfo
+        }
     }
-    It 'Should run vamp correctly and generate mofs for nodes in vampspec' {
-       { vamp } | Should not throw
+    Context 'Calling vamp -prep' {
+        It 'Should run vamp -prep correctly and download required modules' {
+           { vamp -prep -verbose } | Should not throw
+        }
     }
-    It 'Should generate mofs for nodes in vampspec.yml' {
-       $Output = (Get-ChildItem .\mofs -Filter *.mof).Basename
-       $Nodes = ConvertFrom-Yaml -Path .\vampspec.yml
-      
-       $nodes.nodes.name | ForEach-Object {$Psitem -in $Output} | Should be $true
-       Copy-Item .\vampspec.yml -Destination $TestDrive
-    }
-    It 'Should be able to generate new yml for localhost' {
-@'
--  nodes:
-    name : 
-     - localhost
+    Context 'vamp -prep output' { #needs to be rewritten to check version etc
+    $Current = Get-Module -ListAvailable 
 
--  configs:
-    name :
-     - example
-
-'@ | Out-file .\vampspec.yml -Force
-
-{ ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw 
-
+        It 'Should locate required modules downloaded by -prep | xWebAdministration' {
+           $Current.Where{$Psitem.name -eq 'xWebAdministration'} | Should be $true
+           Test-Path 'C:\Program Files\WindowsPowerShell\Modules\xWebAdministration' | Should be $true
+           }
+        It 'Should locate required modules downloaded by -prep | xPowerShellExecutionPolicy' {
+           $Current.Where{$Psitem.name -eq 'xPowerShellExecutionPolicy'} | Should be $true
+           Test-Path 'C:\Program Files\WindowsPowerShell\Modules\xPowerShellExecutionPolicy' | Should be $true
+           }
+        It 'Should locate required modules downloaded by -prep | xDSCFireWall' {
+           $Current.Where{$Psitem.name -eq 'xDSCFirewall'} | Should be $true
+           Test-Path 'C:\Program Files\WindowsPowerShell\Modules\xDSCFirewall' | Should be $true
+           }
+        }
     }
-    It "should be able to call vamp with newly created yml" {
-    { vamp } | should not throw
-    }
-    It "should be able to apply DSC to localhost from vamp output" {
-        Get-ChildItem .\mofs -Filter *.mof | Where-Object {$Psitem.Name -ne 'localhost.mof'} | Remove-Item -Force
-        { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
-        Remove-Item .\mofs\localhost.mof -force
-    }
-    It "should be able to create mofs from newly copied vampspec" {
-       Copy-Item $TestDrive\vampspec.yml -Destination .\
-       { vamp } | should not throw
-    }
-    It "Should generate required mof's" {
-       $Output = (Get-ChildItem .\mofs -Filter *.mof).Basename
-       $Nodes = ConvertFrom-Yaml -Path .\vampspec.yml
-      
-       $nodes.nodes.name | ForEach-Object {$Psitem -in $Output} | Should be $true
-    }
-    It "Should be able to apply a mutli config mof" {
-       Get-ChildItem .\mofs -Filter *.mof | Where-Object {$Psitem.Name -eq 'OVERLORD.mof'} | Rename-Item -NewName 'localhost.mof'
-       Get-ChildItem .\mofs -Filter *.mof | Where-Object {$Psitem.Name -ne 'localhost.mof'} | Remove-Item -Force
+    Context 'vamp -apply should call the Main Method and start DSC Configuration' { #break this down into many more detailed tests
+        It 'Should call vamp -apply correctly' {
 
-       { Start-DscConfiguration -Path .\mofs -Verbose -Wait -Force } | Should not throw
-       Remove-Item .\mofs\localhost.mof -force
+        }
     }
-
-  }
-
-}
 
