@@ -164,7 +164,7 @@ foreach ($node in $nodename.Name){
                  default      {throw 'No header found for {0}' -f $Psitem}
             }
             $Header | Out-File $PSScriptRoot\mofs\$node.mof -Force -Append
-            Write-Verbose 'Complete'
+            Write-Verbose 'Complete Header'
         }
     }
     
@@ -214,14 +214,26 @@ foreach ($i in $vampspec)
     Write-Verbose "Creating config from $config.yml for $($i.nodes.name -join ', ')"
 
         for ($m = 0; $m -lt $CurrentConfig.count; $m++){
+  
+
             if ($CurrentConfig[$m] -eq $null)
             {
+
+            $SourceInfo = ($CurrentConfig.Values.ResourceID | Select-String '(?<=\[).*(?=\])').Matches.Value
+            $Add = @{SourceInfo="$SourceInfo";} 
+            $CurrentConfig.Values | Add-Member -NotePropertyMembers $Add -TypeName NoteProperty -Force  
+
             [Vamp]::CreateMofHeader($CurrentConfig, $i.nodes)
 
             [Vamp]::CreateMofCore($CurrentConfig, $i.nodes)
             }
             else 
             {
+
+            $SourceInfo = ($CurrentConfig[$m].Values.ResourceID | Select-String '(?<=\[).*(?=\])').Matches.Value
+            $Add = @{SourceInfo="$SourceInfo";} 
+            $CurrentConfig[$m].Values | Add-Member -NotePropertyMembers $Add -TypeName NoteProperty -Force  
+
             [Vamp]::CreateMofHeader($CurrentConfig[$m], $i.nodes)
 
             [Vamp]::CreateMofCore($CurrentConfig[$m], $i.nodes)
@@ -229,7 +241,7 @@ foreach ($i in $vampspec)
         }
     }
    [Vamp]::CreateMofTail($i.nodes)
-   Write-Verbose 'Complete'    
+   Write-Verbose 'Complete Main'    
 }
 
 }
