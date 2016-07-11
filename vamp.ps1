@@ -72,7 +72,7 @@ static [PsCustomObject] FindModules ()
         Where-Object {$PsItem.Modulename -ne 'PsDesiredStateConfiguration'} |
         Sort-Object -Unique -Property Modulename  
 
-        Write-Verbose "The required modules for this configuration are: $($requiredModules.modulename)"
+        Write-Verbose "The required modules for this configuration are: $($requiredModules.modulename -join ', ')"
 
         return $requiredModules
 
@@ -272,8 +272,6 @@ Param(
 
     if ($prep -eq $true)
     {
-        Write-Verbose 'prep switch called'
-
         $Nodes = [Vamp]::Initalize()
         [Vamp]::BootstrapNuget()
 
@@ -282,16 +280,18 @@ Param(
 
         $targets = $Nodes.nodes.name | Sort-Object -Unique
         [Vamp]::CopyModules($targets, $ToDownload)
+
+        Write-Output 'Prep complete'
     }
     if ($generate -eq $true)
     {
-        Write-Verbose 'generate switch called'
         [Vamp]::Main()
+        Write-Output 'Generation complete'
     }
     if ($apply -eq $true) 
     {
-        Write-Verbose 'apply switch called'
         Start-DscConfiguration $PSScriptRoot\mofs -Verbose -Wait -Force
+        Write-Output 'Apply complete'
     }
 
 }

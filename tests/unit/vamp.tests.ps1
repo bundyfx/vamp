@@ -18,9 +18,35 @@ Describe 'Yaml Conversion' -Tags 'Unit' {
     }
 }
 Describe 'static methods tests' -Tags 'Acceptance' {
-        It 'placeholder' {
+        It 'ImportPSYaml method Should import the PSYaml module' {
+        Remove-Module PSYaML -Verbose
 
-        $true | Should be $true   
+        [Vamp]::ImportPSYaml()
+
+        Get-Module PSYaml | Should be $true
+    }
+        It 'BootstrapNuget method Should download the Nuget Package Provider and Set tPSGallery to Trusted' {
+
+        [Vamp]::BootstrapNuget()
+
+        Get-PackageProvider NuGet | Should be $true
+        (Get-PSRepository -Name PsGallery).InstallationPolicy | Should be 'Trusted'
+    }
+        It 'FindModules method Should search for and find any specified modules for the configuration' {
+
+        $RequiredModules = [Vamp]::FindModules()
+
+        $RequiredModules | Should beofType PsCustomObject
+        $requiredModules | Should Not BeNullOrEmpty
+    }
+        It 'DownloadModules method should download any of the modules found by the FindModules method' {
+
+        $RequiredModules = [Vamp]::FindModules() #before download
+        [Vamp]::DownloadModules($RequiredModules) #download
+
+        $RequiredModules = [Vamp]::FindModules() #after download
+
+        $requiredModules | Should BeNullOrEmpty #should be null since all modules should of been downloaded
     }
 }
 
@@ -45,6 +71,7 @@ Describe 'vamp core' -Tags 'Acceptance' {
     name : 
      - BasicExample
      - AnotherExample
+     - MoreExamples
      - YetAnotherExample
     
 '@ | Out-file .\vampspec.yml -Force
@@ -74,8 +101,8 @@ Describe 'vamp core' -Tags 'Acceptance' {
     }
 Describe 'vamp -generate output' {
     Context 'vamp -generate should call the Main Method to create required .mof files' { #break this down into many more detailed tests
-        It 'Should call vamp -generate correctlyand not throw' {
-        { vamp -generate } | Should not throw
+        It 'Should call vamp -generate correctly and not throw' {
+        { vamp -generate -verbose } | Should not throw
         }
         It 'Should call vamp -generate correctly and generate .mof files' {
         
