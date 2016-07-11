@@ -227,9 +227,9 @@ foreach ($i in $vampspec)
             [Vamp]::CreateMofCore($CurrentConfig[$m], $i.nodes)
             }
         }
-    Write-Verbose 'Complete'
     }
-   [Vamp]::CreateMofTail($i.nodes)    
+   [Vamp]::CreateMofTail($i.nodes)
+   Write-Verbose 'Complete'    
 }
 
 }
