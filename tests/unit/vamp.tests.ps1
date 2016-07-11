@@ -74,10 +74,10 @@ Describe 'vamp core' -Tags 'Acceptance' {
     }
 Describe 'vamp -generate output' {
     Context 'vamp -generate should call the Main Method to create required .mof files' { #break this down into many more detailed tests
-        It 'Should call vamp -generate correctly' {
+        It 'Should call vamp -generate correctlyand not throw' {
         { vamp -generate } | Should not throw
         }
-        It 'Should call vamp -generate correctly' {
+        It 'Should call vamp -generate correctly and generate .mof files' {
         
         $spec = [Vamp]::ReadYaml("$pwd\vampspec.yml")
         $mofs = (Get-Childitem $pwd\configs\*.mof).Basename

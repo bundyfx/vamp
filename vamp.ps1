@@ -175,14 +175,17 @@ foreach ($node in $nodename.Split(' ')) {
 
     #Holy sheeet - need to change this once everything else works.
     $Reader = $Input.Values | Out-String -Stream
-    $reader = $Reader -replace ': ','= ' `
+    $reader = $Reader -replace '{(.*),\s(.*)}','{"$1", "$2"}' `
+                      -replace ': ','= ' `
                       -replace '= ','= "' `
                       -replace '$','";' `
                       -replace '^";','' `
                       -replace '(?<=DependsOn.*=\s+).*(?="\[)','{' `
                       -replace '(?<=DependsOn.*=\s+{"\[.*\].*").*(?=;).*(?=;)','}' `
                       -replace '"true"','true' `
-                      -replace '"false"','false'
+                      -replace '"false"','false' `
+                      -replace '"{','{' `
+                      -replace '}"','}'
 
 @"
 {
