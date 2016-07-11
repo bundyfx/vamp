@@ -4,7 +4,6 @@
     ensure: present
     state : Running
     StartupType : Automatic
-    SourceInfo : Service
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
 
@@ -12,7 +11,6 @@
     ResourceID : '[xDSCFirewall]PublicFirewall'
     Zone : Public
     ensure: present
-    SourceInfo : xDSCFirewall
     ModuleName : xDSCFirewall 
     ModuleVersion : 1.0
     DependsOn : '[Service]WindowsFirewall'
@@ -21,7 +19,6 @@
     ResourceID : '[xDSCFirewall]DomainFirewall'
     Zone : Domain
     ensure: absent
-    SourceInfo : xDSCFirewall
     ModuleName : xDSCFirewall 
     ModuleVersion : 1.0
     DependsOn : '[Service]WindowsFirewall'
@@ -30,7 +27,6 @@
     ResourceID : '[xDSCFirewall]PrivateFirewall'
     Zone : Private
     ensure: present
-    SourceInfo : xDSCFirewall
     ModuleName : xDSCFirewall 
     ModuleVersion : 1.0
     DependsOn : '[Service]WindowsFirewall'
@@ -40,5 +36,4 @@
     ModuleName : xPowerShellExecutionPolicy
     ModuleVersion : 1.1.0.0
     ExecutionPolicy : Unrestricted
-    SourceInfo : xPowerShellExecutionPolicy
     DependsOn : '[xDSCFirewall]PrivateFirewall'
