@@ -179,11 +179,10 @@ foreach ($node in $nodename.Split(' ')) {
                       -replace '= ','= "' `
                       -replace '$','";' `
                       -replace '^";','' `
+                      -replace '(?<=DependsOn.*=\s+).*(?="\[)','{' `
+                      -replace '(?<=DependsOn.*=\s+{"\[.*\].*").*(?=;).*(?=;)','}' `
                       -replace '"true"','true' `
-                      -replace '"false"','false' `
-                      -replace '{(.*), (.*)}', '{"$1", "$2"}' `
-                      -replace '"{','{' `
-                      -replace '}";','};' 
+                      -replace '"false"','false'
 
 @"
 {
