@@ -44,7 +44,7 @@ Describe 'static methods tests' -Tags 'Acceptance' {
         $RequiredModules = [Vamp]::FindModules() #before download
         [Vamp]::DownloadModules($RequiredModules) #download
 
-        $Installed = Get-Childitem 'C:\Program Files\WindowsPowerShell\Modules' | Select Name
+        $Installed = Get-Childitem 'C:\Program Files\WindowsPowerShell\Modules' | Select -ExpandProperty Name
         $RequiredModules.Modulename | ForEach-Object {$Psitem -in $Installed} | Should be $true
          
     }
