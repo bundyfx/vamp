@@ -3,19 +3,39 @@ Import-Module .\private\PSYaml\PSYaml.psm1 -Verbose
 
 Describe 'Yaml Conversion' -Tags 'Unit' {
   Context 'PSYaml Module' {
-    It 'Should be able to convert to Yaml vampspec.yml (Example file)' {
+    It 'Should be able to convert to Yaml | vampspec.yml (Example file)' {
        { [Vamp]::ReadYaml("$pwd\vampspec.yml") } | Should not throw
     }
-    It 'Should be able to convert to Yaml example.yml (Example file)' {
+    It 'Should be able to convert to Yaml | BasicExample.yml (Example file)' {
        { [Vamp]::ReadYaml("$pwd\examples\BasicExample.yml")  } | Should not throw
     }
-    It 'Should be able to convert to Yaml customModules.yml (Example file)' {
+    It 'Should be able to convert to Yaml | AnotherExample.yml (Example file)' {
        { [Vamp]::ReadYaml("$pwd\examples\AnotherExample.yml")  } | Should not throw
     }
-    It 'Should be able to convert to Yaml customModulesAdvanced.yml (Example file)' {
+    It 'Should be able to convert to Yaml | YetAnotherExample.yml (Example file)' {
        { [Vamp]::ReadYaml("$pwd\examples\YetAnotherExample.yml") } | Should not throw
     }
-    It 'Should be able to generate new yml for localhost' {
+    }
+}
+Describe 'static methods tests' -Tags 'Acceptance' {
+        It 'placeholder' {
+
+        $true | Should be $true   
+    }
+}
+
+Describe 'vamp core' -Tags 'Acceptance' {
+  Context 'Calling vamp help' {
+        It 'Should not throw even though no parmeters passed in' {
+           { vamp } | Should not throw
+        }
+        It 'Should bring up the help for vamp when using -?' {
+           { vamp -? } | Should not throw
+        }
+
+    }
+    Context 'Calling vamp -prep' {
+        It 'Should be able to generate new yml for localhost with multiple configs' {
 @'
 -  nodes:
     name : 
@@ -31,26 +51,6 @@ Describe 'Yaml Conversion' -Tags 'Unit' {
 
 { ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw 
   }
-
-    }
-}
-Describe 'static methods tests' {
-        It 'placeholder' {
-
-        $true | Should be $true   
-    }
-}
-
-Describe 'vamp core' -Tags 'Acceptance' {
-  Context 'Calling vamp help' {
-        It 'Should not throw even though no parmeters passed in' {
-           { vamp } | Should not throw
-        }
-        It 'Should bring up the help for vamp when using -?' {
-           { vamp -? } | Should not throw
-        }
-    }
-    Context 'Calling vamp -prep' {
         It 'Should run vamp -prep correctly and download required modules' {
            { vamp -prep -verbose } | Should not throw
         }

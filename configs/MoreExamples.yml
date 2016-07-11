@@ -1,0 +1,8 @@
+-  service:
+    ResourceID : '[Service]WindowsFirewall'
+    name: MPSSvc
+    ensure: present
+    state : Running
+    StartupType : Automatic
+    ModuleName : PsDesiredStateConfiguration
+    ModuleVersion : 1.0

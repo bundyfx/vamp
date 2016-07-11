@@ -125,10 +125,10 @@ static [PsCustomObject] Initalize()
 
 }
 
-static [void] CreateMofTail([System.String]$Nodename)
+static [void] CreateMofTail($Nodename)
 {
 
-foreach ($node in $nodename.Split(' ')){
+foreach ($node in $nodename.Name){
 
 @'
 instance of OMI_ConfigurationDocument
@@ -143,14 +143,15 @@ instance of OMI_ConfigurationDocument
 
 }
 
-static [void] CreateMofHeader($Input, [System.String]$Nodename)
+static [void] CreateMofHeader($Input, $Nodename)
 {
 
-foreach ($node in $nodename.Split(' ')){
+foreach ($node in $nodename.Name){
 
         foreach ($key in $Input.Keys)
         {
-        $ref = Get-Random
+        Write-Verbose "Creating Header: $key"
+            $ref = Get-Random
             $Header = switch ($key) 
             {
                 'service'     {"instance of MSFT_ServiceResource as `$MSFT_ServiceResource$($ref)ref"; break}
@@ -159,19 +160,20 @@ foreach ($node in $nodename.Split(' ')){
                 'file'        {"instance of MSFT_FileDirectoryConfiguration as `$MSFT_FileDirectoryConfiguration$($ref)ref"; break }
                 'feature'     {"instance of MSFT_RoleResource as `$MSFT_RoleResource$($ref)ref"; break }
                 'script'      {"instance of MSFT_ScriptResource as `$MSFT_ScriptResource$($ref)ref"; break }
-                 $Psitem      {"instance of $PsItem as `$$($Psitem)$($ref)ref" ; break}
+                 $Psitem      {"instance of $PsItem as `$$($Psitem)$($ref)ref"; break}
                  default      {throw 'No header found for {0}' -f $Psitem}
             }
             $Header | Out-File $PSScriptRoot\mofs\$node.mof -Force -Append
+            Write-Verbose 'Complete'
         }
     }
     
 }
 
-static [void] CreateMofCore($Input, [System.String]$Nodename) 
+static [void] CreateMofCore($Input, $Nodename) 
 {
 
-foreach ($node in $nodename.Split(' ')) { 
+foreach ($node in $nodename.Name) { 
 
     #Holy sheeet - need to change this once everything else works.
     $Reader = $Input.Values | Out-String -Stream
@@ -186,6 +188,7 @@ foreach ($node in $nodename.Split(' ')) {
                       -replace '"false"','false' `
                       -replace '"{','{' `
                       -replace '}"','}'
+
 
 @"
 {
@@ -208,18 +211,25 @@ foreach ($i in $vampspec)
     foreach ($config in $i.configs.name) 
     {
     $CurrentConfig = ConvertFrom-Yaml -Path .\configs\$($config).yml
-    
+    Write-Verbose "Creating config from $config.yml for $($i.nodes.name -join ', ')"
+
         for ($m = 0; $m -lt $CurrentConfig.count; $m++){
+            if ($CurrentConfig[$m] -eq $null)
+            {
+            [Vamp]::CreateMofHeader($CurrentConfig, $i.nodes)
 
-        [Vamp]::CreateMofHeader($CurrentConfig[$m], $i.nodes.name)
+            [Vamp]::CreateMofCore($CurrentConfig, $i.nodes)
+            }
+            else 
+            {
+            [Vamp]::CreateMofHeader($CurrentConfig[$m], $i.nodes)
 
-        [Vamp]::CreateMofCore($CurrentConfig[$m], $i.nodes.name)
+            [Vamp]::CreateMofCore($CurrentConfig[$m], $i.nodes)
+            }
         }
-
-    
+    Write-Verbose 'Complete'
     }
-
-   [Vamp]::CreateMofTail($i.nodes.name)    
+   [Vamp]::CreateMofTail($i.nodes)    
 }
 
 }

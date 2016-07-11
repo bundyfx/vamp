@@ -5,6 +5,7 @@
    configs:
     name : 
      - BasicExample
+     - MoreExamples
 
 -  nodes:
     name : 
