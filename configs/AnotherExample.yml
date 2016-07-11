@@ -39,6 +39,3 @@
     ModuleVersion : 1.0
     SourceInfo : File
     DependsOn : '[xWebsite]DefaultSite'
-
-
-    

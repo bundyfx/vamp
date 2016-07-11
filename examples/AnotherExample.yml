@@ -31,11 +31,11 @@
     Contents : 'Testing Complete'
     recurse : true
     ensure: present
+    Attributes :
+      - Archive
+      - ReadOnly
     DestinationPath: C:\\inetpub\\wwwroot\\index.html
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
     SourceInfo : File
     DependsOn : '[xWebsite]DefaultSite'
-
-
-    
