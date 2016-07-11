@@ -12,14 +12,14 @@ A Powershell tool that allows Powershell DSC MOF files to be generated from yaml
 
 ## Parameters
 
-* prep
-  - The 'prep' switch parameter calls the vamp tool to gather to required modules from the configuration .yml files in the configs directory. Once gathered it will then attemp to download
-  those modules from the PSGallery and copy them out to any of the nodes that will require them for the upcoming configuration.
+* *prep*
+  - The 'prep' switch parameter calls the vamp tool to gather to required modules from the configuration .yml files in the configs directory. Once gathered it will then attempt to download
+  those modules from the PSGallery and copy them out to any of the nodes that will require them for the upcoming configuration. Since the prep parameter attempts to copy the required modules to the destination nodes it requires that you have access to these nodes.
 
-* generate
+* *generate*
   - The 'generate' switch parameters calls the vamp tool to generate the mof files required for the configuration defined within the .yml files residing in the configs directory.
 
-* apply
+* *apply*
   - The 'apply' switch parameters calls the vamp tool to apply the newly generated .mof files to the nodes.
 
 
