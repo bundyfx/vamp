@@ -38,34 +38,43 @@ A Powershell tool that allows Powershell DSC MOF files to be generated from yaml
 ## Example 
 
 ```yaml
--  service:
-    ResourceID : '[Service]bits'
-    name: bits
-    status: Running
+-  feature:
+    ResourceID : '[WindowsFeature]webserver'
+    name: Web-Server
     ensure: present
-    SourceInfo : Service
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
 
--  service:
-    ResourceID : '[Service]W32Time'
-    name: W32Time
-    status: Running
+-  feature:
+    ResourceID : '[WindowsFeature]ASPnet45'
+    name: Web-Asp-Net45
     ensure: present
-    SourceInfo : Service
-    ModuleName : PsDesiredStateConfiguration
+    ModuleName : PsDesiredStateConfiguration 
     ModuleVersion : 1.0
-    DependsOn : '[Service]bits'
+
+-  MSFT_xWebsite:
+    ResourceID : '[xWebsite]DefaultSite'
+    PhysicalPath: C:\\inetpub\\wwwroot
+    state: Started
+    Name: 'Default Web Site'
+    ensure: present
+    ModuleName : xWebAdministration
+    ModuleVersion : 1.12.0.0
+    DependsOn : '[WindowsFeature]webserver'
 
 -  file:
-    ResourceID : '[File]myfile'
+    ResourceID : '[File]webcontents'
     Type: File
-    Contents : 'Hello world'
+    Contents : 'Testing Complete'
+    recurse : true
     ensure: present
-    DestinationPath: C:\\temp\\helloworld.txt
+    Attributes :
+      - Archive
+      - ReadOnly
+    DestinationPath: C:\\inetpub\\wwwroot\\index.html
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
-    SourceInfo : File
+    DependsOn : '[xWebsite]DefaultSite'
 ```
 
 #### Example vampspec.yml
