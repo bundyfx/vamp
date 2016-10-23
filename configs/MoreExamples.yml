@@ -1,8 +1,0 @@
--  service:
-    ResourceID : '[Service]MPSSvc'
-    name: MPSSvc
-    ensure: present
-    state : Running
-    StartupType : Automatic
-    ModuleName : PsDesiredStateConfiguration
-    ModuleVersion : 1.0

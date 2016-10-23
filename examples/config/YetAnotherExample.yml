@@ -11,7 +11,7 @@
 -  xDSCFirewall:
     ResourceID : '[xDSCFirewall]PublicFirewall'
     Zone : Public
-    ensure: $ensure
+    ensure: $myawesomeconfig.ensure
     SourceInfo : xDSCFirewall
     ModuleName : xDSCFirewall
     ModuleVersion : 1.0

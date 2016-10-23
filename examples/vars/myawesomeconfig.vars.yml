@@ -1,9 +1,9 @@
 -  vars:
     name : 'ensure'
-    value : 'present'
+     - value : 'present'
     name : 'servicename'
-    value : 'bits'
+     - value : 'bits'
 
 - creds:
-    username: awesomeuser
-    password: awesomepassword1
+    username: 'awesomeuser'
+     - password: 'awesomepassword1'

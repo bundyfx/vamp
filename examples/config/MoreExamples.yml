@@ -1,7 +1,7 @@
 -  service:
     ResourceID : '[Service]MPSSvc'
     name: MPSSvc
-    ensure: present
+    ensure: $myawesomeconfig.ensure
     state : Running
     StartupType : Automatic
     ModuleName : PsDesiredStateConfiguration
