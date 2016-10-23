@@ -3,7 +3,6 @@
     name: $myawesomeconfig.servicename
     status: Running
     ensure: $myawesomeconfig.ensure
-    SourceInfo : Service
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
 
@@ -12,7 +11,6 @@
     name: W32Time
     status: Stopped
     ensure: $myawesomeconfig.ensure
-    SourceInfo : Service
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
     DependsOn : '[Service]bits'
@@ -22,7 +20,6 @@
     Type: File
     Contents : 'Hello world'
     ensure: present
-    DestinationPath: C:\\temp\\docker\\test.txt
+    DestinationPath: C:\\temp\\awesome\\test.txt
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
-    SourceInfo : File

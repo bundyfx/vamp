@@ -2,7 +2,6 @@
     ResourceID : '[WindowsFeature]webserver'
     name: Web-Server
     ensure: present
-    SourceInfo : WindowsFeature
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
 
@@ -10,7 +9,6 @@
     ResourceID : '[WindowsFeature]ASPnet45'
     name: Web-Asp-Net45
     ensure: $myawesomeconfig.ensure
-    SourceInfo : WindowsFeature
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
 
@@ -20,7 +18,6 @@
     state: Started
     Name: 'Default Web Site'
     ensure: present
-    SourceInfo : xWebsite
     ModuleName : xWebAdministration
     ModuleVersion : 1.12.0.0
     DependsOn : '[WindowsFeature]webserver'
@@ -37,5 +34,4 @@
     DestinationPath: C:\\inetpub\\wwwroot\\index.html
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
-    SourceInfo : File
     DependsOn : '[xWebsite]DefaultSite'
