@@ -46,7 +46,7 @@ Describe 'static methods tests' -Tags 'Acceptance' {
 
         $Installed = Get-Childitem 'C:\Program Files\WindowsPowerShell\Modules' | Select -ExpandProperty Name
         $RequiredModules.Modulename | ForEach-Object {$Psitem -in $Installed} | Should be $true
-         
+
     }
 }
 
@@ -64,26 +64,26 @@ Describe 'vamp core' -Tags 'Acceptance' {
         It 'Should be able to generate new yml for localhost with multiple configs' {
 @'
 -  nodes:
-    name : 
+    name :
      - localhost
 
    configs:
-    name : 
+    name :
      - BasicExample
      - AnotherExample
      - MoreExamples
      - YetAnotherExample
-    
+
 '@ | Out-file .\vampspec.yml -Force
 
-{ ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw 
+{ ConvertFrom-Yaml -Path .\vampspec.yml } | Should not throw
   }
         It 'Should run vamp -prep correctly and download required modules' {
            { vamp -prep -verbose } | Should not throw
         }
     }
     Context 'vamp -prep output' { #needs to be rewritten to check version etc
-    $Current = Get-Module -ListAvailable 
+    $Current = Get-Module -ListAvailable
 
         It 'Should locate required modules downloaded by -prep | xWebAdministration' {
            $Current.Where{$Psitem.name -eq 'xWebAdministration'} | Should be $true
@@ -105,14 +105,14 @@ Describe 'vamp -generate output' {
         { vamp -generate -verbose } | Should not throw
         }
         It 'Should call vamp -generate correctly and generate .mof files' {
-        
+
         $spec = [Vamp]::ReadYaml("$pwd\vampspec.yml")
         $mofs = (Get-Childitem $pwd\configs\*.mof).Basename
         foreach ($item in $mofs)
         {
             $item -in $spec.nodes.name | Should be $true
-        } 
-           
+        }
+
         }
     }
 }
@@ -122,8 +122,6 @@ Describe 'vamp -apply output' {
 
         { vamp -apply -Verbose } | Should not throw
 
-        }  
+        }
     }
 }
-    
-

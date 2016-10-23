@@ -1,0 +1,21 @@
+-  nodes:
+    name :
+     - WIN-FileServer
+
+   configs:
+    name :
+     - BasicExample
+     - MoreExamples
+
+-  nodes:
+    name :
+     - WIN-WebServer0
+     - WIN-WebServer1
+
+   configs:
+    name :
+     - AnotherExample
+     - YetAnotherExample
+
+    lcm:
+      - autocorrect
