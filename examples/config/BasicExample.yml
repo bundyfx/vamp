@@ -1,8 +1,8 @@
 -  service:
     ResourceID : '[Service]bits'
-    name: bits
+    name: $servicename
     status: Running
-    ensure: present
+    ensure: $ensure
     SourceInfo : Service
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
@@ -11,7 +11,7 @@
     ResourceID : '[Service]W32Time'
     name: W32Time
     status: Stopped
-    ensure: present
+    ensure: $ensure
     SourceInfo : Service
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0

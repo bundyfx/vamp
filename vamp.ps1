@@ -159,6 +159,7 @@ foreach ($node in $nodename.Name){
                 'directory'   {"instance of MSFT_FileDirectoryConfiguration as `$MSFT_FileDirectoryConfiguration$($ref)ref"; break }
                 'file'        {"instance of MSFT_FileDirectoryConfiguration as `$MSFT_FileDirectoryConfiguration$($ref)ref"; break }
                 'feature'     {"instance of MSFT_RoleResource as `$MSFT_RoleResource$($ref)ref"; break }
+                'user'        {"instance of MSFT_UserResource as `$MSFT_UserResource$($ref)ref"; break }
                 'script'      {"instance of MSFT_ScriptResource as `$MSFT_ScriptResource$($ref)ref"; break }
                  $Psitem      {"instance of $PsItem as `$$($Psitem)$($ref)ref"; break}
                  default      {throw 'No header found for {0}' -f $Psitem}

@@ -9,6 +9,16 @@ A Powershell tool that allows Powershell DSC MOF files to be generated from yaml
 * edit the vampspec.yml file to contain your target nodes and config names
 * Import-Module .\vamp.psm1
 * run ```vamp -generate```
+* mof file output created in the mofs directory
+
+## Why?
+This tool was created as a simple way for developers familar with yaml to simply define server side configuration.
+
+In a traditional sense, DSC creates mof files that are used to instruct the Local Configuration Manager (LCM) to perform a set of actions.
+The way these mof files are currently created is via a configuration script (.ps1) and an associated configuration data file (.psd1). 
+This tool aims at simplifying the DSC experience by moving the logic of these two files into an easy to read and gloablly recognised format such as yaml.
+
+The yaml will be run against the vamp engine to create the mof that can be consumed by the LCM.
 
 ## Parameters
 

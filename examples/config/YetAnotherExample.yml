@@ -11,9 +11,9 @@
 -  xDSCFirewall:
     ResourceID : '[xDSCFirewall]PublicFirewall'
     Zone : Public
-    ensure: present
+    ensure: $ensure
     SourceInfo : xDSCFirewall
-    ModuleName : xDSCFirewall 
+    ModuleName : xDSCFirewall
     ModuleVersion : 1.0
     DependsOn : '[Service]WindowsFirewall'
 
@@ -22,7 +22,7 @@
     Zone : Domain
     ensure: absent
     SourceInfo : xDSCFirewall
-    ModuleName : xDSCFirewall 
+    ModuleName : xDSCFirewall
     ModuleVersion : 1.0
 
 -  xDSCFirewall:
@@ -30,7 +30,7 @@
     Zone : Private
     ensure: present
     SourceInfo : xDSCFirewall
-    ModuleName : xDSCFirewall 
+    ModuleName : xDSCFirewall
     ModuleVersion : 1.0
 
 -  MSFT_xPowerShellExecutionPolicy:

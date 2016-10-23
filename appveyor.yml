@@ -8,7 +8,7 @@ skip_commits:
 os: "WMF 5"
 
 services:
-  - iis
+  - iis 
 
 install:
   - ps: Install-PackageProvider Nuget -ForceBootstrap -Force
@@ -18,7 +18,7 @@ install:
   
 build: false
 
-version: '1.0.{build}'
+version: '0.1.{build}'
 
 before_test:
   - ps: Invoke-ScriptAnalyzer -Path .\tests\ -Recurse

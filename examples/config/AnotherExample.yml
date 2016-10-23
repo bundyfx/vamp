@@ -9,9 +9,9 @@
 -  feature:
     ResourceID : '[WindowsFeature]ASPnet45'
     name: Web-Asp-Net45
-    ensure: present
+    ensure: $ensure
     SourceInfo : WindowsFeature
-    ModuleName : PsDesiredStateConfiguration 
+    ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
 
 -  MSFT_xWebsite:
