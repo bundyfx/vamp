@@ -7,6 +7,7 @@ Class VampPrep
 
   static [PsCustomObject] FindModules ()
   {
+    return [PsCustomObject]
   }
 
   static [void] CopyModules($Nodes, $Modules)

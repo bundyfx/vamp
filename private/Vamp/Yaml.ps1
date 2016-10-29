@@ -4,7 +4,7 @@ Class Yaml {
     {
         try
         {
-            Import-Module $PSScriptRoot\private\PSYaml\PSYaml.psm1
+            Import-Module .\private\PSYaml\PSYaml.psm1
         }
         catch
         {

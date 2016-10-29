@@ -1,21 +1,19 @@
 -  nodes:
     name :
-     - WIN-FileServer
+     - Nano3
 
    configs:
     name :
      - BasicExample
-     - MoreExamples
 
 -  nodes:
     name :
-     - WIN-WebServer0
-     - WIN-WebServer1
+     - Nano1
+     - Nano2
 
    configs:
     name :
      - AnotherExample
-     - YetAnotherExample
 
     lcm:
       - autocorrect
