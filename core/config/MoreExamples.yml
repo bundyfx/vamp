@@ -1,4 +1,4 @@
--  service:
+-  MSFT_ServiceResource:
     ResourceID : '[Service]MPSSvc'
     name: MPSSvc
     ensure: $myawesomeconfig.ensure

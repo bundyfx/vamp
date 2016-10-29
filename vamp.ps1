@@ -1,4 +1,5 @@
-using module C:\git\vamp\private\Vamp\LCM.psm1
+using module .\private\Vamp\LCM.psm1
+using module .\private\Vamp\Mof.psm1
 #requires -RunAsAdministrator
 #requires -version 5.0
 
@@ -17,5 +18,6 @@ Function Main(){
     [LCM]::Generate()
 
     #Generate required mof files
+    [Mof]::Generate()
 
 }

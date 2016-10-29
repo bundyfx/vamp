@@ -28,6 +28,78 @@ Class Yaml
     }
 }
 
+Class Mof
+{
+  static [void] Generate([System.String]$TargetNode,
+                         [System.String]$Resource,
+                         [System.String]$ConfigurationName,
+                         [System.String]$Body
+                        )
+  {
+  $Mof = @'
+  /*
+  @TargetNode={0}
+  @GeneratedBy={1}
+  @GenerationDate={2}
+  @GenerationHost={3}
+  */
+  instance of {7} as {5}
+  {{
+  {6}
+  ConfigurationName = "{4}";
+  }};
+  instance of OMI_ConfigurationDocument
+  {{
+  Version="2.0.0";
+  MinimumCompatibleVersion = "1.0.0";
+  CompatibleVersionAdditionalProperties= {{"Omi_BaseResource:ConfigurationName"}};
+  Name="{4}";
+  }};
+'@ -f $TargetNode, $Env:USERNAME, [String](Get-Date -Format MM/dd/yyyy), $Env:COMPUTERNAME, $ConfigurationName, ("$" + $Resource + (Get-Random) + 'ref'), $Body, $Resource
+
+$Mof | Out-File $PSScriptRoot\output\$TargetNode.mof -Force
+  }
+
+
+  static [Void] ParseConfig()
+  {
+        #Importing the PSYaml module 
+        [Yaml]::Import()
+
+        #Read Specs and Config
+        $Resources = [YamlConversion]::Read("$($pwd.Path)\core\config\")
+        $Nodes = [YamlConversion]::Read("$($pwd.Path)\core\spec\")
+
+         #$Resources[0].feature | %{$_ -join '' -replace ';','";' -replace '=','="' -replace '^@{','' -replace '}$'}
+        foreach ($Node in $Nodes.nodes.name)
+        {
+            foreach ($Resource in $Resources)
+            {
+                [String]$Key = $Resource.keys
+                $ResourceString = ($Resource.$Key | ForEach-Object  {$PSItem -join '' -replace ';','";' -replace '=','="' -replace '^@{','' -replace '}$'})
+                [Mof]::Generate($node, 
+                                $Resource.keys, 
+                                ($nodes.where{$Psitem.nodes.name -eq $Node}.configs.name),
+                                $ResourceString
+                               )
+            }
+        }
+        
+  }
+
+}
+
+Class YamlConversion {
+
+    static [PsCustomObject] Read ([System.String[]]$Path) 
+    {
+        #Gather all spec files and read them
+        [Array]$Files += $Path.ForEach{ [System.IO.DirectoryInfo]::new($Psitem).EnumerateFiles() }
+        $Nodes = $Files.ForEach{ [Yaml]::Read($Psitem.Fullname) }
+
+        return $nodes
+    }
+}
 
 Class LCM {
 
@@ -36,12 +108,8 @@ Class LCM {
         #Importing the PSYaml module 
         [Yaml]::Import()
 
-        #Read Yaml for the desired role
-        [Array]$Paths = "$($pwd.Path)\core\spec\", "$($pwd.Path)\core\config\"
-
-        #Gather all spec files and read them
-        [Array]$Files += $Paths.ForEach{ [System.IO.DirectoryInfo]::new($Psitem).EnumerateFiles() }
-        $Nodes = $Files.Where{$Psitem -like '*.spec.yml'}.ForEach{ [Yaml]::Read($Psitem.Fullname) }
+        #Read Specs and Config
+        $Nodes = [YamlConversion]::Read("$($pwd.Path)\core\spec\")
 
         #Generate meta config for all required nodes
         foreach ($Node in $Nodes.nodes.name)
