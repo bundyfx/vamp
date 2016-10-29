@@ -1,12 +1,43 @@
-Class LCM {
-    
-    static [void] Generate () 
+Class Yaml 
+{
+
+    static [void] Import()
     {
-        #Importing the PSYaml module
+        try
+        {
+            Import-Module .\private\PSYaml\PSYaml.psm1
+        }
+        catch
+        {
+            throw 'Unable to Import PSYaml Module - Error: {0}' -f $Psitem
+        }
+    }
+
+    static [PsCustomObject] Read([System.String]$Path)
+    {
+        try
+        {
+
+            $Reader = ConvertFrom-Yaml -Path $Path -As Hash
+            return $Reader
+        }
+        catch
+        {
+            throw 'Unable to read Yaml - Error: {0} ' -f $Psitem
+        }
+    }
+}
+
+
+Class LCM {
+
+    static [void] Generate () 
+    {      
+        #Importing the PSYaml module 
         [Yaml]::Import()
 
         #Read Yaml for the desired role
-        [Array]$Paths = "$PSScriptRoot\core\spec\", "$PSScriptRoot\core\config\"
+        [Array]$Paths = "$($pwd.Path)\core\spec\", "$($pwd.Path)\core\config\"
 
         #Gather all spec files and read them
         [Array]$Files += $Paths.ForEach{ [System.IO.DirectoryInfo]::new($Psitem).EnumerateFiles() }
@@ -34,6 +65,7 @@ Class LCM {
                 }
             }
            LCM -OutputPath .\output
+           Write-Verbose "Meta.mof created for $node"
         }
     }
 }

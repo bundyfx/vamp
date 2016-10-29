@@ -1,10 +1,10 @@
 Class Mof
 {
-  static [void] Create([System.String]$TargetNode,
-                       [System.String]$Resource,
-                       [System.String]$ConfigurationName,
-                       [System.String]$Body
-                      )
+  static [void] Generate([System.String]$TargetNode,
+                         [System.String]$Resource,
+                         [System.String]$ConfigurationName,
+                         [System.String]$Body
+                        )
   {
   $Mof = @'
   /*
@@ -27,7 +27,7 @@ Class Mof
   }};
 '@ -f $TargetNode, $Env:USERNAME, [String](Get-Date -Format MM/dd/yyyy), $Env:COMPUTERNAME, $ConfigurationName, ("$" + $Resource + (Get-Random) + 'ref'), $Body, $Resource
 
-$Mof | Out-File C:\temp\mof.mof -Force
+$Mof | Out-File $PSScriptRoot\output -Force
   }
 
 }
