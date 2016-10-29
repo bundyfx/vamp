@@ -28,13 +28,27 @@ Class Yaml
     }
 }
 
-Class Mof
+Class MOF
 {
-  static [void] Generate([System.String]$TargetNode,
-                         [System.String]$Resource,
-                         [System.String]$ConfigurationName,
-                         [System.String]$Body
-                        )
+  static [void] Apply()
+  {
+      try
+      {
+         Publish-DscConfiguration -Path .\output -Verbose
+         Start-DscConfiguration -UseExisting -Wait -Force
+      }
+      catch
+      {
+         throw 'Error: {0}' -f $Psitem
+      } 
+  
+  }
+
+  static [void] ParseConfig([System.String]$TargetNode,
+                            [System.String]$Resource,
+                            [System.String]$ConfigurationName,
+                            [System.String]$Body
+                           )
   {
   $Mof = @'
   /*
@@ -45,7 +59,7 @@ Class Mof
   */
   instance of {7} as {5}
   {{
-  {6}
+  {6}";
   ConfigurationName = "{4}";
   }};
   instance of OMI_ConfigurationDocument
@@ -57,11 +71,11 @@ Class Mof
   }};
 '@ -f $TargetNode, $Env:USERNAME, [String](Get-Date -Format MM/dd/yyyy), $Env:COMPUTERNAME, $ConfigurationName, ("$" + $Resource + (Get-Random) + 'ref'), $Body, $Resource
 
-$Mof | Out-File $PSScriptRoot\output\$TargetNode.mof -Force
+$Mof | Out-File "$($PWD.Path)\output\$TargetNode.mof" -Force
   }
 
 
-  static [Void] ParseConfig()
+  static [Void] Generate()
   {
         #Importing the PSYaml module 
         [Yaml]::Import()
@@ -70,18 +84,17 @@ $Mof | Out-File $PSScriptRoot\output\$TargetNode.mof -Force
         $Resources = [YamlConversion]::Read("$($pwd.Path)\core\config\")
         $Nodes = [YamlConversion]::Read("$($pwd.Path)\core\spec\")
 
-         #$Resources[0].feature | %{$_ -join '' -replace ';','";' -replace '=','="' -replace '^@{','' -replace '}$'}
         foreach ($Node in $Nodes.nodes.name)
         {
             foreach ($Resource in $Resources)
             {
                 [String]$Key = $Resource.keys
-                $ResourceString = ($Resource.$Key | ForEach-Object  {$PSItem -join '' -replace ';','";' -replace '=','="' -replace '^@{','' -replace '}$'})
-                [Mof]::Generate($node, 
-                                $Resource.keys, 
-                                ($nodes.where{$Psitem.nodes.name -eq $Node}.configs.name),
-                                $ResourceString
-                               )
+                $ResourceString = ($Resource.$Key | ForEach-Object {$PSItem -join ''  -replace '=','="' -replace '^@{','' -replace '}$' -replace ';','";'})
+                [Mof]::ParseConfig($node, 
+                                   $Resource.keys, 
+                                   ($nodes.where{$Psitem.nodes.name -eq $Node}.configs.name),
+                                   $ResourceString
+                                  )
             }
         }
         
@@ -89,7 +102,8 @@ $Mof | Out-File $PSScriptRoot\output\$TargetNode.mof -Force
 
 }
 
-Class YamlConversion {
+Class YamlConversion 
+{
 
     static [PsCustomObject] Read ([System.String[]]$Path) 
     {
@@ -101,7 +115,20 @@ Class YamlConversion {
     }
 }
 
-Class LCM {
+Class LCM 
+{
+    static [void] Apply([System.String]$Node)
+    {
+        try 
+        {
+            Set-DscLocalConfigurationManager -Path .\output -Verbose -ComputerName $Node
+        }
+        catch [Exception]
+        {
+            throw 'Error: {0}' -f $Psitem
+        }
+    
+    }
 
     static [void] Generate () 
     {      
@@ -134,6 +161,9 @@ Class LCM {
             }
            LCM -OutputPath .\output
            Write-Verbose "Meta.mof created for $node"
+           [LCM]::Apply($node)
+           
         }
+
     }
 }

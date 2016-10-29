@@ -1,7 +1,7 @@
 -  MSFT_ServiceResource:
     ResourceID : '[Service]MPSSvc'
     name: MPSSvc
-    ensure: $myawesomeconfig.ensure
+    ensure: Present
     state : Running
     StartupType : Automatic
     ModuleName : PsDesiredStateConfiguration

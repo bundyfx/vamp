@@ -1,9 +1,8 @@
 -  nodes:
     name :
-     - Nano3
+     - localhost
 
    configs:
     name :
      - MoreExamples
-
-
+     - AnotherExample
