@@ -114,8 +114,7 @@ Class MOF
                 [MOF]::GenerateTail($Node, $File.BaseName)
 
                 Publish-DscConfiguration .\output -ComputerName $Node -Verbose
-                break
-                #Remove-Item (Join-Path .\output\ -ChildPath "$Node`.mof") -Force
+                Remove-Item (Join-Path .\output\ -ChildPath "$Node`.mof") -Force
             }                           
         }      
     }
