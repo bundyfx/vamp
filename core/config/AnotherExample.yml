@@ -15,9 +15,10 @@
     SourceInfo : Service
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
-    DependsOn : '[Service]bits'
+    DependsOn :
+      - '[Service]bits'
 
--  MSFT_FileResource:
+-  MSFT_FileDirectoryConfiguration:
     ResourceID : '[File]myfile'
     Type: File
     Contents : 'Hello world'

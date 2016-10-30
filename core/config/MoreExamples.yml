@@ -6,3 +6,15 @@
     StartupType : Automatic
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
+
+-  MSFT_FileDirectoryConfiguration:
+    ResourceID : '[File]myfile'
+    Type: File
+    Contents : 'Hello world'
+    ensure: present
+    DestinationPath: C:\\temp\\docker\\test.txt
+    ModuleName : PsDesiredStateConfiguration
+    ModuleVersion : 1.0
+    SourceInfo : File
+    DependsOn :
+      - '[Service]MPSSvc'

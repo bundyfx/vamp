@@ -95,12 +95,17 @@ Class MOF
             $Configs = [Yaml]::Read($File.Fullname)     
             foreach($Node in $Nodes.nodes.name)
             {
-                [MOF]::GenerateHeader($Node)
-                
+                [MOF]::GenerateHeader($Node)           
                 foreach ($Item in $Configs)
                 {
                     [String]$Key = $Item.keys
-                    $Body = ($Item.$Key | ForEach-Object  {$PSItem -join '' -replace ';','";' -replace '=','="' -replace '^@{','' -replace '}$','"'})
+                    $Body = ($Item.$Key | ForEach-Object {$PSItem -join '' `
+                                                                  -replace ';','";' `
+                                                                  -replace '=','="' `
+                                                                  -replace '^@{','' `
+                                                                  -replace '}$','"' `
+                                                                  }) -replace '(?<=DependsOn=).*(?="\[)','{' `
+                                                                     -replace '(?<=DependsOn={.*);(?=\s)' , '}'
                 
                     [MOF]::GenerateBody($Node, $Key, $File.BaseName, $Body)
                 }
@@ -108,11 +113,11 @@ Class MOF
                 [MOF]::GenerateTail($Node, $File.BaseName)
 
                 Publish-DscConfiguration .\output -ComputerName $Node -Verbose
-                Remove-Item (Join-Path .\output\ -ChildPath "$Node`.mof") -Force
+                break
+                #Remove-Item (Join-Path .\output\ -ChildPath "$Node`.mof") -Force
             }                           
         }      
-  }
-
+    }
 }
 
 Class LCM 
