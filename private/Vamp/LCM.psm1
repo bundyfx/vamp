@@ -34,7 +34,6 @@ Class MOF
   {
       try
       {
-         Publish-DscConfiguration -Path .\output -Verbose
          Start-DscConfiguration -UseExisting -Wait -Force
       }
       catch
@@ -43,76 +42,77 @@ Class MOF
       } 
   
   }
-
-  static [void] ParseConfig([System.String]$TargetNode,
-                            [System.String]$Resource,
-                            [System.String]$ConfigurationName,
-                            [System.String]$Body
-                           )
+  static [void] GenerateHeader([System.String]$TargetNode)
   {
-  $Mof = @'
+  $MofHead = @'
   /*
-  @TargetNode={0}
-  @GeneratedBy={1}
-  @GenerationDate={2}
-  @GenerationHost={3}
+  @GeneratedBy={0}
+  @GenerationDate={1}
+  @GenerationHost={2}
   */
-  instance of {7} as {5}
+'@ -f $Env:USERNAME, [String](Get-Date -Format MM/dd/yyyy), $Env:COMPUTERNAME | Out-File .\output\$Targetnode.mof -Force
+   }
+  static [void] GenerateBody([System.String]$TargetNode,
+                             [System.String]$Resource,
+                             [System.String]$ConfigurationName,
+                             [System.String]$Body)
+  {
+  $MofBody = @'
+  instance of {0} as {1}
   {{
-  {6}";
-  ConfigurationName = "{4}";
+  {2};
+  ConfigurationName = "{3}";
   }};
+'@ -f $Resource, ("$" + $Resource + (Get-Random) + 'ref'), $Body, $ConfigurationName | Out-File .\output\$Targetnode.mof -Force -Append
+   }
+  static [void] GenerateTail([System.String]$TargetNode, [System.String]$ConfigurationName)
+  {
+  $MofTail = @'
   instance of OMI_ConfigurationDocument
   {{
   Version="2.0.0";
   MinimumCompatibleVersion = "1.0.0";
   CompatibleVersionAdditionalProperties= {{"Omi_BaseResource:ConfigurationName"}};
-  Name="{4}";
+  Name="{0}";
   }};
-'@ -f $TargetNode, $Env:USERNAME, [String](Get-Date -Format MM/dd/yyyy), $Env:COMPUTERNAME, $ConfigurationName, ("$" + $Resource + (Get-Random) + 'ref'), $Body, $Resource
+'@ -f $ConfigurationName | Out-File .\output\$Targetnode.mof -Force -Append
 
-$Mof | Out-File "$($PWD.Path)\output\$TargetNode.mof" -Force
   }
-
-
-  static [Void] Generate()
+  static [Void] Compile()
   {
         #Importing the PSYaml module 
         [Yaml]::Import()
 
-        #Read Specs and Config
-        $Resources = [YamlConversion]::Read("$($pwd.Path)\core\config\")
-        $Nodes = [YamlConversion]::Read("$($pwd.Path)\core\spec\")
+        $SpecFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\core\spec\").EnumerateFiles()
+        $ConfigFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\core\config\").EnumerateFiles()
 
-        foreach ($Node in $Nodes.nodes.name)
+        [Array]$Nodes += foreach ($File in $SpecFiles)
         {
-            foreach ($Resource in $Resources)
-            {
-                [String]$Key = $Resource.keys
-                $ResourceString = ($Resource.$Key | ForEach-Object {$PSItem -join ''  -replace '=','="' -replace '^@{','' -replace '}$' -replace ';','";'})
-                [Mof]::ParseConfig($node, 
-                                   $Resource.keys, 
-                                   ($nodes.where{$Psitem.nodes.name -eq $Node}.configs.name),
-                                   $ResourceString
-                                  )
-            }
+            [Yaml]::Read($File.Fullname)       
         }
-        
+        foreach ($File in $ConfigFiles)
+        {
+            $Configs = [Yaml]::Read($File.Fullname)     
+            foreach($Node in $Nodes.nodes.name)
+            {
+                [MOF]::GenerateHeader($Node)
+                
+                foreach ($Item in $Configs)
+                {
+                    [String]$Key = $Item.keys
+                    $Body = ($Item.$Key | ForEach-Object  {$PSItem -join '' -replace ';','";' -replace '=','="' -replace '^@{','' -replace '}$','"'})
+                
+                    [MOF]::GenerateBody($Node, $Key, $File.BaseName, $Body)
+                }
+                
+                [MOF]::GenerateTail($Node, $File.BaseName)
+
+                Publish-DscConfiguration .\output -ComputerName $Node -Verbose
+                Remove-Item (Join-Path .\output\ -ChildPath "$Node`.mof") -Force
+            }                           
+        }      
   }
 
-}
-
-Class YamlConversion 
-{
-
-    static [PsCustomObject] Read ([System.String[]]$Path) 
-    {
-        #Gather all spec files and read them
-        [Array]$Files += $Path.ForEach{ [System.IO.DirectoryInfo]::new($Psitem).EnumerateFiles() }
-        $Nodes = $Files.ForEach{ [Yaml]::Read($Psitem.Fullname) }
-
-        return $nodes
-    }
 }
 
 Class LCM 
@@ -135,8 +135,12 @@ Class LCM
         #Importing the PSYaml module 
         [Yaml]::Import()
 
-        #Read Specs and Config
-        $Nodes = [YamlConversion]::Read("$($pwd.Path)\core\spec\")
+        $SpecFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\core\spec\").EnumerateFiles()
+
+        [Array]$Nodes += foreach ($File in $SpecFiles)
+        {
+            [Yaml]::Read($File.Fullname)       
+        }
 
         #Generate meta config for all required nodes
         foreach ($Node in $Nodes.nodes.name)

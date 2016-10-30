@@ -10,7 +10,10 @@ Function Main(){
     #Generate and Apply required meta.mof files
     [LCM]::Generate()
 
-    [MOF]::Generate()
+    #Generate Mofs
+    [MOF]::Compile()
+
+    #Apply
     [MOF]::Apply()
       
 }
