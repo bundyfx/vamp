@@ -104,8 +104,9 @@ Class MOF
                                                                   -replace '=','="' `
                                                                   -replace '^@{','' `
                                                                   -replace '}$','"' `
-                                                                  }) -replace '(?<=DependsOn=).*(?="\[)','{' `
-                                                                     -replace '(?<=DependsOn={.*);(?=\s)' , '}'
+                                                                  -replace '(?<=DependsOn=).*(?="\[)','{' `
+                                                                  -replace '((?<=DependsOn={).*?(?=;))' , '$1}'
+                                                                  } )
                 
                     [MOF]::GenerateBody($Node, $Key, $File.BaseName, $Body)
                 }
