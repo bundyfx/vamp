@@ -5,7 +5,7 @@ Class Yaml
     {
         try
         {
-            Import-Module .\private\PSYaml\PSYaml.psm1
+            Import-Module .\private\PSYaml\PSYaml.psm1 | Out-Null
         }
         catch
         {
@@ -75,7 +75,7 @@ Class MOF
   CompatibleVersionAdditionalProperties= {{"Omi_BaseResource:ConfigurationName"}};
   Name="{0}";
   }};
-'@ -f $ConfigurationName | Out-File .\output\$Targetnode.mof -Force -Append
+'@ -f $ConfigurationName | Out-File .\output\$Targetnode.mof -Force -Append 
 
   }
   static [Void] Compile()
