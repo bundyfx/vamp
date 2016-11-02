@@ -27,7 +27,7 @@ Param(
     {
         $Nodes = [VampPrep]::Nodes()
         Write-Output $Nodes
-        $Nodes | ForEach-Object {if (Test-Connection $Psitem -Quiet -Count 1){
+        $Nodes | ForEach-Object {if (Test-Connection $Psitem -Quiet -Count 1)
           Write-Host "Node $PSItem is online" -foreground 'Green'
         }
         else
