@@ -34,7 +34,7 @@ Class MOF
   {
       try
       {
-         Start-DscConfiguration -cimsession @($Nodes) -UseExisting -Wait -Force
+         Start-DscConfiguration -CimSession $Nodes -UseExisting -Wait -Force
       }
       catch
       {
@@ -167,7 +167,7 @@ Class LCM
             }
            LCM -OutputPath .\output
            Write-Verbose "Meta.mof created for $node"
-           [LCM]::Apply($node)
+           [LCM]::Apply()
 
         }
 

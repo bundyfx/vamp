@@ -20,6 +20,7 @@ Param(
      )
 
     $ErrorActionPreference = 'Stop'
+    $Nodes = [VampPrep]::Nodes()
 
     #Import All private data
     (Get-Childitem .\private\PSYaml\PSYaml.psm1, .\private\Vamp).FullName | Import-Module -Verbose
@@ -28,7 +29,7 @@ Param(
         $Nodes = [VampPrep]::Nodes()
         Write-Output $Nodes
         $Nodes | ForEach-Object {
-        if (Test-Connection $Psitem -Quiet -Count 1)
+        if ([Bool](Test-WSMan $Psitem -ea 4))
         {
           Write-Host "Node $PSItem is online" -foreground 'Green'
         }
@@ -39,9 +40,7 @@ Param(
     }
     }
     if ($prep -eq $true)
-    {
-        $Nodes = [VampPrep]::Nodes()
-        Write-Output $Nodes
+    {      
         [VampPrep]::BootstrapNuget()
 
         $ToDownload = [VampPrep]::FindModules()
@@ -52,10 +51,13 @@ Param(
         Write-Output 'Prep complete'
     }
 
-    if ($apply -eq $true)
+    if ($generate -eq $true)
     {
         [LCM]::Generate()
         [MOF]::Compile()
+    }
+    if ($apply -eq $true)
+    {
         [MOF]::Apply($Nodes)
     }
 }
