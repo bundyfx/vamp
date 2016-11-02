@@ -27,7 +27,6 @@ Param(
     if ($testall -eq $true)
     {
         $Nodes = [VampPrep]::Nodes()
-        Write-Output $Nodes
         $Nodes | ForEach-Object {
         if ([Bool](Test-WSMan $Psitem -ea 4))
         {

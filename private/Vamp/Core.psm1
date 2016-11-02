@@ -167,7 +167,7 @@ Class LCM
             }
            LCM -OutputPath .\output
            Write-Verbose "Meta.mof created for $node"
-           [LCM]::Apply()
+           [LCM]::Apply($node)
 
         }
 
