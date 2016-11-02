@@ -10,7 +10,7 @@ Function vamp(){
 Param(
      [AllowNull()]
      [Switch]$prep,
-     
+
      [AllowNull()]
      [Switch]$apply
      )
@@ -19,9 +19,10 @@ Param(
 
     #Import All private data
     (Get-Childitem .\private\PSYaml\PSYaml.psm1, .\private\Vamp).FullName | Import-Module -Verbose
-    if ($prep -eq $true) 
-    { 
+    if ($prep -eq $true)
+    {
         $Nodes = [VampPrep]::Nodes()
+        Write-Output $Nodes
         [VampPrep]::BootstrapNuget()
 
         $ToDownload = [VampPrep]::FindModules()
@@ -30,9 +31,9 @@ Param(
         [VampPrep]::CopyModules($nodes, $ToDownload)
         Write-Output 'Prep complete'
     }
-    
-    if ($apply -eq $true) 
-    { 
+
+    if ($apply -eq $true)
+    {
         [LCM]::Generate()
         [MOF]::Compile()
         [MOF]::Apply()

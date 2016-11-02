@@ -1,4 +1,4 @@
-Class Yaml 
+Class Yaml
 {
 
     static [void] Import()
@@ -39,8 +39,8 @@ Class MOF
       catch
       {
          throw 'Error: {0}' -f $Psitem
-      } 
-  
+      }
+
   }
   static [void] GenerateHeader([System.String]$TargetNode)
   {
@@ -80,7 +80,7 @@ Class MOF
   }
   static [Void] Compile()
   {
-        #Importing the PSYaml module 
+        #Importing the PSYaml module
         [Yaml]::Import()
 
         $SpecFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\core\spec\").EnumerateFiles()
@@ -88,14 +88,14 @@ Class MOF
 
         [Array]$Nodes += foreach ($File in $SpecFiles)
         {
-            [Yaml]::Read($File.Fullname)       
+            [Yaml]::Read($File.Fullname)
         }
         foreach ($File in $ConfigFiles)
         {
-            $Configs = [Yaml]::Read($File.Fullname)     
+            $Configs = [Yaml]::Read($File.Fullname)
             foreach($Node in $Nodes.nodes.name)
             {
-                [MOF]::GenerateHeader($Node)           
+                [MOF]::GenerateHeader($Node)
                 foreach ($Item in $Configs)
                 {
                     [String]$Key = $Item.keys
@@ -104,24 +104,24 @@ Class MOF
                                                                   -replace '^@{','' `
                                                                   -replace '}$','"' `
                                                                   -replace '((?<=DependsOn=).*?(?=;))' , '{$1}'
-                
+
                     [MOF]::GenerateBody($Node, $Key, $File.BaseName, $Body)
                 }
-                
+
                 [MOF]::GenerateTail($Node, $File.BaseName)
 
                 Publish-DscConfiguration .\output -ComputerName $Node -Verbose
                 Remove-Item (Join-Path .\output\ -ChildPath "$Node`.mof") -Force
-            }                           
-        }      
+            }
+        }
     }
 }
 
-Class LCM 
+Class LCM
 {
     static [void] Apply([System.String]$Node)
     {
-        try 
+        try
         {
             Set-DscLocalConfigurationManager -Path .\output -Verbose -ComputerName $Node
         }
@@ -129,19 +129,19 @@ Class LCM
         {
             throw 'Error: {0}' -f $Psitem
         }
-    
+
     }
 
-    static [void] Generate () 
-    {      
-        #Importing the PSYaml module 
+    static [void] Generate ()
+    {
+        #Importing the PSYaml module
         [Yaml]::Import()
 
         $SpecFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\core\spec\").EnumerateFiles()
 
         [Array]$Nodes += foreach ($File in $SpecFiles)
         {
-            [Yaml]::Read($File.Fullname)       
+            [Yaml]::Read($File.Fullname)
         }
 
         #Generate meta config for all required nodes
@@ -161,14 +161,14 @@ Class LCM
                         {
                             RefreshMode = 'Push'
                             Description = 'Vamp Partial Config: {0}' -f $Config
-                        }            
+                        }
                     }
                 }
             }
            LCM -OutputPath .\output
            Write-Verbose "Meta.mof created for $node"
            [LCM]::Apply($node)
-           
+
         }
 
     }

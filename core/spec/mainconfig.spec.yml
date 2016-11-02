@@ -1,0 +1,19 @@
+-  nodes:
+    name :
+     - localhost
+
+   configs:
+    name :
+     - Example
+     - AnotherExample
+     - Firewall_Example
+
+-  nodes:
+    name :
+     - WIN-GCITRKQHFCQ
+     - 192.168.137.96
+
+   configs:
+    name :
+     - WebServer
+     - Firewall_Example
