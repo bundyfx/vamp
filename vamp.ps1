@@ -16,6 +16,9 @@ Param(
      [Switch]$prep,
 
      [AllowNull()]
+     [Switch]$generate,
+
+     [AllowNull()]
      [Switch]$apply
      )
 
@@ -52,7 +55,6 @@ Param(
 
     if ($generate -eq $true)
     {
-        [LCM]::Generate()
         [MOF]::Compile()
     }
     if ($apply -eq $true)
