@@ -10,7 +10,7 @@
 
 -  nodes:
     name :
-     - WIN-GCITRKQHFCQ
+     - 192.168.137.92
      - 192.168.137.96
 
    configs:

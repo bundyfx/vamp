@@ -30,11 +30,11 @@ Class Yaml
 
 Class MOF
 {
-  static [void] Apply()
+  static [void] Apply($Nodes)
   {
       try
       {
-         Start-DscConfiguration -UseExisting -Wait -Force
+         Start-DscConfiguration -cimsession @($Nodes) -UseExisting -Wait -Force
       }
       catch
       {
