@@ -1,12 +1,3 @@
--  MSFT_ServiceResource:
-    ResourceID : '[Service]MPSSvc'
-    name: MPSSvc
-    ensure: Present
-    state : Running
-    StartupType : Automatic
-    ModuleName : PsDesiredStateConfiguration
-    ModuleVersion : 1.0
-
 -  MSFT_FileDirectoryConfiguration:
     ResourceID : '[File]myfile'
     Type: File
@@ -15,6 +6,3 @@
     DestinationPath: C:\\temp\\docker\\test.txt
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
-    SourceInfo : File
-    DependsOn :
-      - '[Service]MPSSvc'
