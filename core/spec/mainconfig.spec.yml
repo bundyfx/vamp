@@ -5,7 +5,7 @@
    configs:
     name :
      - Example
-     - AnotherExample
+     - MoreExamples
      - Firewall_Example
 
 -  nodes:
