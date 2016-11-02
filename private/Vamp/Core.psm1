@@ -75,7 +75,7 @@ Class MOF
   CompatibleVersionAdditionalProperties= {{"Omi_BaseResource:ConfigurationName"}};
   Name="{0}";
   }};
-'@ -f $ConfigurationName | Out-File .\output\$Targetnode.mof -Force -Append 
+'@ -f $ConfigurationName | Out-File .\output\$Targetnode.mof -Force -Append
 
   }
   static [Void] Compile()
@@ -110,8 +110,8 @@ Class MOF
 
                 [MOF]::GenerateTail($Node, $File.BaseName)
 
-                Publish-DscConfiguration .\output -ComputerName $Node -Verbose
-                Remove-Item (Join-Path .\output\ -ChildPath "$Node`.mof") -Force
+                Publish-DscConfiguration .\output -ComputerName $Node -Verbose -Force -ea 4
+                Remove-Item (Get-Childitem .\output) -Force
             }
         }
     }
