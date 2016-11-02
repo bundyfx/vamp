@@ -30,6 +30,7 @@ Param(
         [VampPrep]::DownloadModules($ToDownload)
 
         [VampPrep]::CopyModules($nodes, $ToDownload)
+        [LCM]::Generate()
         Write-Output 'Prep complete'
     }
 
