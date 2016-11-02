@@ -8,7 +8,7 @@ Class VampPrep
 
         [Array]$Nodes += foreach ($File in $SpecFiles)
         {
-            [Yaml]::Read($File.Fullname)       
+            ConvertFrom-Yaml -Path $File.Fullname    
         }
         return $Nodes.nodes.name
     }
