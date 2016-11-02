@@ -1,4 +1,5 @@
-using module .\private\Vamp\LCM.psm1
+using module .\private\Vamp\core.psm1
+using module .\private\Vamp\prep.psm1
 #requires -RunAsAdministrator
 #requires -version 5.0
 
