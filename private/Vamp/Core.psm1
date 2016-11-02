@@ -110,7 +110,7 @@ Class MOF
 
                 [MOF]::GenerateTail($Node, $File.BaseName)
 
-                Publish-DscConfiguration .\output -ComputerName $Node -Verbose -Force -ea 4
+                Publish-DscConfiguration .\output -Verbose -Force
                 Remove-Item (Get-Childitem .\output) -Force
             }
         }
