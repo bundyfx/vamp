@@ -11,6 +11,7 @@ Class VampPrep
             ConvertFrom-Yaml -Path $File.Fullname    
         }
         return $Nodes.nodes.name
+
     }
 
     static [void] BootstrapNuget ()

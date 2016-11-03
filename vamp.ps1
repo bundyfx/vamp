@@ -26,7 +26,7 @@ Param(
     $Nodes = [VampPrep]::Nodes()
 
     #Import All private data
-    (Get-Childitem .\private\PSYaml\PSYaml.psm1, .\private\Vamp).FullName | Import-Module -Verbose
+    (Get-Childitem .\private\PSYaml\PSYaml.psm1, .\private\Vamp).FullName | Import-Module
     if ($testall -eq $true)
     {
         $Nodes = [VampPrep]::Nodes()

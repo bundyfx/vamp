@@ -96,7 +96,7 @@ Class MOF
             foreach($Node in $Nodes.nodes.name)
             {
                 [MOF]::GenerateHeader($Node)
-                foreach ($Item in $Configs)
+                foreach ($Item in $Configs.Where{$Psitem.nodes.name -eq $Node})
                 {
                     [String]$Key = $Item.keys
                     $Body = ($Item.$Key | ForEach-Object {$PSItem -join '' } ) -replace ';','";' `
