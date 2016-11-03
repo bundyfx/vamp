@@ -13,7 +13,6 @@
     ensure: present
     ModuleName : xDSCFirewall
     ModuleVersion : 1.0
-    DependsOn : '[Service]WindowsFirewall'
 
 -  xDSCFirewall:
     ResourceID : '[xDSCFirewall]DomainFirewall'
@@ -34,4 +33,3 @@
     ModuleName : xPowerShellExecutionPolicy
     ModuleVersion : 1.1.0.0
     ExecutionPolicy : Unrestricted
-    DependsOn : '[xDSCFirewall]PrivateFirewall'
