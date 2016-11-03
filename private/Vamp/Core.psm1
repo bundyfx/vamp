@@ -34,7 +34,7 @@ Class MOF
   {
       try
       {
-         Start-DscConfiguration -CimSession $Nodes -UseExisting -Wait -Force
+         Start-DscConfiguration -CimSession $Nodes -UseExisting -Wait -Force -Verbose
       }
       catch
       {
@@ -112,7 +112,7 @@ Class MOF
                                                                       -replace '((?<=DependsOn=).*?(?=;))' , '{$1}'
 
                         [MOF]::GenerateBody($Node, $Key, $File.BaseName, $Body)
-                    
+
 
                     [MOF]::GenerateTail($Node, $File.BaseName)
 
