@@ -42,7 +42,8 @@ Param(
     }
     }
     if ($prep -eq $true)
-    {      
+    {
+        Write-Output "Prep Started"      
         [VampPrep]::BootstrapNuget()
 
         $ToDownload = [VampPrep]::FindModules()

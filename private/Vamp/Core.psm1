@@ -93,25 +93,33 @@ Class MOF
         foreach ($File in $ConfigFiles)
         {
             $Configs = [Yaml]::Read($File.Fullname)
+
             foreach($Node in $Nodes.nodes.name)
             {
-                [MOF]::GenerateHeader($Node)
-                foreach ($Item in $Configs.Where{$Psitem.nodes.name -eq $Node})
+                if ($file.BaseName -in $Nodes.where{$Psitem.nodes.name -eq $Node}.configs.name)
                 {
-                    [String]$Key = $Item.keys
-                    $Body = ($Item.$Key | ForEach-Object {$PSItem -join '' } ) -replace ';','";' `
-                                                                  -replace '=','="' `
-                                                                  -replace '^@{','' `
-                                                                  -replace '}$','"' `
-                                                                  -replace '((?<=DependsOn=).*?(?=;))' , '{$1}'
-
-                    [MOF]::GenerateBody($Node, $Key, $File.BaseName, $Body)
+                    [MOF]::GenerateHeader($Node)
                 }
+                foreach ($Item in $Configs)
+                {
+                    if ($file.BaseName -in $Nodes.where{$Psitem.nodes.name -eq $Node}.configs.name)
+                    {
+                        [String]$Key = $Item.keys
+                        $Body = ($Item.$Key | ForEach-Object {$PSItem -join '' }) -replace ';','";' `
+                                                                      -replace '=','="' `
+                                                                      -replace '^@{','' `
+                                                                      -replace '}$','"' `
+                                                                      -replace '((?<=DependsOn=).*?(?=;))' , '{$1}'
 
-                [MOF]::GenerateTail($Node, $File.BaseName)
+                        [MOF]::GenerateBody($Node, $Key, $File.BaseName, $Body)
+                    
 
-                Publish-DscConfiguration .\output -Verbose -Force
-                Remove-Item (Get-Childitem .\output) -Force
+                    [MOF]::GenerateTail($Node, $File.BaseName)
+
+                    Publish-DscConfiguration .\output -Verbose -Force
+                    Remove-Item (Join-Path .\output -ChildPath $Node`.mof) -Force
+                    }
+                }
             }
         }
     }
