@@ -1,0 +1,1 @@
+### Need to create a ton of tests here that actually use vamp to apply config to the appveyor VM

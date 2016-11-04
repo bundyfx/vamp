@@ -44,7 +44,7 @@ Class MOF
   }
   static [void] GenerateHeader([System.String]$TargetNode)
   {
-  $MofHead = @'
+  @'
   /*
   @GeneratedBy={0}
   @GenerationDate={1}
@@ -57,7 +57,7 @@ Class MOF
                              [System.String]$ConfigurationName,
                              [System.String]$Body)
   {
-  $MofBody = @'
+  @'
   instance of {0} as {1}
   {{
   {2};
@@ -67,7 +67,7 @@ Class MOF
    }
   static [void] GenerateTail([System.String]$TargetNode, [System.String]$ConfigurationName)
   {
-  $MofTail = @'
+  @'
   instance of OMI_ConfigurationDocument
   {{
   Version="2.0.0";
