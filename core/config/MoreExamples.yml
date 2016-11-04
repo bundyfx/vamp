@@ -3,6 +3,6 @@
     Type: File
     Contents : 'Hello world'
     ensure: present
-    DestinationPath: C:\\temp\\docker\\test.txt
+    DestinationPath: C:\\temp\\test.txt
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0

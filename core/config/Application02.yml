@@ -1,0 +1,6 @@
+-  MSFT_RoleResource:
+    ResourceID : '[WindowsFeature]webserver'
+    name: Web-Server
+    ensure: present
+    ModuleName : PsDesiredStateConfiguration
+    ModuleVersion : 1.0
