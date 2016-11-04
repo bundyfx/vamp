@@ -8,12 +8,12 @@
      - MoreExamples
      - Firewall_Example
 
--  nodes:
-    name :
-     - 192.168.137.92
-     - 192.168.137.96
-
-   configs:
-    name :
-     - WebServer
-     - Firewall_Example
+#-  nodes:
+#    name :
+#     - 192.168.137.92
+#     - 192.168.137.96
+#
+#   configs:
+#    name :
+#     - WebServer
+#     - Firewall_Example

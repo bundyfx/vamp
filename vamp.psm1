@@ -87,11 +87,11 @@ Param(
         {
             if ([Bool](Test-WSMan $Node -ErrorAction SilentlyContinue))
             {
-              Write-Output "Node $Node is online" -foreground 'Green'
+              Write-Output "Node $Node is online" 
             }
             else
             {
-              Write-Output "Node $Node is offline" -foreground 'Red'
+              Write-Output "Node $Node is OFFLINE" 
             }
         }
     }

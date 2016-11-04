@@ -1,5 +1,5 @@
 -  MSFT_FileDirectoryConfiguration:
-    ResourceID : '[File]myfile'
+    ResourceID : '[File]ATextFile'
     Type: File
     Contents : 'Hello world'
     ensure: present

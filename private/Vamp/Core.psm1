@@ -21,7 +21,7 @@ Class Yaml
             $Reader = ConvertFrom-Yaml -Path $Path -As Hash
             return $Reader
         }
-        catch
+        catch [System.Management.Automation.RuntimeException]
         {
             throw 'Unable to read Yaml - Error: {0} ' -f $Psitem
         }
@@ -99,26 +99,27 @@ Class MOF
                 if ($file.BaseName -in $Nodes.where{$Psitem.nodes.name -eq $Node}.configs.name)
                 {
                     [MOF]::GenerateHeader($Node)
-                }
-                foreach ($Item in $Configs)
-                {
-                    if ($file.BaseName -in $Nodes.where{$Psitem.nodes.name -eq $Node}.configs.name)
+                
+                    foreach ($Item in $Configs)
                     {
-                        [String]$Key = $Item.keys
-                        $Body = ($Item.$Key | ForEach-Object {$PSItem -join '' }) -replace ';','";' `
-                                                                      -replace '=','="' `
-                                                                      -replace '^@{','' `
-                                                                      -replace '}$','"' `
-                                                                      -replace '((?<=DependsOn=).*?(?=;))' , '{$1}'
+                        if ($file.BaseName -in $Nodes.where{$Psitem.nodes.name -eq $Node}.configs.name)
+                        {
 
-                        [MOF]::GenerateBody($Node, $Key, $File.BaseName, $Body)
+                            [String]$Key = $Item.keys
+                            $Body = ($Item.$Key | ForEach-Object {$PSItem -join '' }) -replace ';','";' `
+                                                                          -replace '=','="' `
+                                                                          -replace '^@{','' `
+                                                                          -replace '}$','"' `
+                                                                          -replace '((?<=DependsOn=).*?(?=;))' , '{$1}'
+
+                            [MOF]::GenerateBody($Node, $Key, $File.BaseName, $Body)
 
 
-                    [MOF]::GenerateTail($Node, $File.BaseName)
-
-                    Publish-DscConfiguration .\output -Verbose -Force
-                    Remove-Item (Join-Path .\output -ChildPath $Node`.mof) -Force
+                        }
                     }
+                    [MOF]::GenerateTail($Node, $File.BaseName)
+                    Publish-DscConfiguration .\output -Verbose -Force -ComputerName $Node
+                    Remove-Item (Join-Path .\output -ChildPath $Node`.mof) -Force
                 }
             }
         }

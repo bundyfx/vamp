@@ -4,3 +4,11 @@
     ensure: present
     ModuleName : PsDesiredStateConfiguration
     ModuleVersion : 1.0
+
+-  MSFT_ServiceResource:
+    ResourceID : '[Service]bits'
+    name: bits
+    status: stopped
+    ensure: present
+    ModuleName : PsDesiredStateConfiguration
+    ModuleVersion : 1.0
