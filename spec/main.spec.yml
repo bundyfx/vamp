@@ -7,6 +7,7 @@
      - Example
      - MoreExamples
      - Firewall_Example
+     - NodeJS
 
 -  nodes:
     name :
@@ -17,3 +18,4 @@
     name :
      - WebServer
      - Firewall_Example
+     - Git
