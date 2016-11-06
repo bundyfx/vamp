@@ -3,7 +3,7 @@ Class Helpers
   static [Hashtable] ConvertToHash([psCustomObject]$InputObject)
   {
     foreach ($PsObject in $InputObject) {
-        $output = @{};
+        $output = [Ordered]@{};
         $PsObject | Get-Member -MemberType *Property | ForEach-Object {
             $output.($Psitem.name) = $PsObject.($Psitem.name);
         }
