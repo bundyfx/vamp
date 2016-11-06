@@ -100,7 +100,7 @@ WindowsProcess
                   {
                       Invoke-DscResource -Method Set -Name $using:Name -ModuleName $using:Modulename -Property $using:props -Verbose
                   }
-              } -ErrorAction SilentlyContinue
+              }
           }
           Remove-PSSession -Session $Session
       }
