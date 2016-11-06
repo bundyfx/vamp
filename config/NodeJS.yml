@@ -2,11 +2,3 @@
     Uri : 'https://nodejs.org/dist/v5.12.0/node-v5.12.0-x64.msi'
     DestinationPath : "C:/Windows/Temp/node-v5.12.0-x64.msi"
     ModuleName : xPsDesiredStateConfiguration
-
--  Package:
-    Ensure : present
-    Path  : "C:/Windows/Temp/node-v5.12.0-x64.msi"
-    Name : "Node.js"
-    ProductId : ""
-    Arguments : '/qn ALLUSERS=1 REBOOT=ReallySuppress'
-    ModuleName : PsDesiredStateConfiguration
