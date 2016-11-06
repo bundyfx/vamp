@@ -1,4 +1,4 @@
--  xRemoteFile:
+-  MSFT_xRemoteFile:
     Uri : 'https://nodejs.org/dist/v5.12.0/node-v5.12.0-x64.msi'
     DestinationPath : "$($env:Temp)node-v5.12.0-x64.msi"
     MatchSource: $false
@@ -10,5 +10,4 @@
     Name : "Node.js"
     ProductId : "CE9C30F7-140C-4A6B-95C8-8304CCBF0145"
     Arguments : '/qn ALLUSERS=1 REBOOT=ReallySuppress'
-    ReturnCode : 0
     ModuleName : PsDesiredStateConfiguration

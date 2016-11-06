@@ -1,9 +1,8 @@
--  xRemoteFile:
+-  MSFT_xRemoteFile:
     Uri : 'https://github.com/git-for-windows/git/releases/download/v2.9.0.windows.1/Git-2.9.0-64-bit.exe'
     DestinationPath : "$($env:Temp)Git-2.9.0-64-bit.exe"
     MatchSource: $false
     ModuleName : xPsDesiredStateConfiguration
-
 
 -  Package:
     Ensure : $Ensure
