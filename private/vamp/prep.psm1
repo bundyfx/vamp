@@ -22,11 +22,11 @@ Class VampPrep
     {
         foreach ($module in $SearchScope)
         {
-            Write-Verbose "Searching the PSGallery for $($module.modulename) - version $($module.moduleversion)"
+            Write-Verbose "Searching the PSGallery for $($module.modulename)"
             try
             {
-                Write-Verbose "Attempting to install $($module.Modulename), version: $($module.moduleversion) from PSGallery"
-                Install-Module -Name $module.Modulename -RequiredVersion $module.Moduleversion -Repository PsGallery -Verbose:$false
+                Write-Verbose "Attempting to install $($module.Modulename) from PSGallery"
+                Install-Module -Name $module.Modulename -Repository PsGallery -Verbose:$false
                 Write-Verbose 'Complete'
             }
             catch
@@ -42,11 +42,9 @@ Class VampPrep
         {
             $requiredModules = Get-ChildItem .\config\*.yml |
             ForEach-Object {(ConvertFrom-Yaml -Path $Psitem.FullName).Values} |
-            Select-Object Modulename,ModuleVersion |
+            Select-Object Modulename |
             Where-Object {$PsItem.Modulename -ne 'PsDesiredStateConfiguration'} |
             Sort-Object -Unique -Property Modulename
-
-            Write-Verbose "The required modules for this configuration are: $($requiredModules.modulename -join ', ')"
 
             return $requiredModules
 
@@ -75,6 +73,7 @@ Class VampPrep
             {
                 throw 'Unable to copy required module files to {0} - Error: {1}' -f $Psitem, $Node
             }
+            Remove-PSSession -Session $Node
         }
     }
 }

@@ -67,6 +67,7 @@ WindowsProcess
 
         Write-Output "Finding Required Modules"
         $ToDownload = [VampPrep]::FindModules()
+        Write-Verbose "The required modules for these configuration are: $($ToDownload)"
 
         Write-Output "Downloading Required Modules"
         [VampPrep]::DownloadModules($ToDownload)
@@ -97,9 +98,9 @@ WindowsProcess
               Invoke-Command -Session $Session -ScriptBlock {
               if (-not [Boolean](Invoke-DscResource -Method Test -Name $using:Name -ModuleName $using:Modulename -Property $using:props ))
                   {
-                      Invoke-DscResource -Method Set -Name $using:Name -ModuleName $using:Modulename -Property $using:props -Verbose 
+                      Invoke-DscResource -Method Set -Name $using:Name -ModuleName $using:Modulename -Property $using:props -Verbose
                   }
-              } -ErrorAction SilentlyContinue 
+              } -ErrorAction SilentlyContinue
           }
           Remove-PSSession -Session $Session
       }
