@@ -73,7 +73,7 @@ Class VampPrep
             {
                 throw 'Unable to copy required module files to {0} - Error: {1}' -f $Psitem, $Node
             }
-            Remove-PSSession -Session $Node
+            Remove-PSSession -Computername $Node
         }
     }
 }
