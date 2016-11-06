@@ -97,6 +97,7 @@ WindowsProcess
               Invoke-Command -Session $Session -ScriptBlock {
               if (-not [Boolean](Invoke-DscResource -Method Test -Name $using:Name -ModuleName $using:Modulename -Property $using:props -Verbose))
                   {
+                      $ErrorAction = 'SilentlyContinue'
                       Invoke-DscResource -Method Set -Name $using:Name -ModuleName $using:Modulename -Property $using:props -Verbose
                   }
               }

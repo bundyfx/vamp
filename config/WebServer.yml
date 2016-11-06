@@ -1,10 +1,10 @@
--  Feature:
+-  WindowsFeature:
     name: Web-Server
     ensure: present
     ModuleName : PsDesiredStateConfiguration
 
 -  Service:
     name: bits
-    status: stopped
+    status: running
     ensure: present
     ModuleName : PsDesiredStateConfiguration
