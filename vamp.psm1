@@ -102,7 +102,7 @@ WindowsProcess
                   }
               }
           }
-          Remove-PSSession -Session $Session
+          Remove-PSSession -Computername $Session
       }
     }
 }
