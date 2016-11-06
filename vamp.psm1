@@ -79,8 +79,8 @@ WindowsProcess
             Write-Output "Copying Modules to $Node"
             [VampPrep]::CopyModules($Node, $ToDownload)
           }
-        Write-Output "Prep Complete"
         }
+        Write-Output "Prep Complete"
     }
 
     if ($apply -eq $true)
