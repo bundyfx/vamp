@@ -1,18 +1,6 @@
 
 Class VampPrep
 {
-    static [System.String[]] Nodes()
-    {
-        Import-Module .\private\PSYaml\PSYaml.psm1
-        $SpecFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\core\spec\").EnumerateFiles()
-
-        [Array]$Nodes += foreach ($File in $SpecFiles)
-        {
-            ConvertFrom-Yaml -Path $File.Fullname
-        }
-        return $Nodes.nodes.name
-
-    }
 
     static [void] BootstrapNuget ()
     {
@@ -52,7 +40,7 @@ Class VampPrep
     {
         try
         {
-            $requiredModules = Get-ChildItem .\core\config\*.yml |
+            $requiredModules = Get-ChildItem .\config\*.yml |
             ForEach-Object {(ConvertFrom-Yaml -Path $Psitem.FullName).Values} |
             Select-Object Modulename,ModuleVersion |
             Where-Object {$PsItem.Modulename -ne 'PsDesiredStateConfiguration'} |
