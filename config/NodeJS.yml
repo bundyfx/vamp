@@ -7,6 +7,6 @@
     Ensure : present
     Path  : "C:/Windows/Temp/node-v5.12.0-x64.msi"
     Name : "Node.js"
-    ProductId : "CE9C30F7-140C-4A6B-95C8-8304CCBF0145"
+    ProductId : ""
     Arguments : '/qn ALLUSERS=1 REBOOT=ReallySuppress'
     ModuleName : PsDesiredStateConfiguration
