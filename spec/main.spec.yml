@@ -1,6 +1,7 @@
 -  nodes:
     name :
      - localhost
+     - 192.168.137.157
 
    configs:
     name :
@@ -18,4 +19,13 @@
     name :
      - WebServer
      - Firewall_Example
+     - Git
+
+-  nodes:
+    name :
+     - 192.168.137.192
+     - 192.168.137.24
+
+   configs:
+    name :
      - Git
