@@ -26,7 +26,7 @@ Class VampPrep
             try
             {
                 Write-Verbose "Attempting to install $($module.Modulename) from PSGallery"
-                Install-Module -Name $module.Modulename -Repository PsGallery -Verbose:$false
+                Install-Module -Name $module.Modulename -Repository PsGallery -Verbose:$false -Force
                 Write-Verbose 'Complete'
             }
             catch
