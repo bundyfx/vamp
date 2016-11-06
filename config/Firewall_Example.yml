@@ -1,35 +1,25 @@
--  MSFT_ServiceResource:
-    ResourceID : '[Service]WindowsFirewall'
+-  Service:
     name: MPSSvc
     ensure: present
     state : Running
     StartupType : Automatic
     ModuleName : PsDesiredStateConfiguration
-    ModuleVersion : 1.0
 
 -  xDSCFirewall:
-    ResourceID : '[xDSCFirewall]PublicFirewall'
     Zone : Public
     ensure: present
     ModuleName : xDSCFirewall
-    ModuleVersion : 1.0
 
 -  xDSCFirewall:
-    ResourceID : '[xDSCFirewall]DomainFirewall'
     Zone : Domain
     ensure: absent
     ModuleName : xDSCFirewall
-    ModuleVersion : 1.0
 
 -  xDSCFirewall:
-    ResourceID : '[xDSCFirewall]PrivateFirewall'
     Zone : Private
     ensure: present
     ModuleName : xDSCFirewall
-    ModuleVersion : 1.0
 
--  MSFT_xPowerShellExecutionPolicy:
-    ResourceID : '[xPowerShellExecutionPolicy]ExecutionPolicy'
+-  xPowerShellExecutionPolicy:
     ModuleName : xPowerShellExecutionPolicy
-    ModuleVersion : 1.1.0.0
     ExecutionPolicy : Unrestricted

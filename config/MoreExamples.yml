@@ -1,8 +1,5 @@
--  MSFT_FileDirectoryConfiguration:
-    ResourceID : '[File]ATextFile'
-    Type: File
+-  File:
     Contents : 'Hello world'
     ensure: present
     DestinationPath: C:\\temp\\test.txt
     ModuleName : PsDesiredStateConfiguration
-    ModuleVersion : 1.0
