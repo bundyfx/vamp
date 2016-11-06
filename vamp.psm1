@@ -74,7 +74,7 @@ WindowsProcess
 
         foreach($Node in $Nodes.nodes.name)
         {
-          if (Test-WSMan $Node)
+          if ([Boolean](Test-WSMan $Node))
           {
             Write-Output "Copying Modules to $Node"
             [VampPrep]::CopyModules($Node, $ToDownload)
@@ -87,7 +87,7 @@ WindowsProcess
     {
       foreach ($Node in $Nodes.Nodes.Name)
       {
-        if (Test-Wsman $Node)
+        if ([Boolean](Test-Wsman $Node))
         {
           [Array]$Configs = foreach ($File in $ConfigFiles.where{$Psitem.basename -in ($Nodes.where{$Psitem.nodes.name -eq $Node}.configs.name)})
           {
@@ -106,11 +106,11 @@ WindowsProcess
               if (-not [Boolean]($Test = Invoke-DscResource -Method Test -Name $using:Name -ModuleName $using:Modulename -Property $using:props ))
                   {
                       $Output = Invoke-DscResource -Method Set -Name $using:Name -ModuleName $using:Modulename -Property $using:props -Verbose
-                      Write-Output "Restart Required: $($Output.RestartRequired)"
+                      Write-Output "Exit Code: $LastExitCode"
                   }
                   else
                   {
-                      Write-Output "$using:config in desired state: $($Test.InDesiredState)"
+                      Write-Output "$using:Name Resource for $using:Node is in Desired State"
                   }
               }
           }
