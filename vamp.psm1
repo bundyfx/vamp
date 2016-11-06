@@ -72,16 +72,23 @@ WindowsProcess
         Write-Output "Downloading Required Modules"
         [VampPrep]::DownloadModules($ToDownload)
 
-        Write-Output "Copying Modules to nodes"
-        [VampPrep]::CopyModules($nodes.nodes.name, $ToDownload)
-
+        foreach($Node in $Nodes.nodes.name)
+        {
+          if (Test-Connection $Node -Quiet -Count 1)
+          {
+            Write-Output "Copying Modules to $Node"
+            [VampPrep]::CopyModules($Node, $ToDownload)
+          }
         Write-Output "Prep Complete"
+        }
     }
 
     if ($apply -eq $true)
     {
       foreach ($Node in $Nodes.Nodes.Name)
       {
+        if (Test-Connection $Node -Quiet -Count 1)
+        {
           [Array]$Configs = foreach ($File in $ConfigFiles.where{$Psitem.basename -in ($Nodes.where{$Psitem.nodes.name -eq $Node}.configs.name)})
           {
               [Yaml]::Read($File.Fullname)
@@ -103,6 +110,7 @@ WindowsProcess
               }
           }
           Remove-PSSession -Computername $Session.Computername
+        }
       }
-    }
+   }
 }
