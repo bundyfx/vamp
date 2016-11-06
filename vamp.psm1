@@ -67,7 +67,7 @@ WindowsProcess
 
         Write-Output "Finding Required Modules"
         $ToDownload = [VampPrep]::FindModules()
-        Write-Verbose "The required modules for these configuration are: $($ToDownload)"
+        Write-Verbose "The required modules for these configuration are: $($ToDownload.Modulename)"
 
         Write-Output "Downloading Required Modules"
         [VampPrep]::DownloadModules($ToDownload)
