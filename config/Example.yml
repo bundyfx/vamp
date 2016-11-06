@@ -1,0 +1,8 @@
+-  File:
+    Contents : 'Hello world'
+    ensure: present
+    DestinationPath: C:\temp\test.txt
+    ModuleName : PsDesiredStateConfiguration
+    Attributes :
+      - Archive
+      - ReadOnly

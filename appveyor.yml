@@ -15,17 +15,18 @@ install:
   - ps: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
   - ps: Install-Module Pester -Force
   - ps: Install-Module PsScriptAnalyzer -force
-  
+
 build: false
 
-version: '1.0.{build}'
-
-before_test:
-  - ps: Invoke-ScriptAnalyzer -Path .\tests\ -Recurse
+version: '0.1.{build}'
 
 test_script:
+#Invokes PSScript Analyzer to ensure all code passes linting
+  - ps: Invoke-Pester .\tests\linting.ps1
+
 # Test with native PS version
   - ps: . .\Tests\appveyor.pester.ps1 -Test
+
 # Finalize pass - collect and upload results
   - ps: . .\Tests\appveyor.pester.ps1 -Finalize
 

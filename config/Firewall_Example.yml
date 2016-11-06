@@ -1,0 +1,25 @@
+-  Service:
+    name: MPSSvc
+    ensure: present
+    state : Running
+    StartupType : Automatic
+    ModuleName : PsDesiredStateConfiguration
+
+-  xDSCFirewall:
+    Zone : Public
+    ensure: present
+    ModuleName : xDSCFirewall
+
+-  xDSCFirewall:
+    Zone : Domain
+    ensure: absent
+    ModuleName : xDSCFirewall
+
+-  xDSCFirewall:
+    Zone : Private
+    ensure: present
+    ModuleName : xDSCFirewall
+
+-  xPowerShellExecutionPolicy:
+    ModuleName : xPowerShellExecutionPolicy
+    ExecutionPolicy : Unrestricted
