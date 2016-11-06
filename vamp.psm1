@@ -74,7 +74,7 @@ WindowsProcess
 
         foreach($Node in $Nodes.nodes.name)
         {
-          if (Test-Connection $Node -Quiet -Count 1)
+          if (Test-WSMan $Node)
           {
             Write-Output "Copying Modules to $Node"
             [VampPrep]::CopyModules($Node, $ToDownload)
@@ -87,7 +87,7 @@ WindowsProcess
     {
       foreach ($Node in $Nodes.Nodes.Name)
       {
-        if (Test-Connection $Node -Quiet -Count 1)
+        if (Test-Wsman $Node)
         {
           [Array]$Configs = foreach ($File in $ConfigFiles.where{$Psitem.basename -in ($Nodes.where{$Psitem.nodes.name -eq $Node}.configs.name)})
           {
