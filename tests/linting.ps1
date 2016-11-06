@@ -1,11 +1,12 @@
 $Modules = Get-ChildItem $pwd.Path -Filter '*.psm1' -Recurse
 $Rules = Get-ScriptAnalyzerRule
-Describe ‘Testing all Modules in this Repo to be be correctly formatted’ {
-    foreach ($module in $modules) {
-        Context “Testing Module  – $($module.BaseName) for Standard Processing” {
-            foreach ($rule in $rules) {
-                It “passes the PSScriptAnalyzer Rule $rule“ {
-                    (Invoke-ScriptAnalyzer -Path $module.FullName -IncludeRule $rule.RuleName ).Count | Should Be 0
+
+Describe "Linting all Modules in Repository" {
+    foreach($Module in $Modules) {
+        Context "Linting $($Module.BaseName)" {
+            foreach ($Rule in $Rules) {
+                It "Passess the Rule: $Rule" {
+                    (Invoke-ScriptAnalyzer -Path $Module.FullName -IncludeRule $Rule.RuleName).Count | Should Be 0
                 }
             }
         }
