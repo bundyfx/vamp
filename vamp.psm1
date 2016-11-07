@@ -106,7 +106,7 @@ WindowsProcess
               if (-not [Boolean]($Test = Invoke-DscResource -Method Test -Name $using:Name -ModuleName $using:Modulename -Property $using:props ))
                   {
                       $Output = Invoke-DscResource -Method Set -Name $using:Name -ModuleName $using:Modulename -Property $using:props -Verbose
-                      Write-Output "Exit Code: $LastExitCode"
+                      Write-Output "Complete"
                   }
                   else
                   {
