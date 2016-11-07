@@ -3,12 +3,10 @@ $Rules = Get-ScriptAnalyzerRule
 
 Describe "Linting all Modules in Repository" {
     foreach($Module in $Modules) {
-        Context "Linting $($Module.BaseName)" {
-            foreach ($Rule in $Rules.Where{$Psitem.Rulename -ne 'PSAvoidNullOrEmptyHelpMessageAttribute' -or $Psitem.Rulename -ne 'PSShouldProcess'}) {
-                It "Passess the Rule: $Rule" {
-                    (Invoke-ScriptAnalyzer -Path $Module.FullName -IncludeRule $Rule.RuleName).Count | Should Be 0
-                }
-            }
+        Context "Linting $Module" {
+              It "Passes ScriptAnalyzer" {
+                  (Invoke-ScriptAnalyzer -Path $Module.FullName).count | Should Be 0
+              }
         }
     }
 }
