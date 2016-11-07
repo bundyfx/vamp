@@ -17,6 +17,11 @@ function vamp(){
      [Switch]$apply
      )
 
+    if ($PSBoundParameters.Values -eq $null)
+    {
+        vamp -?
+    }
+
     $SpecFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\spec\").EnumerateFiles()
     $ConfigFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\config\").EnumerateFiles()
 
