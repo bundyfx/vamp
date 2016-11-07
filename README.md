@@ -10,11 +10,33 @@ Table of Contents
   * [Resources](#resources)
   * [Get Started](#get-started)
   * [Help](#help)
+      * [Config files](#config-files)
+      * [Spec files](#spec-files)
   * [Considerations](#Considerations)
+      * [Credentials](#credentials)
+      * [Remote Connectivity](#remote-connectivity)
 
 ## What and Why?
 
-Why the hell did I make this?
+#### Firstly, What is DSC?
+
+PowerShell Desired State Configuration (DSC) is an essential part of the configuration, management and maintenance of Windows-based servers. It allows a PowerShell script to specify the configuration of the machine using a declarative model in a simple standard way that is easy to maintain and understand.
+
+DSC requires that you create a Configuration Script which when executed generates a Managed Object Format *(.mof)* file that gets consumed by a nodes Local Configuration Manager *(LCM)*. One of the issues with this approach is that there is emphasis on the end-user to know how to create a Configuration Script and to also call the LCM to consume the *.mof* and thus apply the configuration.
+
+#### vamp
+
+The purpose of this tool is to simplify DSC and make it more accessible for developers of all backgrounds by abstracting the need for any PowerShell code creation.
+
+*OK, so why make this tool?:*
+
+One of the problems I have seen over the last couple of years of using DSC is that; *developers don't know PowerShell*. This is not exactly unexpected when we think of the amount of developers we have in the wild and the odds of knowing PowerShell even at a basic level is mostly down to guys with a Windows/.NET background.
+
+However, DSC should not be limited to only guys with Windows/.NET backgrounds. This is one of the reasons why this tool exists.
+
+The concept is simple, Take a `.yml` configuration file and transform that in a *hashtable* of data that is then consumed by the LCM on a remote node(s).
+
+*TLDR* turns .yml into DSC.
 
 ## Resources
 
@@ -77,7 +99,7 @@ Apply will first call the *test* method of the DSC resource to check that the no
 
 ### Folder Structure
 
-#### Configuration Files
+#### Config Files
 
 We keep our configuration files in the *config* directory. You can keep all your configuration in here in the root or split them up into subfolders that help you make more sense of your environment.
 
