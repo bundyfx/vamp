@@ -40,7 +40,7 @@ The concept is simple, Take a `.yml` configuration file and transform that in a 
 
 ## Resources
 
-You can use any DSC resource you wish with vamp. Here are a few basic ones to get your started.
+You can use any DSC resource you wish with vamp. Here are a few basic ones to get you started.
 
 | Resource      | Module  | Documentation |
 | ------------- | ------- | ------------- |
@@ -170,7 +170,7 @@ This is a simple way to organize roles and spread them over multiple groups of n
 
 ## Considerations
 
-Considerations, things to think about.
+Considerations, things to think about
 
 ### Credentials
 
