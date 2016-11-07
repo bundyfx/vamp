@@ -37,7 +37,12 @@ You can use any DSC resource you wish with vamp. Here are a few basic ones to ge
 
 ## Get started
 
-Information for getting started
+* git clone this repository.
+* create a `spec` yml file. *(see examples)*
+* create a `config` yml file. *(see examples)*
+* From the project root: ```Import-Module vamp.psm1```
+* ```vamp -prep```
+* ```vamp -apply```
 
 ## Help
 
@@ -80,7 +85,7 @@ A configuration file is written in standard `.yml` making it wasy for everyone t
 
 Lets take a look at an example:
 
-```
+```yaml
 -  WindowsFeature:
     name: Web-Server
     ensure: present
@@ -105,7 +110,41 @@ We also pass in the `ModuleName` for the module in which the resource resides. T
 
 #### Spec Files
 
-How do Spec files work?
+The Spec files are used as guidance for vamp.
+
+We need to know which nodes are going to be applying which configurations. This is where spec file(s) come in. You can have as many as you like to help you organize your environment. You can also *(see below)* group in multiple blocks of `nodes` and `configs` into the same `.yml` file.
+
+This is a simple way to organize roles and spread them over multiple groups of nodes.
+
+* In the nodes block we can pass in a DNS name or IP Address in order to find our node.
+* In the configs block we specify the configs we wish to apply to our nodes. It's `important` that the name of the config match the `.yml` file name in the `config` folder.
+
+
+```yaml
+-  nodes:
+    name :
+     - localhost
+     - CoolServer01
+
+   configs:
+    name :
+     - Example
+     - MoreExamples
+     - Firewall_Example
+     - NodeJS
+
+-  nodes:
+    name :
+     - CoolServer02
+     - CoolServer03
+
+   configs:
+    name :
+     - WebServer
+     - Firewall_Example
+     - Git
+```
+
 
 ## Considerations
 
@@ -117,4 +156,4 @@ How to work with Credentials?
 
 ### Remote Connectivity
 
-Invoke-Command
+How this works with remote connectivity?
