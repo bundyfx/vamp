@@ -22,7 +22,7 @@ Table of Contents
 
 PowerShell Desired State Configuration (DSC) is an essential part of the configuration, management and maintenance of Windows-based servers. It allows a PowerShell script to specify the configuration of the machine using a declarative model in a simple standard way that is easy to maintain and understand.
 
-DSC requires that you create a Configuration Script which when executed generates a Managed Object Format *(.mof)* file that gets consumed by a nodes Local Configuration Manager *(LCM)*. One of the issues with this approach is that there is emphasis on the end-user to know how to create a Configuration Script and to also call the LCM to consume the *.mof* and thus apply the configuration.
+DSC requires that you create a Configuration Script which, when executed generates a Managed Object Format *(.mof)* file that gets consumed by a nodes Local Configuration Manager *(LCM)*. One of the issues with this approach is that there is emphasis on the end-user to know how to create a Configuration Script and to also call the LCM to consume the *.mof* and thus apply the configuration.
 
 #### vamp
 
