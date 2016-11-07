@@ -16,23 +16,6 @@ function vamp(){
      [AllowNull()]
      [Switch]$apply
      )
-<#
-
-Built in Resources:
-
-Archive
-Environment
-File
-Group
-Log
-Package
-Registry
-Script
-Service
-User
-WindowsFeature
-WindowsProcess
-#>
 
     $SpecFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\spec\").EnumerateFiles()
     $ConfigFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\config\").EnumerateFiles()

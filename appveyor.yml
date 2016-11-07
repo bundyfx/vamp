@@ -7,9 +7,6 @@ skip_commits:
 
 os: "WMF 5"
 
-services:
-  - iis
-
 install:
   - ps: Install-PackageProvider Nuget -ForceBootstrap -Force
   - ps: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
