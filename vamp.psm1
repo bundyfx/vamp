@@ -86,10 +86,10 @@ function vamp(){
               $Props.Remove('ModuleName')
 
               Invoke-Command -Session $Session -ScriptBlock {
-              if (-not [Boolean]($Test = Invoke-DscResource -Method Test -Name $using:Name -ModuleName $using:Modulename -Property $using:props ))
+              if (-not [Boolean](Invoke-DscResource -Method Test -Name $using:Name -ModuleName $using:Modulename -Property $using:props ))
                   {
                       $Output = Invoke-DscResource -Method Set -Name $using:Name -ModuleName $using:Modulename -Property $using:props -Verbose
-                      Write-Output "Complete"
+                      Write-Output "Complete - Restart Required: $($Output.RestartRequired)"
                   }
                   else
                   {

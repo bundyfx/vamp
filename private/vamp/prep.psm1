@@ -1,6 +1,5 @@
 Class VampPrep
 {
-
     static [void] BootstrapNuget ()
     {
         try
