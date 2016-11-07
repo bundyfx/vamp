@@ -5,7 +5,7 @@ using module ./private/vamp/prep.psm1
 InModuleScope helpers {
     Describe "Testing private modules" {
         Context "Reading Yaml with the Yaml Class (Config)" {
-                Foreach ($Item in [System.IO.DirectoryInfo]::new($pwd.path).EnumerateFiles().Fullname)
+                Foreach ($Item in [System.IO.DirectoryInfo]::new("$($pwd.path)\config").EnumerateFiles().Fullname)
                 {
                     It "Should be able to read the example files in the config Folder: $Item" {
                     [Yaml]::Read($Item)
@@ -13,7 +13,7 @@ InModuleScope helpers {
                 }
             }
         Context "Reading Yaml with the Yaml Class (Spec)" {
-            Foreach ($Item in [System.IO.DirectoryInfo]::new($pwd.path).EnumerateFiles().Fullname)
+            Foreach ($Item in [System.IO.DirectoryInfo]::new("$($pwd.path)\spec").EnumerateFiles().Fullname)
             {
                 It "Should be able to read the example files in the spec Folder: $Item" {
                 [Yaml]::Read($Item)
