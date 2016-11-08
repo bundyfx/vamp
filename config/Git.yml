@@ -10,3 +10,4 @@
     ProductId : ""
     Arguments : '/VERYSILENT /NORESTART /NOCANCEL /SP- /COMPONENTS="icons,icons\quicklaunch,ext,ext\shellhere,ext\guihere,assoc,assoc_sh" /LOG'
     ModuleName : PsDesiredStateConfiguration
+    ReturnCode: 0
