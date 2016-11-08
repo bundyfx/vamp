@@ -93,7 +93,7 @@ function vamp(){
               if ($Props.password -ne $null -and $Props.username -ne $null)
               {
                 #Create psCredentail Object as required
-                $Props.Password = [Helpers]::CreateCredentialObject($Props.Username, $Props.Password)
+                $Props.password = [Helpers]::CreateCredentialObject($Props.username, $Props.password)
               }
               $props
               Invoke-Command -Session $Session -ScriptBlock {
