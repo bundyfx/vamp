@@ -90,7 +90,7 @@ function vamp(){
               $Modulename = $Config.values.ModuleName
               $Props.Remove('ModuleName')
 
-              if ($Props.Password -ne $null -and $Props.Username -ne $null)
+              if ($Props.password -ne $null -and $Props.username -ne $null)
               {
                 #Create psCredentail Object as required
                 $Props.Password = [Helpers]::CreateCredentialObject($Props.Username, $Props.Password)
