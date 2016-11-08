@@ -95,7 +95,7 @@ function vamp(){
                 #Create psCredentail Object as required
                 $Props.Password = [Helpers]::CreateCredentialObject($Props.Username, $Props.Password)
               }
-              Write-Output "$($Props.Password) PW !!"
+              $props
               Invoke-Command -Session $Session -ScriptBlock {
               if (-not [Boolean](Invoke-DscResource -Method Test -Name $using:Name -ModuleName $using:Modulename -Property $using:props ))
                   {
