@@ -2,3 +2,4 @@
     ensure: present
     username: roflUser
     password: testPassword123
+    ModuleName : PsDesiredStateConfiguration
