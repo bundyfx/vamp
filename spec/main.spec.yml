@@ -20,6 +20,7 @@
      - WebServer
      - Firewall_Example
      - Git
+     - User
 
 -  nodes:
     name :
