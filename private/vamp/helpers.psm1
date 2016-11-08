@@ -12,7 +12,15 @@ Class Helpers
    throw 'No Hashtable to return'
   }
 
+  static [psCredential] CreateCredentialObject ([System.String]$Username, [System.String]$Password)
+  {
+    $creds = [pscredential]::new('{0}' -f $Username,(ConvertTo-SecureString -String $Password -AsPlainText -Force))
+    return $creds
+  }
+
+
 }
+
 
 Class Yaml
 {

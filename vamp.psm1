@@ -90,6 +90,12 @@ function vamp(){
               $Modulename = $Config.values.ModuleName
               $Props.Remove('ModuleName')
 
+              if ($Props.Password -eq $true -and $Props.Username -eq $true)
+              {
+                #Create psCredentail Object as required
+                $Props.Password = [Helpers]::CreateCredentialObject($Props.Username, $Props.Password)
+              }
+
               Invoke-Command -Session $Session -ScriptBlock {
               if (-not [Boolean](Invoke-DscResource -Method Test -Name $using:Name -ModuleName $using:Modulename -Property $using:props ))
                   {

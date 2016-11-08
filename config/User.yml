@@ -1,0 +1,4 @@
+- User:
+    ensure: present
+    username: roflUser
+    password: testPassword123
