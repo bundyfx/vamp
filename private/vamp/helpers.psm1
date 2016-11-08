@@ -14,17 +14,14 @@ Class Helpers
 
   static [psCredential] CreateCredentialObject ([System.String]$Username, [System.String]$Password)
   {
-    $creds = [pscredential]::new('{0}' -f $Username,(ConvertTo-SecureString -String $Password -AsPlainText -Force))
+    $creds = [pscredential]::new($Username,(ConvertTo-SecureString -String $Password -AsPlainText -Force))
     return $creds
   }
-
-
 }
 
 
 Class Yaml
 {
-
     static [void] Import()
     {
         try
