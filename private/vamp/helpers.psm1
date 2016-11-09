@@ -8,19 +8,28 @@ Class Helpers
         $PsObject | Get-Member -MemberType *Property | ForEach-Object {
             if ($Psitem -match '\d+')
             {
-              $output.($Psitem.name) = $PsObject.($Psitem.name) -as [Int];
+               $output.($Psitem.name) = $PsObject.($Psitem.name) -as [Int];
             }
             else
             {
-              $output.($Psitem.name) = $PsObject.($Psitem.name);
+               $output.($Psitem.name) = $PsObject.($Psitem.name);
             }
         return $output;
         }
-    }
-  } catch [Exception]
+  }
+    catch [Exception]
     {
-     throw 'No Hashtable to return: {0}' -f $Psitem
+     throw 'Error: {0}' -f $Psitem
     }
+  }
+  throw 'No Hashtable to return: {0}'
+}
+
+  static [psCredential] CreateCredentialObject ([System.String]$Username, [System.String]$Password)
+  {
+    $creds = [pscredential]::new($Username,(ConvertTo-SecureString -String $Password -AsPlainText -Force))
+    return $creds
+  }
 }
 
   static [psCredential] CreateCredentialObject ([System.String]$Username, [System.String]$Password)
