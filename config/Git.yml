@@ -5,8 +5,9 @@
 
 -  Package:
     Ensure : present
-    Path  : "C:/Windows/Temp/Git-2.9.0-64-bit.exe"
+    Path : "C:/Windows/Temp/Git-2.9.0-64-bit.exe"
     Name : "Git version 2.9.0"
     ProductId : ""
     Arguments : '/VERYSILENT /NORESTART /NOCANCEL /SP- /COMPONENTS="icons,icons\quicklaunch,ext,ext\shellhere,ext\guihere,assoc,assoc_sh" /LOG'
     ModuleName : PsDesiredStateConfiguration
+    ReturnCode: 0
