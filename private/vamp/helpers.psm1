@@ -30,13 +30,7 @@ Class Helpers
     $creds = [pscredential]::new($Username,(ConvertTo-SecureString -String $Password -AsPlainText -Force))
     return $creds
   }
-}
 
-  static [psCredential] CreateCredentialObject ([System.String]$Username, [System.String]$Password)
-  {
-    $creds = [pscredential]::new($Username,(ConvertTo-SecureString -String $Password -AsPlainText -Force))
-    return $creds
-  }
 }
 
 
