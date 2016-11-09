@@ -3,6 +3,7 @@ Class Helpers
   static [Hashtable] ConvertToHash([psCustomObject]$InputObject)
   {
     foreach ($PsObject in $InputObject) {
+      try {
         $output = [Ordered]@{};
         $PsObject | Get-Member -MemberType *Property | ForEach-Object {
             if ($Psitem -match '\d+')
@@ -16,8 +17,11 @@ Class Helpers
         return $output;
         }
     }
-   throw 'No Hashtable to return: {0}' -f $Psitem
-  }
+  } catch [Exception]
+    {
+     throw 'No Hashtable to return: {0}' -f $Psitem
+    }
+}
 
   static [psCredential] CreateCredentialObject ([System.String]$Username, [System.String]$Password)
   {
