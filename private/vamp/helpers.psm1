@@ -9,6 +9,10 @@ Class Helpers
           if ($PsObject.($Psitem.name) -match '^\d+$'){
                $output.($Psitem.name) = $PsObject.($Psitem.name) -as [Uint32[]]
              }
+             elseif ($PsObject.($Psitem.name) -match 'true|false')
+             {
+               $output.($Psitem.name) = $PsObject.($Psitem.name) -as [Boolean]
+             }
              else
              {
                $output.($Psitem.name) = $PsObject.($Psitem.name)
@@ -31,6 +35,12 @@ Class Helpers
     return $creds
   }
 
+ static [void] PreChecks ()
+ {
+   ######
+
+ }
+
 }
 
 
@@ -40,7 +50,7 @@ Class Yaml
     {
         try
         {
-            Import-Module .\private\PSYaml\PSYaml.psm1 | Out-Null
+            Import-Module .\private\PSYaml\PSYaml.psm1 -verbose:$false
         }
         catch
         {

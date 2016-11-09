@@ -3,3 +3,4 @@
     ensure: present
     DestinationPath: C:\\temp\\test.txt
     ModuleName : PsDesiredStateConfiguration
+    MatchSouce : false
