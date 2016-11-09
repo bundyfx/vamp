@@ -14,15 +14,17 @@ Class Helpers
             {
                $output.($Psitem.name) = $PsObject.($Psitem.name);
             }
-        return $output;
+
         }
   }
     catch [Exception]
     {
      throw 'Error: {0}' -f $Psitem
     }
+
+    return $output;
   }
-  throw 'No Hashtable to return: {0}'
+  continue
 }
 
   static [psCredential] CreateCredentialObject ([System.String]$Username, [System.String]$Password)
