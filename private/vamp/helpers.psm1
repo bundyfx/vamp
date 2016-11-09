@@ -4,19 +4,19 @@ Class Helpers
   {
     foreach ($PsObject in $InputObject) {
         $output = [Ordered]@{};
-        $PsObject | Get-Member -MemberType NoteProperty | ForEach-Object {
-            if ($Psitem -match '\d+'){
-            $output.($Psitem.name) = $PsObject.($Psitem.name) -as [Int];
+        $PsObject | Get-Member -MemberType *Property | ForEach-Object {
+            if ($Psitem -match '\d+')
+            {
+              $output.($Psitem.name) = $PsObject.($Psitem.name) -as [Int];
             }
-
-        else
-        {
-          $output.($Psitem.name) = $PsObject.($Psitem.name);
-        }
+            else
+            {
+              $output.($Psitem.name) = $PsObject.($Psitem.name);
+            }
         return $output;
         }
     }
-   throw 'No Hashtable to return'
+   throw 'No Hashtable to return: {0}' -f $Psitem
   }
 
   static [psCredential] CreateCredentialObject ([System.String]$Username, [System.String]$Password)
