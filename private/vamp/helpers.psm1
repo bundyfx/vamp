@@ -7,7 +7,7 @@ Class Helpers
         $output = [Ordered]@{};
         $PsObject | Get-Member -MemberType *Property | ForEach-Object {
           if ($PsObject.($Psitem.name) -match '^\d+$'){
-               $output.($Psitem.name) = $PsObject.($Psitem.name) -as [Int];
+               $output.($Psitem.name) = $PsObject.($Psitem.name) -as [System.Uint32];
              }
              else
              {
