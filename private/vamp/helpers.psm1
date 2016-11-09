@@ -6,7 +6,13 @@ Class Helpers
       try {
         $output = [Ordered]@{};
         $PsObject | Get-Member -MemberType *Property | ForEach-Object {
+          if ($PsObject.($Psitem.name) -match '^\d+$'){
+               $output.($Psitem.name) = $PsObject.($Psitem.name) -as [Int];
+             }
+             else
+             {
                $output.($Psitem.name) = $PsObject.($Psitem.name);
+             }
         }
     }
     catch [Exception]
