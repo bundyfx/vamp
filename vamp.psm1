@@ -7,17 +7,19 @@ using module ./private/PSYaml/PSYaml.psm1
 function vamp(){
   [CmdletBinding()]
   Param(
-     [AllowNull()]
-     [Switch]$testall,
+    [AllowNull()]
+    [Switch]$testall,
 
-     [AllowNull()]
-     [Switch]$prep,
+    [AllowNull()]
+    [Switch]$prep,
 
-     [AllowNull()]
-     [Switch]$apply
-     )
+    [AllowNull()]
+    [Switch]$apply
+    )
 
-    $SpecFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\spec\").EnumerateFiles()
+    $Input = $PSBoundParameters.Values + ".spec.yml"
+
+    $SpecFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\spec\").EnumerateFiles().Where{$Psitem.Name -eq $Input}
     $ConfigFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\config\").EnumerateFiles()
 
     [Array]$Nodes += foreach ($File in $SpecFiles)
