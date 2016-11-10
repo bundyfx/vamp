@@ -17,9 +17,9 @@ function vamp(){
     [Switch]$apply
     )
 
-    $Input = $PSBoundParameters.Values + ".spec.yml"
+    $InputSpec = $PSBoundParameters.Values + ".spec.yml"
 
-    $SpecFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\spec\").EnumerateFiles().Where{$Psitem.Name -eq $Input}
+    $SpecFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\spec\").EnumerateFiles().Where{$Psitem.Name -eq $InputSpec}
     $ConfigFiles = [System.IO.DirectoryInfo]::new("$($pwd.Path)\config\").EnumerateFiles()
 
     [Array]$Nodes += foreach ($File in $SpecFiles)
