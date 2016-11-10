@@ -8,13 +8,13 @@ function vamp(){
   [CmdletBinding()]
   Param(
     [AllowNull()]
-    [Switch]$testall,
+    [System.String]$testall,
 
     [AllowNull()]
-    [Switch]$prep,
+    [System.String]$prep,
 
     [AllowNull()]
-    [Switch]$apply
+    [System.String]$apply
     )
 
     $InputSpec = $PSBoundParameters.Values + ".spec.yml"
