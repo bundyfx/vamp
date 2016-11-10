@@ -5,6 +5,7 @@ using module ./private/vamp/prep.psm1
 using module ./private/PSYaml/PSYaml.psm1
 
 function vamp(){
+
   [CmdletBinding()]
   Param(
     [AllowNull()]
@@ -28,7 +29,7 @@ function vamp(){
     }
 
     #if the -testall param has been passed
-    if ($testall -eq $true)
+    if ($testall -ne $null)
     {
         #Ensure all nodes are gathered, Test-WSMAN on each remote node.
         foreach ($Node in $Nodes.Nodes.name)
@@ -44,7 +45,7 @@ function vamp(){
         }
     }
 
-    if ($prep -eq $true)
+    if ($prep -ne $null)
     {
         Write-Output "Starting Prep..."
         Write-Output "Ensuring Nuget is accessable"
@@ -68,7 +69,7 @@ function vamp(){
         Write-Output "Prep Complete"
     }
 
-    if ($apply -eq $true)
+    if ($apply -ne $null)
     {
       foreach ($Node in $Nodes.Nodes.Name)
       {
