@@ -29,7 +29,7 @@ function vamp(){
     }
 
     #if the -testall param has been passed
-    if ($testall -ne $null)
+    if ($PSBoundParameters.ContainsKey('testall'))
     {
         #Ensure all nodes are gathered, Test-WSMAN on each remote node.
         foreach ($Node in $Nodes.Nodes.name)
@@ -45,7 +45,7 @@ function vamp(){
         }
     }
 
-    if ($prep -ne $null)
+    if ($PSBoundParameters.ContainsKey('prep'))
     {
         Write-Output "Starting Prep..."
         Write-Output "Ensuring Nuget is accessable"
@@ -69,7 +69,7 @@ function vamp(){
         Write-Output "Prep Complete"
     }
 
-    if ($apply -ne $null)
+    if ($PSBoundParameters.ContainsKey('apply'))
     {
       foreach ($Node in $Nodes.Nodes.Name)
       {
