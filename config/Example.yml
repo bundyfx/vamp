@@ -1,8 +1,5 @@
 -  File:
-    Contents : 'Hello world'
+    Contents : 'Hello from DSC'
     ensure: present
-    DestinationPath: C:\temp\test.txt
+    DestinationPath: C:\vamp.txt
     ModuleName : PsDesiredStateConfiguration
-    Attributes :
-      - Archive
-      - ReadOnly

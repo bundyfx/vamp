@@ -1,32 +1,22 @@
 -  nodes:
-    name :
-     - localhost
+     name:
      - 192.168.137.157
 
    configs:
-    name :
+     name:
      - Example
      - MoreExamples
      - Firewall_Example
      - NodeJS
 
 -  nodes:
-    name :
+     name:
      - 192.168.137.245
      - 192.168.137.51
 
    configs:
-    name :
+     name:
      - WebServer
      - Firewall_Example
      - Git
      - User
-
--  nodes:
-    name :
-     - 192.168.137.192
-     - 192.168.137.24
-
-   configs:
-    name :
-     - Git

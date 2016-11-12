@@ -1,0 +1,7 @@
+-  nodes:
+     name:
+     - localhost
+
+   configs:
+     name:
+     - Example

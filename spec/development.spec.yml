@@ -1,8 +1,8 @@
 -  nodes:
-    name :
+     name:
      - 192.168.137.192
      - 192.168.137.24
 
    configs:
-    name :
+     name:
      - Git
