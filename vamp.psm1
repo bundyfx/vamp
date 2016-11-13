@@ -185,7 +185,7 @@ function vamp(){
                 if (-not [Boolean](Invoke-DscResource -Method Test -Name $using:Name -ModuleName $using:Modulename -Property $using:props ))
                     {
                         #This block will only execute if the Test returned false (meaning its not in desired state and needs to be set)
-                        $Output = Invoke-DscResource -Method Set -Name $using:Name -ModuleName $using:Modulename -Property $using:props
+                        $Output = Invoke-DscResource -Method Set -Name $using:Name -ModuleName $using:Modulename -Property $using:props -Verbose
 
                         #If the resource made changes that require the be restarted we pass that back to the user
                         Write-Output "Complete - Restart Required: $($Output.RebootRequired)"
