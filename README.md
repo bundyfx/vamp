@@ -13,8 +13,6 @@ Table of Contents
       * [Config files](#config-files)
       * [Spec files](#spec-files)
   * [Considerations](#Considerations)
-      * [Credentials](#credentials)
-      * [Remote Connectivity](#remote-connectivity)
   * [To-do](#to-do)
 
 
@@ -190,14 +188,6 @@ TO DO
 * Vamp uses WSMAN to connect to remote nodes. Ensure you are able to connect to the nodes defined within the spec file
 * You should have a grasp on how to use YAML. Please see the examples within the config and spec folder.
 * When checking for modules the tool will use the standard PS Module path: *C:\Program Files\WindowsPowerShell\Modules*
-
-## Credentials
-
-How to work with Credentials?
-
-## Remote Connectivity
-
-How this works with remote connectivity?
 
 ## To-do
 
