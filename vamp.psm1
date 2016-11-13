@@ -91,7 +91,6 @@ function vamp(){
         #Finds all the modules outlined in the configuration files and downloads them locally from the PSGallery.
         $ToDownload = [VampPrep]::FindModules($ConfigFiles)
 
-
         #Compare the modules installed locally to that of those requested in the configurations
         $CompareModules = [VampPrep]::Compare($ToDownload)
 
