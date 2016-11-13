@@ -24,13 +24,13 @@ Class Helpers
                 foreach ($Property in $Properties)
                 {
                     # If the current object matches the regular expression that defines an integer
-                    if ($properties.name.Where{$Psitem -eq $property.Name} -match '^\d+$') {
+                    if ($psobject.($Property.Name) -match '^\d+$') {
 
                         #Create an entry in the hashtable with the same name and Value however casted as a Uint32
                         $output.($Property.name) = $Psobject.($Property.name) -as [Uint32[]]
                     }
                     # If the current object matches the regular expression that defines an boolean
-                    elseif ($properties.name.Where{$Psitem -eq $property.Name} -match 'true|false')
+                    elseif ($psobject.($Property.Name) -match 'true|false')
                     {
                         #Create an entry in the hashtable with the same name and Value however casted as a boolean
                         $output.($Property.name) = $Psobject.($Property.name) -as [Boolean]
