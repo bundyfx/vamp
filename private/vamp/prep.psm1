@@ -97,7 +97,7 @@ Class VampPrep
         {
             if (-not ($Module.Modulename -in $currentlyInstalled.Basename ))
             {
-               $output += $module
+               $module
             }
         }
         return $output
