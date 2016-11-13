@@ -80,7 +80,13 @@ function vamp(){
     # If Prep param passed in by user
     if ($PSBoundParameters.ContainsKey('prep'))
     {
-        Write-Output "Starting Prep..."
+        Write-Output "Starting Prep for $Input"
+
+        #Gather the passed in spec file for preparation
+        $InputSpec = [Yaml]::Read($SpecFiles.Fullname)
+
+        #Sort modules remove duplicates
+        $Modules = $InputSpec.configs.name | Sort-Object -Unique
 
         #Ensure that the user is able to download from the PSGallery - This will make the PSGallery a trusted repository and install the nuget package provider.
         Write-Output "Ensuring Nuget is accessable"
@@ -89,7 +95,9 @@ function vamp(){
         Write-Output "Finding Required Modules"
 
         #Finds all the modules outlined in the configuration files and downloads them locally from the PSGallery.
-        $ToDownload = [VampPrep]::FindModules($ConfigFiles)
+        $ToDownload = [VampPrep]::FindModules(
+        [System.IO.DirectoryInfo]::new("$PsScriptRoot\config\").EnumerateFiles().Where{$Psitem.basename -in $modules}
+        )
 
         #Compare the modules installed locally to that of those requested in the configurations
         $CompareModules = [VampPrep]::Compare($ToDownload)
@@ -106,7 +114,7 @@ function vamp(){
         #else, if no modules passed back - no need to download.
         else
         {
-            Write-Output 'No modules required for configuration'
+            Write-Output 'No module downloads required for configuration'
         }
 
         #For each of the nodes for this specific specfile
