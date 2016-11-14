@@ -1,5 +1,5 @@
 - User:
     ensure: present
     username: roflUser
-    password: testPassword123
+    password: !***!
     ModuleName : PsDesiredStateConfiguration

@@ -1,8 +1,9 @@
 using module ./private/PSYaml/PSYaml.psm1
-using module ./private/vamp/helpers.psm1
+using module ./private/vamp/conversion.psm1
+using module ./private/vamp/yaml.psm1
 using module ./private/vamp/prep.psm1
 
-InModuleScope helpers {
+InModuleScope conversion {
     Describe "Testing private modules" {
         Context "Reading Yaml with the Yaml Class (Config)" {
                 Foreach ($Item in [System.IO.DirectoryInfo]::new("$($pwd.path)\config").EnumerateFiles().Fullname)
@@ -13,6 +14,9 @@ InModuleScope helpers {
                 }
             }
         Context "Reading Yaml with the Yaml Class (Spec)" {
+                It "Should throw if nothing passed in" {
+                {[Yaml]::Read()} | should throw
+                }
             Foreach ($Item in [System.IO.DirectoryInfo]::new("$($pwd.path)\spec").EnumerateFiles().Fullname)
             {
                 It "Should be able to read the example files in the spec Folder: $Item" {
@@ -29,10 +33,22 @@ InModuleScope helpers {
 
 
 InModuleScope prep {
-    Describe "Should be able to find required modules in examples" {
-        It "Should run FindModules Method" {
-        $Modules = [VampPrep]::FindModules()
-        $Modules | Should not be $null
+    Describe "Method Testing" {
+        It "FindModules() Should throw since nothing passed in" {
+        {[VampPrep]::FindModules()} | should throw
+
+        }
+        It "DownloadModules() Should throw since nothing passed in" {
+        {[VampPrep]::DownloadModules()} | should throw
+        
+        }
+        It "Compare() Should throw since nothing passed in" {
+        {[VampPrep]::Compare()} | should throw
+        
+        }
+        It "CopyModules() Should throw since nothing passed in" {
+        {[VampPrep]::CopyModules()} | should throw
+        
         }
     }
 }

@@ -104,7 +104,7 @@ function vamp(){
         $CompareModules = [VampPrep]::Compare($ToDownload)
 
         #If any modules were passed back from the FindModules method.
-        if ($CompareModules -ne $null)
+        if ($null -ne $CompareModules)
         {
             Write-Output "The required modules for these configuration are that are not already downloaded are: $($CompareModules.Modulename)"
 
@@ -173,8 +173,11 @@ function vamp(){
                 $Props.Remove('ModuleName')
 
                 #If the Username and Password properties are visable in the YAML file (This can be improved - used currently for User Resource)
-                if ($Props.password -ne $null -and $Props.username -ne $null)
+                if ($null -ne $Props.password  -and $null -ne $Props.username)
                 {
+                    #Prompt for Password
+                    $Props.password = Read-Host -AsSecureString -Prompt "Enter the Password for $Password"
+
                     #Create psCredentail Object as required
                     $Props.password = [Conversion]::CreateCredentialObject($Props.username, $Props.password)
                 }
@@ -194,8 +197,8 @@ function vamp(){
                 }
             }
 
-             #Clean up any un-needed sessions
-             Remove-PSSession -Computername $Session.Computername
+            #Clean up any un-needed sessions
+            Remove-PSSession -Computername $Session.Computername
          }
          #If the node is not reachable via WS-MAN
          else
