@@ -97,6 +97,7 @@ Class VampPrep
         {
             if (-not ($Module.Modulename -in $currentlyInstalled.Basename ))
             {
+               #Return just the single (in loop) module if its not currently installed
                $module
             }
         }

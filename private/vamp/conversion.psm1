@@ -2,7 +2,7 @@
 A Class of methods that are used for modularity of the project.
 These are housed under a single 'Helpers' Class until the time comes for futher seperation and extensibility
 #>
-Class Helpers
+Class Conversion
 {
     static [Hashtable] ConvertToHash([psCustomObject]$InputObject)
     {
@@ -71,30 +71,4 @@ Class Helpers
 }
 
 
-Class Yaml
-{
-    static [void] Import()
-    {
-        try
-        {
-            Import-Module $PsScriptRoot\private\PSYaml\PSYaml.psm1 -verbose:$false
-        }
-        catch
-        {
-            throw 'Unable to Import PSYaml Module - Error: {0}' -f $Psitem
-        }
-    }
 
-    static [PsCustomObject] Read([System.String]$Path)
-    {
-        try
-        {
-            $Reader = ConvertFrom-Yaml -Path $Path -As Hash
-            return $Reader
-        }
-        catch [System.Management.Automation.RuntimeException]
-        {
-            throw 'Unable to read Yaml - Error: {0} ' -f $Psitem
-        }
-    }
-}

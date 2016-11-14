@@ -50,6 +50,9 @@ The concept is simple, Take a `.yml` configuration file and transform that in a 
 * ```vamp -prep nameofspecfile ```
 * ```vamp -apply nameofspecfile ```
 
+## Files included in this Repo
+
+All of the `.yml` files in the `spec` and `config` directory can be used as an example, These are not required.
 
 ## Help
 

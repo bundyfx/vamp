@@ -1,7 +1,8 @@
 #requires -RunAsAdministrator
 #requires -version 5.0
 
-using module ./private/vamp/helpers.psm1
+using module ./private/vamp/yaml.psm1
+using module ./private/vamp/conversion.psm1
 using module ./private/vamp/prep.psm1
 using module ./private/PSYaml/PSYaml.psm1
 
@@ -163,7 +164,7 @@ function vamp(){
                 [String]$Name = $Config.Keys
 
                 #Convert whatever data is in the YAML into a hashtable for later splatting into Invoke-DSCResource
-                $Props = [Helpers]::ConvertToHash($Config.Values)
+                $Props = [Conversion]::ConvertToHash($Config.Values)
 
                 #Store the module name property from the object into its own variable for use in invoke-dscResource
                 $Modulename = $Config.values.ModuleName
@@ -175,7 +176,7 @@ function vamp(){
                 if ($Props.password -ne $null -and $Props.username -ne $null)
                 {
                     #Create psCredentail Object as required
-                    $Props.password = [Helpers]::CreateCredentialObject($Props.username, $Props.password)
+                    $Props.password = [Conversion]::CreateCredentialObject($Props.username, $Props.password)
                 }
 
                 #Invoke our command against the session for the current node
