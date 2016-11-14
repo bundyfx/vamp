@@ -7,7 +7,6 @@ Table of Contents
 =================
 
   * [What and Why?](#what-and-why?)
-  * [Resources](#resources)
   * [Get Started](#get-started)
   * [Help](#help)
       * [Config files](#config-files)
@@ -32,30 +31,9 @@ The purpose of this tool is to simplify DSC and make it more accessible for deve
 
 One of the problems I have seen over the last couple of years of using DSC is that: *developers don't know PowerShell*. This is not exactly unexpected when we think of the amount of developers we have in the wild and the odds of knowing PowerShell even at a basic level is mostly down to people with a Windows/.NET background.
 
-However, DSC should not be limited to only people with Windows/.NET backgrounds. I believe DSC and the power it brings should not even need to be tied to people that know and understand PowerShell. This is one of the reasons why this tool exists.
+However, DSC should *not* be limited to only people with Windows/.NET backgrounds. 
 
 The concept is simple, Take a `.yml` configuration file and transform that in a *hashtable* of data that is then consumed by the LCM on a remote node(s).
-
-In order to parse the YAML files I am using Doug Finke's awesome PSYaml module which can be found on Github [Here](www.github.com).
-
-## Resources
-
-You can use any DSC resource you wish with vamp. Here are a few basic ones to get you started.
-
-| Resource      | Module  | Documentation |
-| ------------- | ------- | ------------- |
-| Archive     | PsDesiredStateConfiguration | [Link](https://msdn.microsoft.com/en-us/powershell/dsc/archiveresource) |
-| Environment      |   PsDesiredStateConfiguration | [Link](https://msdn.microsoft.com/en-us/powershell/dsc/environmentresource) |
-| File      | PsDesiredStateConfiguration | [Link](https://msdn.microsoft.com/en-us/powershell/dsc/fileresource) |
-| Group      |   PsDesiredStateConfiguration | [Link](https://msdn.microsoft.com/en-us/powershell/dsc/groupresource) |
-| Log      | PsDesiredStateConfiguration | [Link](https://msdn.microsoft.com/en-us/powershell/dsc/logresource) |
-| Package      |   PsDesiredStateConfiguration | [Link](https://msdn.microsoft.com/en-us/powershell/dsc/packageresource) |
-| Registry      | PsDesiredStateConfiguration | [Link](https://msdn.microsoft.com/en-us/powershell/dsc/registryresource) |
-| Script     |   PsDesiredStateConfiguration | [Link](https://msdn.microsoft.com/en-us/powershell/dsc/scriptresource) |
-| Service      | PsDesiredStateConfiguration | [Link](https://msdn.microsoft.com/en-us/powershell/dsc/serviceresource) |
-| User     |   PsDesiredStateConfiguration | [Link](https://msdn.microsoft.com/en-us/powershell/dsc/userresource) |
-| WindowsFeature      | PsDesiredStateConfiguration | [Link](https://msdn.microsoft.com/en-us/powershell/dsc/windowsfeatureresource) |
-| WindowsProcess      |   PsDesiredStateConfiguration | [Link](https://msdn.microsoft.com/en-us/powershell/dsc/windowsprocessresource) |
 
 ## Quick start on Windows 10 (Run as Administrator)
 
