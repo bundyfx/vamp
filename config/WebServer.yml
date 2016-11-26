@@ -2,9 +2,9 @@
     name: Web-Server
     ensure: present
     ModuleName : PsDesiredStateConfiguration
-
--  Service:
-    name: bits
-    status: running
+    
+-  WindowsFeature:
+    name: Web-Asp-Net45
     ensure: present
     ModuleName : PsDesiredStateConfiguration
+
