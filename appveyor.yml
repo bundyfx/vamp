@@ -16,7 +16,7 @@ version: '0.1.{build}'
 test_script:
 
 # Test with native PS version
-  - ps: Invoke-Pester .\Tests\linting.ps1
+  #- ps: Invoke-Pester .\Tests\linting.ps1 (uncomment later of course)
   - ps: . .\Tests\appveyor.pester.ps1 -Test
 
 # Finalize pass - collect and upload results
