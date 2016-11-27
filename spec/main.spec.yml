@@ -24,6 +24,7 @@
 -  nodes:
      name:
      - 10.0.0.7
+     - 10.0.0.8
 
    configs:
      name:
