@@ -91,16 +91,9 @@ function vamp(){
         #Gather the passed in spec file for preparation
         $InputSpec = [Yaml]::Read($SpecFiles.Fullname)
 
-        Write-Output '!!!!!'
-        #InputSpec Debug
-        Write-Output $InputSpec
-
         Write-Output "Starting Prep for $($PSBoundParameters.Values)"
         #Sort modules remove duplicates
         $Modules = $InputSpec.configs.name | Sort-Object -Unique
-
-        #Debug
-        Write-Output $Modules
 
         #Ensure that the user is able to download from the PSGallery - This will make the PSGallery a trusted repository and install the nuget package provider.
         Write-Output "Ensuring Nuget is accessable"
@@ -113,12 +106,9 @@ function vamp(){
         [System.IO.DirectoryInfo]::new("$PsScriptRoot\config\").EnumerateFiles().Where{$Psitem.basename -in $modules}
         )
 
-        Write-Output $ToDownload
-
         #Compare the modules installed locally to that of those requested in the configurations
         $CompareModules = [VampPrep]::Compare($ToDownload)
 
-        $CompareModules
         #If any modules were passed back from the FindModules method.
         if ($null -ne $CompareModules)
         {
