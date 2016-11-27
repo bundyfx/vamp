@@ -106,8 +106,16 @@ function vamp(){
         [System.IO.DirectoryInfo]::new("$PsScriptRoot\config\").EnumerateFiles().Where{$Psitem.basename -in $modules}
         )
 
+        Write-Output $ToDownload
+
+         $ToDownload | select *
+
         #Compare the modules installed locally to that of those requested in the configurations
         $CompareModules = [VampPrep]::Compare($ToDownload)
+
+        Write-Output '!!!!!!'
+        $CompareModules
+        $CompareModules | select *
 
         #If any modules were passed back from the FindModules method.
         if ($null -ne $CompareModules)
