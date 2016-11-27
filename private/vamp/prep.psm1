@@ -131,7 +131,7 @@ Class VampPrep
             catch [Exception]
             {
                 #Unable to copy error - throw to stderr
-                throw 'Unable to copy required module files to {0} - Error: {1}' -f $Psitem, $Node
+                throw 'Unable to copy required module files to {0} - Error: {1}' -f $Node , $Psitem
             }
 
             #Remove the un-needed PS Session
