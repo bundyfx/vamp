@@ -57,9 +57,9 @@ Class Conversion
       continue
     }
 
-    static [psCredential] CreateCredentialObject ([System.String]$Username, [System.Security.SecureString]$Password)
+    static [psCredential] CreateCredentialObject ([System.String]$Username, [System.String]$Password)
     {
-        $creds = [pscredential]::new($Username,$Password)
+        $creds = [pscredential]::new($Username,($Password | ConvertTo-SecureString -AsPlainText -Force ))
         return $creds
     }
 
@@ -69,6 +69,3 @@ Class Conversion
     }
 
 }
-
-
-

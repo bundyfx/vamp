@@ -1,6 +1,6 @@
 -  nodes:
      name:
-     - 192.168.137.157
+     - localhost
 
    configs:
      name:
@@ -8,15 +8,4 @@
      - MoreExamples
      - Firewall_Example
      - NodeJS
-
--  nodes:
-     name:
-     - 192.168.137.245
-     - 192.168.137.51
-
-   configs:
-     name:
-     - WebServer
-     - Firewall_Example
-     - Git
      - User

@@ -42,11 +42,17 @@ function vamp(){
     #Stop on any error encountered
     $ErrorActionPreference = 'Stop'
 
-    # Take the data passed in via parameters
+    #Take the data passed in via parameters
     $InputSpec = "$($PSBoundParameters.Values).spec.yml"
 
     #Gather the data from the spec file name defined in parameter
     $SpecFiles = [System.IO.DirectoryInfo]::new("$PsScriptRoot\spec\").EnumerateFiles().Where{$Psitem.Name -eq $InputSpec}
+
+    #Ensure the spec file exists
+    if ($SpecFiles.count -eq 0)
+    {
+        throw 'Unable to find specfile for {0}' -f $InputSpec
+    }
 
     #Gather all config files listed in the config directory
     $ConfigFiles = [System.IO.DirectoryInfo]::new("$PsScriptRoot\config\").EnumerateFiles()
@@ -81,11 +87,11 @@ function vamp(){
     # If Prep param passed in by user
     if ($PSBoundParameters.ContainsKey('prep'))
     {
-        Write-Output "Starting Prep for $Input"
 
         #Gather the passed in spec file for preparation
         $InputSpec = [Yaml]::Read($SpecFiles.Fullname)
 
+        Write-Output "Starting Prep for $($PSBoundParameters.Values)"
         #Sort modules remove duplicates
         $Modules = $InputSpec.configs.name | Sort-Object -Unique
 
@@ -141,6 +147,7 @@ function vamp(){
     #If the user has passed in the apply param
     if ($PSBoundParameters.ContainsKey('apply'))
     {
+
         #Foreach node within the defined spec
         foreach ($Node in $Nodes.Nodes.Name)
         {
@@ -172,12 +179,10 @@ function vamp(){
                 #Remove the modulename property from the hashtable as its not valid in the properties param for invoke-dscResource
                 $Props.Remove('ModuleName')
 
-                #If the Username and Password properties are visable in the YAML file (This can be improved - used currently for User Resource)
+                # (This can be majorly improved - used currently for User Resource)
+                #If the Username and Password properties are visable in the YAML file
                 if ($null -ne $Props.password  -and $null -ne $Props.username)
                 {
-                    #Prompt for Password
-                    $Props.password = Read-Host -AsSecureString -Prompt "Enter the Password for $Password"
-
                     #Create psCredentail Object as required
                     $Props.password = [Conversion]::CreateCredentialObject($Props.username, $Props.password)
                 }
@@ -186,7 +191,7 @@ function vamp(){
                 Invoke-Command -Session $Session -ScriptBlock {
 
                 #Test the configuration against the remote machine (Pass in variables to session with $using:)
-                if (-not [Boolean](Invoke-DscResource -Method Test -Name $using:Name -ModuleName $using:Modulename -Property $using:props ))
+                if (-not [Boolean](Invoke-DscResource -Method Test -Name $using:Name -ModuleName $using:Modulename -Property $using:props -Verbose))
                     {
                         #This block will only execute if the Test returned false (meaning its not in desired state and needs to be set)
                         $Output = Invoke-DscResource -Method Set -Name $using:Name -ModuleName $using:Modulename -Property $using:props -Verbose
