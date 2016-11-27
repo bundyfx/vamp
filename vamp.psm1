@@ -116,7 +116,7 @@ function vamp(){
         Write-Output $ToDownload
 
         #Compare the modules installed locally to that of those requested in the configurations
-        $CompareModules = [VampPrep]::Compare(()$ToDownload | Sort-Object -Unique))
+        $CompareModules = [VampPrep]::Compare($ToDownload)
 
         $CompareModules
         #If any modules were passed back from the FindModules method.
