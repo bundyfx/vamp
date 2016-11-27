@@ -121,7 +121,7 @@ Class VampPrep
                 $CurrentSession = New-PSSession -ComputerName $Node
 
                 #Foreach of the Modules within the Modules variable
-                foreach ($module in $modules.ModuleName)
+                foreach ($module in $modules.ModuleName | Sort-Object -Unique)
                 {
                     #Execute the Copy of the item to the destination node into the default PS Module path
                     Copy-Item -Path "C:\Program Files\WindowsPowerShell\Modules\$Module" -ToSession $CurrentSession -Destination "C:\Program Files\WindowsPowerShell\Modules\$Module" -Force -Recurse
