@@ -9,3 +9,25 @@
      - Firewall_Example
      - NodeJS
      - User
+
+-  nodes:
+     name:
+     - 10.0.0.5
+     - 10.0.0.6
+
+   configs:
+     name:
+     - Example
+     - MoreExamples
+     - Firewall_Example
+     - User
+
+-  nodes:
+     name:
+     - 10.0.0.7
+
+   configs:
+     name:
+     - Firewall_Example
+     - NodeJS
+     - User
