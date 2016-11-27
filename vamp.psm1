@@ -92,13 +92,14 @@ function vamp(){
         $InputSpec = [Yaml]::Read($SpecFiles.Fullname)
 
         Write-Output "Starting Prep for $($PSBoundParameters.Values)"
+
         #Sort modules remove duplicates
         $Modules = $InputSpec.configs.name | Sort-Object -Unique
 
         #Ensure that the user is able to download from the PSGallery - This will make the PSGallery a trusted repository and install the nuget package provider.
         Write-Output "Ensuring Nuget is accessable"
         [VampPrep]::BootstrapNuget()
-        Write-output '!!!!'
+
         Write-Output "Finding Required Modules"
 
         #Finds all the modules outlined in the configuration files and downloads them locally from the PSGallery.
@@ -106,17 +107,16 @@ function vamp(){
         [System.IO.DirectoryInfo]::new("$PsScriptRoot\config\").EnumerateFiles().Where{$Psitem.basename -in $modules}
         )
 
+        Write-Output 'About to write todownload var'
         Write-Output $ToDownload
-
-        $ToDownload | select *
+        Write-Output 'Should be above'
 
         #Compare the modules installed locally to that of those requested in the configurations
         $CompareModules = [VampPrep]::Compare($ToDownload)
 
-        Write-Output '!!!!!!'
-        $CompareModules
-        $CompareModules | select *
-
+        Write-Output 'About to write compare var'
+        Write-Output $ToDownload
+        Write-Output 'Should be above'
         #If any modules were passed back from the FindModules method.
         if ($null -ne $CompareModules)
         {
@@ -131,6 +131,8 @@ function vamp(){
         {
             Write-Output 'No module downloads required for configuration'
         }
+
+        Write-Output 'About to start copy'
 
         #For each of the nodes for this specific specfile
         foreach($Node in $Nodes.nodes.name)
