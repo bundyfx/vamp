@@ -115,13 +115,11 @@ Lets take a look at an example:
     name: Web-Server
     ensure: present
     ModuleName : PsDesiredStateConfiguration
-
--  Service:
-    name: bits
-    status: running
+    
+-  WindowsFeature:
+    name: Web-Asp-Net45
     ensure: present
     ModuleName : PsDesiredStateConfiguration
-
 ```
 
 In this example we're configuring a Windows Feature *(Web-Server)* and a Service *(bits)*.
@@ -133,6 +131,8 @@ Then, we access the name property of the DSC resource and pass in the name of th
 We also pass in any other required values for properties in the resource such as `ensure` and `status`. For more information on required parameters for each resource be sure to read the documentation for the module in question.
 
 We also pass in the `ModuleName` for the module in which the resource resides. This is used in both to `Prep` and `Apply` phase of vamp and is required in all vamp configuration files.
+
+There is no limit to the amount of configuration steps you could have in one file. However, to keep things modular it may be easiest to create a set of .yml files needed for your desired configuration.
 
 #### Spec Files
 
