@@ -38,12 +38,14 @@ The concept is simple, Take a `.yml` configuration file and transform that in a 
 ## Quick start on Windows 10 (Run as Administrator)
 
 * git clone this repository.
+* Make sure your WinRM client is running ```winrm quickconfig```
 * From the project root: ```Import-Module vamp.psm1```
 * ```vamp -apply example ```
 
 ## Detailed (Run As Administrator)
 
 * git clone this repository
+* Make sure your WinRM client is running ```winrm quickconfig```
 * From the project root: ```Import-Module vamp.psm1```
 * create a `spec` yml file. *(see examples)*
 * create a `config` yml file. *(see examples)*
